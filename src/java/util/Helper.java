@@ -21,26 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package beans;
+package util;
 
-import java.io.Serializable;
-import javax.annotation.ManagedBean;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
- *
+ * Helper functions used at random places...
  * @author crumbl3d
  */
-@ManagedBean
-@SessionScoped
-@Named(value = "supervizorBean")
-public class SupervizorBean implements Serializable {
-
-    /**
-     * Creates a new instance of SupervizorBean
-     */
-    public SupervizorBean() {
+public class Helper {
+    
+    public static void showError(String message) {
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "", message));
     }
-
+    
+    public static void showWarning(String message) {
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_WARN, "", message));
+    }
+    
+    public static boolean checkValid(Object object, String message) {
+        if (object == null || (object instanceof String && ((String) object).isEmpty())) {
+            if (message != null && !message.isEmpty()) {
+                showError(message);
+            }
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean checkValid(Object object) {
+        return checkValid(object, null);
+    }
 }

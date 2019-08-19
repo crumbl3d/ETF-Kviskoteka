@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>ETF Kviskoteka: Prijava</title>
+    </h:head>
+    <h:body>
+        <h:outputStylesheet library="css" name="style.css" />
+        <div class="outer">
+            <div class="inner">
+                <p:panel id="panel" style="width: 400px" header="ETF Kviskoteka: Prijava">
+                    <h:panelGrid style="width: 100%" columns="1"
+                                 rendered="#{prijavaBean.korisnik != null}">
+                        <h:form>
+                            <b>Već ste prijavljeni kao #{prijavaBean.korisnik.ime} #{prijavaBean.korisnik.prezime}!</b>
+                            <h:panelGrid style="width: 100%; margin-top: 10px" columns="2">
+                                <p:commandButton style="width: 100%"
+                                                 value="Odjava"
+                                                 update="panel"
+                                                 action="#{prijavaBean.odjava()}">
+                                    <f:ajax />
+                                </p:commandButton>
+                                <p:commandButton style="width: 100%"
+                                                 value="Povratak"
+                                                 update="panel"
+                                                 action="#{prijavaBean.povratak()}">
+                                    <f:ajax />
+                                </p:commandButton>
+                            </h:panelGrid>
+                        </h:form>
+                    </h:panelGrid>
+                    <h:panelGrid style="width: 100%" columns="1"
+                                 rendered="#{prijavaBean.korisnik == null}">
+                        <h:form>
+                            <h:outputLabel for="@next"><b>Korisničko ime</b></h:outputLabel>
+                            <p:inputText class="input-text"
+                                         placeholder="Unesite korisničko ime"
+                                         value="#{prijavaBean.korisnickoIme}"
+                                         required="true"
+                                         requiredMessage="Korisničko ime je obavezno!">
+                                <p:ajax update="@next" event="keyup" />
+                            </p:inputText>
+                            <p:message for="@previous" display="text" />
+                            
+                            <h:outputLabel for="@next"><b>Lozinka</b></h:outputLabel>
+                            <p:password class="input-text"
+                                        placeholder="Unesite lozinku" 
+                                        value="#{prijavaBean.lozinka}"
+                                        maxlength="12"
+                                        required="true"
+                                        requiredMessage="Lozinka je obavezna!">
+                                <p:ajax update="@next" event="keyup" />
+                            </p:password>
+                            <p:message for="@previous" display="text" />
+                            
+                            <p:commandButton class="submit-button"
+                                             value="Prijava"
+                                             update="panel"
+                                             action="#{prijavaBean.prijava()}">
+                                <f:ajax />
+                            </p:commandButton>
+
+                            <p:messages globalOnly="true" closable="true" showSummary="false" showDetail="true" showIcon="false" />
+                        </h:form>
+                        <h:form>
+                            <table class="links">
+                                <tr>
+                                    <td><h:commandLink value="Registracija" action="/public/registracija" /></td>
+                                    <td style="text-align: right"><h:commandLink value="Nastavi kao gost" action="/public/gost" /></td>
+                                </tr>
+                                <tr>
+                                    <td><h:commandLink value="Zaboravili ste lozinku?" action="/public/resetLozinke" /></td>
+                                    <td style="text-align: right"><h:commandLink value="Promena lozinke" action="/public/promenaLozinke" /></td>
+                                </tr>
+                            </table>
+                        </h:form>
+                    </h:panelGrid>
+                </p:panel>
+            </div>
+        </div>
+    </h:body>
+</html>

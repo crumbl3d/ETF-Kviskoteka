@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>ETF Kviskoteka: Registracija</title>
+    </h:head>
+    <h:body>
+        <h:outputStylesheet library="css" name="style.css" />
+        <div class="outer">
+            <div class="inner">
+                <p:panel id="panel" style="width: 400px" header="ETF Kviskoteka: Registracija">
+                    <h:panelGrid style="width: 100%" columns="1">
+                        <h:form enctype="multipart/form-data">
+                            <h:outputText style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">Sve informacije su obavezne!</h:outputText>
+                            
+                            <h:outputLabel for="@next"><b>Ime</b></h:outputLabel>
+                            <p:inputText class="input-text"
+                                         placeholder="Unesite vaše ime"
+                                         value="#{registracijaBean.ime}"
+                                         required="true"
+                                         requiredMessage="Ime je obavezno!">
+                                <p:ajax update="@next" event="keyup" />
+                            </p:inputText>
+                            <p:message for="@previous" display="text" />
+
+                            <h:outputLabel for="@next"><b>Prezime</b></h:outputLabel>
+                            <p:inputText class="input-text"
+                                         placeholder="Unesite vaše prezime"
+                                         value="#{registracijaBean.prezime}"
+                                         required="true"
+                                         requiredMessage="Prezime je obavezno!">
+                                <p:ajax update="@next" event="keyup" />
+                            </p:inputText>
+                            <p:message for="@previous" display="text" />
+
+                            <h:outputLabel for="@next"><b>Email</b></h:outputLabel>
+                            <p:inputText class="input-text"
+                                         placeholder="Unesite vaš email"
+                                         value="#{registracijaBean.mejl}"
+                                         required="true"
+                                         requiredMessage="Email je obavezan!">
+                                <p:ajax update="@next" event="keyup" />
+                            </p:inputText>
+                            <p:message for="@previous" display="text" />
+
+                            <h:outputLabel for="@next"><b>Zanimanje</b></h:outputLabel>
+                            <p:inputText class="input-text"
+                                         placeholder="Unesite vaše zanimanje"
+                                         value="#{registracijaBean.zanimanje}"
+                                         required="true"
+                                         requiredMessage="Zanimanje je obavezno!">
+                                <p:ajax update="@next" event="keyup" />
+                            </p:inputText>
+                            <p:message for="@previous" display="text" />
+
+                            <h:outputLabel for="@next"><b>Korisničko ime</b></h:outputLabel>
+                            <p:inputText class="input-text"
+                                         placeholder="Unesite korisničko ime"
+                                         value="#{registracijaBean.korisnickoIme}"
+                                         required="true"
+                                         requiredMessage="Korisničko ime je obavezno!">
+                                <p:ajax update="@next" event="keyup" />
+                            </p:inputText>
+                            <p:message for="@previous" display="text" />
+
+                            <h:outputLabel for="@next"><b>Lozinka</b></h:outputLabel>
+                            <p:password id="lozinka" class="input-text"
+                                        placeholder="Unesite lozinku" 
+                                        value="#{registracijaBean.lozinka}"
+                                        maxlength="12"
+                                        required="true"
+                                        requiredMessage="Lozinka je obavezna!"
+                                        validatorMessage="Lozinka mora imati minimalno 8, a najviše 12 karaktera i to bar 1 veliko slovo, bar 3 mala slova, bar 1 cifru i bar 1 specijalan znak. Pritom početni karakter mora biti malo ili veliko slovo, a maksimalan broj uzastopnih karaktera je 2.">
+                                <p:ajax update="@next" event="keyup" />
+                                <f:validateRegex pattern="^(?!.*([A-Za-z0-9@$!%*?&amp;])\1{2})(?=.*?[A-Z])(?=(.*?[a-z]){3,})(?=.*?[0-9])(?=.*?[@$!%*?&amp;])(?=)[A-Za-z][A-Za-z\d@$!%*?&amp;]{7,11}$" />
+                            </p:password>
+                            <p:message for="@previous" display="text" />
+
+                            <h:outputLabel for="@next"><b>Potvrda lozinke</b></h:outputLabel>
+                            <p:password id="potvrdaLozinke" class="input-text"
+                                        placeholder="Ponovo unesite lozinku" 
+                                        value="#{registracijaBean.potvrdaLozinke}"
+                                        maxlength="12"
+                                        required="true"
+                                        requiredMessage="Lozinka se mora potvrditi!"
+                                        validatorMessage="Lozinka mora imati minimalno 8, a najviše 12 karaktera i to bar 1 veliko slovo, bar 3 mala slova, bar 1 cifru i bar 1 specijalan znak. Pritom početni karakter mora biti malo ili veliko slovo, a maksimalan broj uzastopnih karaktera je 2.">
+                                <p:ajax update="@next" event="keyup" />
+                                <f:validateRegex pattern="^(?!.*([A-Za-z0-9@$!%*?&amp;])\1{2})(?=.*?[A-Z])(?=(.*?[a-z]){3,})(?=.*?[0-9])(?=.*?[@$!%*?&amp;])(?=)[A-Za-z][A-Za-z\d@$!%*?&amp;]{7,11}$" />
+                            </p:password>
+                            <p:message for="@previous" display="text" />
+
+                            <h:outputLabel for="@next"><b>Pol</b></h:outputLabel>
+                            <p:inputText class="input-text"
+                                         placeholder="Unesite vaš pol"
+                                         value="#{registracijaBean.pol}"
+                                         required="true"
+                                         requiredMessage="Pol je obavezan!">
+                                <p:ajax update="@next" event="keyup" />
+                            </p:inputText>
+                            <p:message for="@previous" display="text" />
+
+                            <h:outputLabel for="@next"><b>JMBG</b></h:outputLabel>
+                            <p:inputText class="input-text"
+                                         placeholder="Unesite JMBG" 
+                                         value="#{registracijaBean.jmbg}"
+                                         maxlength="13"
+                                         required="true"
+                                         requiredMessage="JMBG je obavezan!"
+                                         validatorMessage="JMBG mora sadržati tačno 13 cifara!">
+                                <f:validateRegex pattern="^\d{13}$" />
+                                <p:ajax update="@next" event="keyup" />
+                            </p:inputText>
+                            <p:message for="@previous" display="text" />
+
+                            <h:outputLabel for="@next"><b>Profilna slika</b></h:outputLabel>
+                            <p:fileUpload mode="advanced" allowTypes="/(\.|\/)(gif|jpe?g|png)/" fileLimit="1" fileUploadListener="#{registracijaBean.obradiPrijemSlike}" />
+                            
+                            <h:outputLabel for="@next"><b>Tajno pitanje</b></h:outputLabel>
+                            <p:inputText class="input-text"
+                                         placeholder="Unesite tajno pitanje"
+                                         value="#{registracijaBean.tajnoPitanje}"
+                                         required="true"
+                                         requiredMessage="Tajno pitanje je obavezno!">
+                                <p:ajax update="@next"
+                                        event="keyup" />
+                            </p:inputText>
+                            <p:message for="@previous" display="text" />
+
+                            <h:outputLabel for="@next"><b>Odgovor</b></h:outputLabel>
+                            <p:inputText class="input-text"
+                                         placeholder="Unesite odgovor"
+                                         value="#{registracijaBean.odgovor}"
+                                         required="true"
+                                         requiredMessage="Odgovor je obavezan!">
+                                <p:ajax update="@next" event="keyup" />
+                            </p:inputText>
+                            <p:message for="@previous" display="text" />
+
+                            <p:commandButton class="submit-button"
+                                             value="Pošalji zahtev"
+                                             update="panel"
+                                             action="#{registracijaBean.registracija()}">
+                                <f:ajax />
+                            </p:commandButton>
+
+                            <p:messages globalOnly="true" closable="true" showSummary="false" showDetail="true" showIcon="false" />
+                        </h:form>
+                        <h:form>
+                            <table class="links">
+                                <tr>
+                                    <td><h:commandLink value="Prijava" action="/public/prijava" /></td>
+                                    <td style="text-align: right"><h:commandLink value="Nastavi kao gost" action="/public/gost" /></td>
+                                </tr>
+                                <tr>
+                                    <td><h:commandLink value="Zaboravili ste lozinku?" action="/public/resetLozinke" /></td>
+                                    <td style="text-align: right"><h:commandLink value="Promena lozinke" action="/public/promenaLozinke" /></td>
+                                </tr>
+                            </table>
+                        </h:form>
+                    </h:panelGrid>
+                </p:panel>
+            </div>
+        </div>
+    </h:body>
+</html>
+

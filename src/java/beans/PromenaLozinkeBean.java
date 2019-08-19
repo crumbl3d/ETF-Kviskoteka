@@ -26,28 +26,28 @@ package beans;
 import entities.Korisnik;
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
-import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import util.BCrypt;
 import util.Helper;
 import util.HibernateUtil;
-import util.SessionUtil;
 
 /**
- * Bean for prijava.xhtml.
+ * Bean for promenaLozinke.xhtml.
  * @author crumbl3d
  */
 @ManagedBean
 @ViewScoped
-@Named(value="prijavaBean")
-public class PrijavaBean implements Serializable {
+@Named(value = "promenaLozinkeBean")
+public class PromenaLozinkeBean implements Serializable {
 
     String korisnickoIme;
-    String lozinka;
-    Korisnik korisnik;
+    String staraLozinka;
+    String novaLozinka;
+    String potvrdaLozinke;
 
     public String getKorisnickoIme() {
         return korisnickoIme;
@@ -57,73 +57,76 @@ public class PrijavaBean implements Serializable {
         this.korisnickoIme = korisnickoIme;
     }
 
-    public String getLozinka() {
-        return lozinka;
+    public String getStaraLozinka() {
+        return staraLozinka;
     }
 
-    public void setLozinka(String lozinka) {
-        this.lozinka = lozinka;
+    public void setStaraLozinka(String staraLozinka) {
+        this.staraLozinka = staraLozinka;
     }
 
-    public Korisnik getKorisnik() {
-        return korisnik;
+    public String getNovaLozinka() {
+        return novaLozinka;
     }
 
-    public void setKorisnik(Korisnik korisnik) {
-        this.korisnik = korisnik;
+    public void setNovaLozinka(String novaLozinka) {
+        this.novaLozinka = novaLozinka;
+    }
+
+    public String getPotvrdaLozinke() {
+        return potvrdaLozinke;
+    }
+
+    public void setPotvrdaLozinke(String potvrdaLozinke) {
+        this.potvrdaLozinke = potvrdaLozinke;
     }
     
-    public PrijavaBean() {
-        korisnik = SessionUtil.getCurrentUser();
-    }
-
-    public String prijava() {        
-        if (!Helper.checkValid(korisnickoIme) || !Helper.checkValid(lozinka)) {
+    public String promenaLozinke() {
+        if (!Helper.checkValid(korisnickoIme) || !Helper.checkValid(staraLozinka)
+            || !Helper.checkValid(novaLozinka) || !Helper.checkValid(potvrdaLozinke)) {
             return "";
         }
-
+        if (!novaLozinka.equals(potvrdaLozinke)) {
+            Helper.showError("Potvrda lozinke nije ispravna! Proverite ispravnost unosa!");
+            return "";
+        }
+        
         Session dbs = HibernateUtil.getSessionFactory().openSession();
-
+        
         Criteria cr = dbs.createCriteria(Korisnik.class);
         cr.add(Restrictions.eq("korisnickoIme", korisnickoIme));
         Korisnik k = (Korisnik) cr.uniqueResult();
+        
+        if (!Helper.checkValid(k, "Traženi korisnik ne postoji u bazi podataka!")) {
+            dbs.close();
+            return "";
+        }
+        
+        if (!BCrypt.checkpw(staraLozinka, k.getLozinka())) {
+            Helper.showError("Pogrešna lozinka!");
+            dbs.close();
+            return "";
+        }
+        
+        if (!k.getVrsta().equalsIgnoreCase("takmicar") && 
+            !k.getVrsta().equalsIgnoreCase("administrator") &&
+            !k.getVrsta().equalsIgnoreCase("supervizor")) {
+            Helper.showWarning("Korisnik postoji ali još uvek nije prihvaćen!");
+            dbs.close();
+            return "";
+        }
+
+        if (staraLozinka.equals(novaLozinka)) {
+            Helper.showWarning("Nova lozinka je identična staroj!");
+            dbs.close();
+            return "";
+        }
+        
+        dbs.beginTransaction();
+        k.setLozinka(BCrypt.hashpw(novaLozinka, BCrypt.gensalt(12)));
+        dbs.getTransaction().commit();
 
         dbs.close();
-
-        if (!Helper.checkValid(k, "Traženi korisnik ne postoji u bazi podataka!")) {
-            return "";
-        }
-
-        if (!BCrypt.checkpw(lozinka, k.getLozinka())) {
-            Helper.showError("Pogrešna lozinka!");
-            return "";
-        }
-
-        if (k.getVrsta().equalsIgnoreCase("takmicar") || 
-            k.getVrsta().equalsIgnoreCase("administrator") ||
-            k.getVrsta().equalsIgnoreCase("supervizor")) {
-            SessionUtil.setCurrentUser(k);
-            return "/users/" + k.getVrsta().toLowerCase() + "?faces-redirect=true";
-        }
-
-        Helper.showWarning("Korisnik postoji ali još uvek nije prihvaćen!");
-        return "";
-    }
-
-    public String prijavaGost() {
-        SessionUtil.setCurrentUser(null);
-        return "/public/gost?faces-redirect=true";
-    }
-
-    public String odjava() {
-        SessionUtil.setCurrentUser(null);
-        return "/index?faces-redirect=true";
-    }
-    
-    public String povratak() {
-        if (korisnik == null) {
-            return "";
-        }
-        return "/users/" + korisnik.getVrsta().toLowerCase() + "?faces-redirect=true";
+        return "/public/prijava";
     }
 }

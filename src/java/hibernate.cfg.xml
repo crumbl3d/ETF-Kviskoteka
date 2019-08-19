@@ -46,7 +46,6 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/etf-kviskoteka?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">7825starkD802</property>
-    <mapping class="entities.Korisnik" />
-    <mapping class="entities.Slika" />
+    <mapping class="entities.Korisnik"/>
   </session-factory>
 </hibernate-configuration>
