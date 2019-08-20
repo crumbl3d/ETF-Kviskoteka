@@ -25,7 +25,7 @@ package beans;
 
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 /**
@@ -33,7 +33,7 @@ import javax.inject.Named;
  * @author crumbl3d
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 @Named(value = "takmicarBean")
 public class TakmicarBean implements Serializable {
 

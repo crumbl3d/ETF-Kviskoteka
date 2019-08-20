@@ -23,24 +23,73 @@
  */
 package beans;
 
+import entities.Korisnik;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.ManagedBean;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+import util.HibernateUtil;
+import util.SessionUtil;
 
 /**
- *
+ * Bean for administrator.xhtml.
  * @author crumbl3d
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 @Named(value = "administratorBean")
 public class AdministratorBean implements Serializable {
 
-    /**
-     * Creates a new instance of AdministratorBean
-     */
-    public AdministratorBean() {
+    Korisnik korisnik;
+    List<Korisnik> zahtevi;
+
+    public Korisnik getKorisnik() {
+        return korisnik;
+    }
+
+    public void setKorisnik(Korisnik korisnik) {
+        this.korisnik = korisnik;
     }
     
+    public List<Korisnik> getZahtevi() {
+        return zahtevi;
+    }
+    
+    public void setZahtevi(List<Korisnik> zahtevi) {
+        this.zahtevi = zahtevi;
+    }
+    
+    public AdministratorBean() {
+        korisnik = SessionUtil.getCurrentUser();
+        Session dbs = HibernateUtil.getSessionFactory().openSession();
+        Criteria cr = dbs.createCriteria(Korisnik.class);
+        cr.add(Restrictions.and(Restrictions.ne("vrsta", "administrator"),
+                Restrictions.ne("vrsta", "takmicar"),
+                Restrictions.ne("vrsta", "supervizor")));
+        zahtevi = cr.list();
+        dbs.close();
+    }
+    
+    public void prihvati(Korisnik zahtev) {
+        Session dbs = HibernateUtil.getSessionFactory().openSession();
+        dbs.beginTransaction();
+        zahtev.setVrsta("takmicar");
+        dbs.update(zahtev);
+        dbs.getTransaction().commit();
+        dbs.close();
+        zahtevi.remove(zahtev);
+    }
+        
+    public void odbij(Korisnik zahtev) {
+        Session dbs = HibernateUtil.getSessionFactory().openSession();
+        dbs.beginTransaction();
+        dbs.delete(zahtev);
+        dbs.getTransaction().commit();
+        dbs.close();
+        zahtevi.remove(zahtev);
+    }
 }

@@ -1,15 +1,85 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>ETF Kviskoteka: Administrator</title>
     </h:head>
     <h:body>
-        Zdravo #{PrijavaBean.prijavljen.ime} #{PrijavaBean.prijavljen.prezime}!
-        <h:form>
-            <h:commandLink value="Povratak" action="/public/prijava" />
-        </h:form>
+        <h:outputStylesheet library="css" name="style.css" />
+        <h:outputStylesheet library="css" name="primeflex.css" />
+        <div class="container">
+            <div class="navbar">
+                <div class="left">
+                    Korisnik: <span style="font-weight: bold">#{administratorBean.korisnik.ime} #{administratorBean.korisnik.prezime}</span>
+                </div>
+                <div class="center">
+                    <p>ETF Kviskoteka</p>
+                </div>
+                <div class="right">
+                    <h:form>
+                        <h:commandLink class="navbtn" value="ODJAVA" action="#{prijavaBean.odjava()}" />
+                    </h:form>
+                </div>
+            </div>
+            <div class="outer">
+                <div class="inner">
+                    <div class="body p-grid">
+                        <div class="p-col-2 p-md-6 p-lg-3" style="background-color: #444; width: 100%; height: 100%">
+                            <p:dataTable id="zahtevi" var="zahtev" value="#{administratorBean.zahtevi}">
+                                <f:facet name="header">
+                                    Zahtevi za registraciju
+                                </f:facet>
+
+                                <p:column headerText="Korisničko ime">
+                                    #{zahtev.korisnickoIme}
+                                </p:column>
+
+                                <p:column headerText="Ime">
+                                    #{zahtev.ime}
+                                </p:column>
+
+                                <p:column headerText="Prezime">
+                                    #{zahtev.prezime}
+                                </p:column>
+
+                                <p:column headerText="Mejl">
+                                    #{zahtev.mejl}
+                                </p:column>
+
+                                <p:column headerText="Zanimanje">
+                                    #{zahtev.zanimanje}
+                                </p:column>
+
+                                <p:column headerText="Pol">
+                                    #{zahtev.pol}
+                                </p:column>
+
+                                <p:column headerText="JMBG">
+                                    #{zahtev.jmbg}
+                                </p:column>
+
+                                <p:column headerText="">
+                                    <p:commandButton value="Prihvati" action="#{administratorBean.prihvati(zahtev)}" update="zahtevi" />
+                                    <p:commandButton value="Odbij" action="#{administratorBean.odbij(zahtev)}" update="zahtevi" />
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                        <div class="p-col-2 p-md-6 p-lg-3" style="background-color: #444; width: 100%; height: 100%">
+                            B
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="left" />
+                <div class="copyright">
+                    Copyright © 2019 Jovan Nikolov 2016/0040
+                </div>
+                <div class="right" />
+            </div>
+        </div>
     </h:body>
 </html>
-

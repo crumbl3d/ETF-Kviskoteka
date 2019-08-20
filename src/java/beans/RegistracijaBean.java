@@ -31,7 +31,9 @@ import java.util.Date;
 import javax.annotation.ManagedBean;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import util.BCrypt;
@@ -162,12 +164,24 @@ public class RegistracijaBean implements Serializable {
             return "";
         }
 
+        
+        Session dbs = HibernateUtil.getSessionFactory().openSession();
+        
+        Criteria cr = dbs.createCriteria(Korisnik.class);
+        cr.add(Restrictions.eq("korisnickoIme", korisnickoIme));
+        if (cr.uniqueResult() != null) {
+            Helper.showError("Korisničko ime je zauzeto! Molimo Vas odaberite neko drugo.");
+            dbs.close();
+            return "";
+        }
+        
         try {
             SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy");
             format.setLenient(false);
             format.parse(jmbg.substring(0, 3) + (jmbg.charAt(4) > '2' ? '1' : '2') + jmbg.substring(4, 6));
         } catch (ParseException e) {
             Helper.showError("JMBG nije validan! Datum rodjenja nije validan!");
+            dbs.close();
             return "";
         }
         
@@ -180,11 +194,13 @@ public class RegistracijaBean implements Serializable {
         int k = s % 11;
         if (k == 1) {
             Helper.showError("JMBG nije validan! Treba promeniti jedinstveni broj!");
+            dbs.close();
             return "";
         } else if (k > 1) {
             k = 11 - k;
             if (jmbg.charAt(12) - '0' != k) {
                 Helper.showError("JMBG nije validan! Kontrolna cifra nije validna! (Validna je " + k + ")");
+                dbs.close();
                 return "";
             }
         }
@@ -203,10 +219,10 @@ public class RegistracijaBean implements Serializable {
         novi.setTajnoPitanje(tajnoPitanje);
         novi.setOdgovor(BCrypt.hashpw(odgovor, BCrypt.gensalt(12)));
         
-        Session dbs = HibernateUtil.getSessionFactory().openSession();
         dbs.beginTransaction();
         dbs.save(novi);
         dbs.getTransaction().commit();
+
         dbs.close();
         return "/index?faces-redirect=true";
     }
