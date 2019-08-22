@@ -6,34 +6,34 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>ETF Kviskoteka: Prijava</title>
+        <h:outputStylesheet library="css" name="style.css" />
     </h:head>
     <h:body>
-        <h:outputStylesheet library="css" name="style.css" />
         <div class="outer">
             <div class="inner">
                 <p:panel id="panel" style="width: 400px" header="ETF Kviskoteka: Prijava">
                     <h:panelGrid style="width: 100%" columns="1"
-                                 rendered="#{prijavaBean.korisnik != null}">
+                                 rendered="#{loginController.ulogovan()}">
                         <h:form>
-                            <b>Već ste prijavljeni kao #{prijavaBean.korisnik.ime} #{prijavaBean.korisnik.prezime}!</b>
+                            <b>Već ste prijavljeni kao #{loginController.korisnik.ime} #{loginController.korisnik.prezime}!</b>
                             <h:panelGrid style="width: 100%; margin-top: 10px" columns="2">
                                 <p:commandButton style="width: 100%"
                                                  value="Odjava"
                                                  update="panel"
-                                                 action="#{prijavaBean.odjava()}">
+                                                 action="#{loginController.odjava()}">
                                     <f:ajax />
                                 </p:commandButton>
                                 <p:commandButton style="width: 100%"
                                                  value="Povratak"
                                                  update="panel"
-                                                 action="#{prijavaBean.povratak()}">
+                                                 action="#{loginController.povratak()}">
                                     <f:ajax />
                                 </p:commandButton>
                             </h:panelGrid>
                         </h:form>
                     </h:panelGrid>
                     <h:panelGrid style="width: 100%" columns="1"
-                                 rendered="#{prijavaBean.korisnik == null}">
+                                 rendered="#{!loginController.ulogovan()}">
                         <h:form>
                             <h:outputLabel for="@next"><b>Korisničko ime</b></h:outputLabel>
                             <p:inputText class="input-text"
@@ -59,7 +59,7 @@
                             <p:commandButton class="submit-button"
                                              value="Prijava"
                                              update="panel"
-                                             action="#{prijavaBean.prijava()}">
+                                             action="#{loginController.prijava(prijavaBean.korisnickoIme, prijavaBean.lozinka)}">
                                 <f:ajax />
                             </p:commandButton>
 

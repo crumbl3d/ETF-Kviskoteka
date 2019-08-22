@@ -34,44 +34,44 @@ import javax.persistence.Table;
  * @author crumbl3d
  */
 @Entity
-@Table(name="korisnik")
+@Table(name = "korisnik")
 public class Korisnik implements Serializable {
 
     @Id
-    @Column(name="korisnickoIme")
+    @Column(name = "korisnickoIme")
     String korisnickoIme;
 
-    @Column(name="lozinka")
+    @Column(name = "lozinka")
     String lozinka;
     
-    @Column(name="vrsta")
+    @Column(name = "vrsta")
     String vrsta;
     
-    @Column(name="ime")
+    @Column(name = "ime")
     String ime;
     
-    @Column(name="prezime")
+    @Column(name = "prezime")
     String prezime;
     
-    @Column(name="mejl")
+    @Column(name = "mejl")
     String mejl;
     
-    @Column(name="zanimanje")
+    @Column(name = "zanimanje")
     String zanimanje;
     
-    @Column(name="pol")
+    @Column(name = "pol")
     String pol;
     
-    @Column(name="jmbg")
+    @Column(name = "jmbg")
     String jmbg;
 
-    @Column(name="slika")
+    @Column(name = "slika")
     byte[] slika;
     
-    @Column(name="tajnoPitanje")
+    @Column(name = "tajnoPitanje")
     String tajnoPitanje;
     
-    @Column(name="odgovor")
+    @Column(name = "odgovor")
     String odgovor;
 
     public String getKorisnickoIme() {

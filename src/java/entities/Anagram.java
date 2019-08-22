@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2019 crumbl3d.
@@ -21,39 +21,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package beans;
+package entities;
 
-import controllers.LoginController;
 import java.io.Serializable;
-import javax.annotation.ManagedBean;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
- * Bean for prijava.xhtml.
+ *
  * @author crumbl3d
  */
-@ManagedBean
-@ViewScoped
-@Named(value="prijavaBean")
-public class PrijavaBean implements Serializable {
+@Entity
+@Table(name = "anagram")
+public class Anagram implements Serializable {
 
-    String korisnickoIme;
-    String lozinka;
+    @Id
+    @Column(name = "idAnagram")
+    int idAnagram;
+    
+    @Column(name = "zagonetka")
+    String zagonetka;
+    
+    @Column(name = "resenje")
+    String resenje;
 
-    public String getKorisnickoIme() {
-        return korisnickoIme;
+    public int getIdAnagram() {
+        return idAnagram;
     }
 
-    public void setKorisnickoIme(String korisnickoIme) {
-        this.korisnickoIme = korisnickoIme;
+    public void setIdAnagram(int idAnagram) {
+        this.idAnagram = idAnagram;
     }
 
-    public String getLozinka() {
-        return lozinka;
+    public String getZagonetka() {
+        return zagonetka;
     }
 
-    public void setLozinka(String lozinka) {
-        this.lozinka = lozinka;
+    public void setZagonetka(String zagonetka) {
+        this.zagonetka = zagonetka;
+    }
+
+    public String getResenje() {
+        return resenje;
+    }
+
+    public void setResenje(String resenje) {
+        this.resenje = resenje;
     }
 }

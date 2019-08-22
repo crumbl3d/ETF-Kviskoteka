@@ -6,69 +6,90 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>ETF Kviskoteka: Administrator</title>
-    </h:head>
-    <h:body>
         <h:outputStylesheet library="css" name="style.css" />
         <h:outputStylesheet library="css" name="primeflex.css" />
+    </h:head>
+    <h:body>
         <div class="container">
             <div class="navbar">
                 <div class="left">
-                    Korisnik: <span style="font-weight: bold">#{administratorBean.korisnik.ime} #{administratorBean.korisnik.prezime}</span>
+                    Korisnik: <span style="font-weight: bold">#{loginController.korisnik.ime} #{loginController.korisnik.prezime}</span>
                 </div>
                 <div class="center">
                     <p>ETF Kviskoteka</p>
                 </div>
                 <div class="right">
                     <h:form>
-                        <h:commandLink class="navbtn" value="ODJAVA" action="#{prijavaBean.odjava()}" />
+                        <h:commandLink class="navbtn" value="ODJAVA" action="#{loginController.odjava()}" />
                     </h:form>
                 </div>
             </div>
             <div class="outer">
-                <div class="inner">
-                    <div class="body p-grid">
-                        <div class="p-col-2 p-md-6 p-lg-3" style="background-color: #444; width: 100%; height: 100%">
-                            <p:dataTable id="zahtevi" var="zahtev" value="#{administratorBean.zahtevi}">
+                <div class="inner body">
+                    <div class="p-grid p-justify-center" style="align-self: center">
+                        <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px">
+                            <p:dataTable id="zahtevi" var="zahtev" value="#{administratorBean.zahtevi}" style="width: 700px; font-size: 10pt" resizableColumns="true">
                                 <f:facet name="header">
                                     Zahtevi za registraciju
                                 </f:facet>
 
-                                <p:column headerText="Korisničko ime">
+                                <p:column headerText="Korisničko ime" resizable="true">
                                     #{zahtev.korisnickoIme}
                                 </p:column>
 
-                                <p:column headerText="Ime">
+                                <p:column headerText="Ime" resizable="true">
                                     #{zahtev.ime}
                                 </p:column>
 
-                                <p:column headerText="Prezime">
+                                <p:column headerText="Prezime" resizable="true">
                                     #{zahtev.prezime}
                                 </p:column>
 
-                                <p:column headerText="Mejl">
+                                <p:column headerText="Mejl" resizable="true">
                                     #{zahtev.mejl}
                                 </p:column>
 
-                                <p:column headerText="Zanimanje">
+                                <p:column headerText="Zanimanje" resizable="true">
                                     #{zahtev.zanimanje}
                                 </p:column>
 
-                                <p:column headerText="Pol">
+                                <p:column headerText="Pol" resizable="true">
                                     #{zahtev.pol}
                                 </p:column>
 
-                                <p:column headerText="JMBG">
+                                <p:column headerText="JMBG" resizable="true">
                                     #{zahtev.jmbg}
                                 </p:column>
 
-                                <p:column headerText="">
+                                <p:column headerText="Opcije" resizable="true">
                                     <p:commandButton value="Prihvati" action="#{administratorBean.prihvati(zahtev)}" update="zahtevi" />
                                     <p:commandButton value="Odbij" action="#{administratorBean.odbij(zahtev)}" update="zahtevi" />
                                 </p:column>
                             </p:dataTable>
                         </div>
-                        <div class="p-col-2 p-md-6 p-lg-3" style="background-color: #444; width: 100%; height: 100%">
-                            B
+                        <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px">
+                            <p:dataTable id="igraDana" var="igra" value="#{administratorBean.igreDana}" style="width: 700px; font-size: 10pt" resizableColumns="true">
+                                <f:facet name="header">
+                                    Igre dana
+                                </f:facet>
+
+                                <p:column headerText="Datum" resizable="true">
+                                    #{igra.datum}
+                                </p:column>
+
+                                <p:column headerText="Anagram" resizable="true">
+                                    #{igra.idAnagram}
+                                </p:column>
+
+                                <p:column headerText="Pehar" resizable="true">
+                                    #{igra.idPehar}
+                                </p:column>
+
+                                <p:column headerText="Opcije" resizable="true">
+                                    <p:commandButton value="Prihvati" action="#{administratorBean.prihvati(zahtev)}" update="zahtevi" />
+                                    <p:commandButton value="Odbij" action="#{administratorBean.odbij(zahtev)}" update="zahtevi" />
+                                </p:column>
+                            </p:dataTable>
                         </div>
                     </div>
                 </div>

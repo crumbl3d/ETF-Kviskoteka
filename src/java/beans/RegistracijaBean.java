@@ -27,7 +27,6 @@ import entities.Korisnik;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.annotation.ManagedBean;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;

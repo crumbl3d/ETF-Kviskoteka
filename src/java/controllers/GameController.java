@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2019 crumbl3d.
@@ -21,39 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package beans;
+package controllers;
 
-import controllers.LoginController;
+import entities.IgraDana;
+import entities.Korisnik;
+import entities.Rezultat;
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+import util.BCrypt;
+import util.Helper;
+import util.HibernateUtil;
+import util.SessionUtil;
 
 /**
- * Bean for prijava.xhtml.
+ * Manages login and logout...
  * @author crumbl3d
  */
 @ManagedBean
-@ViewScoped
-@Named(value="prijavaBean")
-public class PrijavaBean implements Serializable {
+@SessionScoped
+@Named(value = "gameController")
+public class GameController implements Serializable {
 
-    String korisnickoIme;
-    String lozinka;
+    IgraDana igra;
+    Korisnik takmicar;
+    Rezultat rezultat;
 
-    public String getKorisnickoIme() {
-        return korisnickoIme;
-    }
-
-    public void setKorisnickoIme(String korisnickoIme) {
-        this.korisnickoIme = korisnickoIme;
-    }
-
-    public String getLozinka() {
-        return lozinka;
-    }
-
-    public void setLozinka(String lozinka) {
-        this.lozinka = lozinka;
+    public static GameController getCurrentInstance() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        return (GameController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "gameController");
     }
 }

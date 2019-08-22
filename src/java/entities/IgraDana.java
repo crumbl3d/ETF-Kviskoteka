@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2019 crumbl3d.
@@ -21,39 +21,65 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package beans;
+package entities;
 
-import controllers.LoginController;
 import java.io.Serializable;
-import javax.annotation.ManagedBean;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
+import java.sql.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
- * Bean for prijava.xhtml.
+ *
  * @author crumbl3d
  */
-@ManagedBean
-@ViewScoped
-@Named(value="prijavaBean")
-public class PrijavaBean implements Serializable {
+@Entity
+@Table(name = "igradana")
+public class IgraDana implements Serializable {
 
-    String korisnickoIme;
-    String lozinka;
+    @Id
+    @Column(name = "datum")
+    Date datum;
+    
+    @Column(name = "idAnagram")
+    int idAnagram;
+    
+    @Column(name =  "idPetXPet")
+    int idPetXPet;
 
-    public String getKorisnickoIme() {
-        return korisnickoIme;
+    @Column(name =  "idPehar")
+    int idPehar;
+
+    public Date getDatum() {
+        return datum;
     }
 
-    public void setKorisnickoIme(String korisnickoIme) {
-        this.korisnickoIme = korisnickoIme;
+    public void setDatum(Date datum) {
+        this.datum = datum;
     }
 
-    public String getLozinka() {
-        return lozinka;
+    public int getIdPetXPet() {
+        return idPetXPet;
     }
 
-    public void setLozinka(String lozinka) {
-        this.lozinka = lozinka;
+    public void setIdPetXPet(int idPetXPet) {
+        this.idPetXPet = idPetXPet;
+    }
+
+    public int getIdAnagram() {
+        return idAnagram;
+    }
+
+    public void setIdAnagram(int idAnagram) {
+        this.idAnagram = idAnagram;
+    }
+
+    public int getIdPehar() {
+        return idPehar;
+    }
+
+    public void setIdPehar(int idPehar) {
+        this.idPehar = idPehar;
     }
 }

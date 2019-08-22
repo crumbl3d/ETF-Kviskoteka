@@ -57,9 +57,10 @@ public class AuthFilter implements Filter {
                 k = (Korisnik) ses.getAttribute("user");
             }
             if (reqURI.contains("/index.xhtml")
-                    || reqURI.contains("/public/")
                     || reqURI.contains("javax.faces.resource")
-                    || (k != null && reqURI.contains(k.getVrsta())))
+                    || reqURI.contains("/public/")
+                    || (reqURI.contains("/users/") && k != null && reqURI.contains(k.getVrsta()))
+                    || (reqURI.contains("/games/") && k != null && k.getVrsta().equals("takmicar")))
                 chain.doFilter(request, response);
             else
                 resp.sendRedirect(reqt.getContextPath() + "/faces/index.xhtml");

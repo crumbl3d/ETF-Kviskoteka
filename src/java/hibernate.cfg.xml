@@ -47,5 +47,11 @@ Contributor(s):
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">7825starkD802</property>
     <mapping class="entities.Korisnik"/>
+    <mapping class="entities.IgraDana"/>
+    <mapping class="entities.Anagram"/>
+    <mapping class="entities.Pehar"/>
+    <mapping class="entities.PetXPet"/>
+    <mapping class="entities.Rezultat"/>
+    <mapping class="entities.ZanGeo"/>
   </session-factory>
 </hibernate-configuration>

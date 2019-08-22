@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2019 crumbl3d.
@@ -21,39 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package beans;
+package entities;
 
-import controllers.LoginController;
 import java.io.Serializable;
-import javax.annotation.ManagedBean;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
- * Bean for prijava.xhtml.
+ *
  * @author crumbl3d
  */
-@ManagedBean
-@ViewScoped
-@Named(value="prijavaBean")
-public class PrijavaBean implements Serializable {
+@Entity
+@Table(name = "zangeo")
+public class ZanGeo implements Serializable {
 
-    String korisnickoIme;
-    String lozinka;
+    @Id
+    @Column(name = "kategorija")
+    String kategorija;
+    
+    @Id
+    @Column(name = "pojam")
+    String pojam;
 
-    public String getKorisnickoIme() {
-        return korisnickoIme;
+    public String getKategorija() {
+        return kategorija;
     }
 
-    public void setKorisnickoIme(String korisnickoIme) {
-        this.korisnickoIme = korisnickoIme;
+    public void setKategorija(String kategorija) {
+        this.kategorija = kategorija;
     }
 
-    public String getLozinka() {
-        return lozinka;
+    public String getPojam() {
+        return pojam;
     }
 
-    public void setLozinka(String lozinka) {
-        this.lozinka = lozinka;
+    public void setPojam(String pojam) {
+        this.pojam = pojam;
     }
 }

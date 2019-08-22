@@ -23,6 +23,7 @@
  */
 package beans;
 
+import entities.IgraDana;
 import entities.Korisnik;
 import java.io.Serializable;
 import java.util.List;
@@ -44,17 +45,9 @@ import util.SessionUtil;
 @Named(value = "administratorBean")
 public class AdministratorBean implements Serializable {
 
-    Korisnik korisnik;
     List<Korisnik> zahtevi;
+    List<IgraDana> igreDana;
 
-    public Korisnik getKorisnik() {
-        return korisnik;
-    }
-
-    public void setKorisnik(Korisnik korisnik) {
-        this.korisnik = korisnik;
-    }
-    
     public List<Korisnik> getZahtevi() {
         return zahtevi;
     }
@@ -62,15 +55,24 @@ public class AdministratorBean implements Serializable {
     public void setZahtevi(List<Korisnik> zahtevi) {
         this.zahtevi = zahtevi;
     }
+
+    public List<IgraDana> getIgreDana() {
+        return igreDana;
+    }
+
+    public void setIgreDana(List<IgraDana> igreDana) {
+        this.igreDana = igreDana;
+    }
     
     public AdministratorBean() {
-        korisnik = SessionUtil.getCurrentUser();
         Session dbs = HibernateUtil.getSessionFactory().openSession();
         Criteria cr = dbs.createCriteria(Korisnik.class);
         cr.add(Restrictions.and(Restrictions.ne("vrsta", "administrator"),
                 Restrictions.ne("vrsta", "takmicar"),
                 Restrictions.ne("vrsta", "supervizor")));
         zahtevi = cr.list();
+        cr = dbs.createCriteria(IgraDana.class);
+        igreDana = cr.list();
         dbs.close();
     }
     
