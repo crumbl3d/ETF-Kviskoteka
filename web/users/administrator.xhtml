@@ -61,7 +61,7 @@
                                     #{zahtev.jmbg}
                                 </p:column>
 
-                                <p:column headerText="Opcije" resizable="true">
+                                <p:column headerText="Opcije" style="width:130px">
                                     <p:commandButton value="Prihvati" action="#{administratorBean.prihvati(zahtev)}" update="zahtevi" />
                                     <p:commandButton value="Odbij" action="#{administratorBean.odbij(zahtev)}" update="zahtevi" />
                                 </p:column>
@@ -76,8 +76,8 @@
                                         Igre dana
                                     </f:facet>
 
-                                    <p:ajax event="rowEdit" listener="#{administratorBean.onRowEdit}" update=":form:msgs :form:igraDana" />
-                                    <p:ajax event="rowEditCancel" listener="#{administratorBean.onRowCancel}" update=":form:msgs :form:igraDana" />
+                                    <p:ajax event="rowEdit" listener="#{administratorBean.onRowEdit}" update=":form:msgs" />
+                                    <p:ajax event="rowEditCancel" listener="#{administratorBean.onRowCancel}" update=":form:msgs" />
 
                                     <p:column headerText="Datum" resizable="true">
                                         <p:cellEditor>

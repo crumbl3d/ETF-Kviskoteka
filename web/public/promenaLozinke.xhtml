@@ -14,6 +14,8 @@
                 <p:panel id="panel" style="width: 400px" header="ETF Kviskoteka: Promena lozinke">
                     <h:panelGrid style="width: 100%" columns="1">
                         <h:form>
+                            <p:growl id="msgs" globalOnly="true" showSummary="false" showDetail="true" />
+
                             <h:outputLabel for="@next"><b>Korisničko ime</b></h:outputLabel>
                             <p:inputText class="input-text"
                                          placeholder="Unesite korisničko ime"
@@ -67,8 +69,6 @@
                                              action="#{promenaLozinkeBean.promenaLozinke()}">
                                 <f:ajax />
                             </p:commandButton>
-                            
-                            <p:messages globalOnly="true" closable="true" showSummary="false" showDetail="true" showIcon="false" />
                         </h:form>
                         <h:form>
                             <table class="links">

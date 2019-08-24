@@ -14,6 +14,8 @@
                 <p:panel id="panel" style="width: 400px" header="ETF Kviskoteka: Registracija">
                     <h:panelGrid style="width: 100%" columns="1">
                         <h:form enctype="multipart/form-data">
+                            <p:growl id="msgs" globalOnly="true" showSummary="false" showDetail="true" />
+
                             <h:outputText style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">Sve informacije su obavezne!</h:outputText>
                             
                             <h:outputLabel for="@next"><b>Ime</b></h:outputLabel>
@@ -115,8 +117,8 @@
                             </p:inputText>
                             <p:message for="@previous" display="text" />
 
-                            <h:outputLabel for="@next"><b>Profilna slika</b></h:outputLabel>
-                            <p:fileUpload mode="advanced" allowTypes="/(\.|\/)(gif|jpe?g|png)/" fileLimit="1" fileUploadListener="#{registracijaBean.obradiPrijemSlike}" />
+                            <h:outputLabel for="@next"><b>Profilna slika</b> (maksimalno 300x300)</h:outputLabel>
+                            <p:fileUpload style="width: 350px" mode="advanced" allowTypes="/(\.|\/)(gif|jpe?g|png)/" fileUploadListener="#{registracijaBean.obradiPrijemSlike}" sizeLimit="5242880" update="msgs" />
                             
                             <h:outputLabel for="@next"><b>Tajno pitanje</b></h:outputLabel>
                             <p:inputText class="input-text"
@@ -145,8 +147,6 @@
                                              action="#{registracijaBean.registracija()}">
                                 <f:ajax />
                             </p:commandButton>
-
-                            <p:messages globalOnly="true" closable="true" showSummary="false" showDetail="true" showIcon="false" />
                         </h:form>
                         <h:form>
                             <table class="links">
@@ -166,4 +166,3 @@
         </div>
     </h:body>
 </html>
-

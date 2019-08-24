@@ -23,20 +23,23 @@
  */
 package beans.data;
 
-import entities.IgraDana;
+import entities.Korisnik;
+import entities.PojamProvera;
 import java.sql.Date;
 
 /**
  * Used in dataTable for displaying games of the day.
  * @author crumbl3d
  */
-public class IgraDanaIspis {
-    
+public class PojamProveraIspis {
+
     Date datum;
-    int idAnagram;
-    int idPetXPet;
-    int idPehar;
-    boolean izmenljiva = true;
+    
+    String korisnickoIme;
+    Korisnik takmicar;  
+    
+    String kategorija;
+    String pojam;
 
     public Date getDatum() {
         return datum;
@@ -46,44 +49,44 @@ public class IgraDanaIspis {
         this.datum = datum;
     }
 
-    public int getIdAnagram() {
-        return idAnagram;
+    public String getKorisnickoIme() {
+        return korisnickoIme;
     }
 
-    public void setIdAnagram(int idAnagram) {
-        this.idAnagram = idAnagram;
-    }
-
-    public int getIdPetXPet() {
-        return idPetXPet;
-    }
-
-    public void setIdPetXPet(int idPetXPet) {
-        this.idPetXPet = idPetXPet;
-    }
-
-    public int getIdPehar() {
-        return idPehar;
-    }
-
-    public void setIdPehar(int idPehar) {
-        this.idPehar = idPehar;
-    }
-
-    public boolean isIzmenljiva() {
-        return izmenljiva;
-    }
-
-    public void setIzmenljiva(boolean izmenljiva) {
-        this.izmenljiva = izmenljiva;
+    public void setKorisnickoIme(String korisnickoIme) {
+        this.korisnickoIme = korisnickoIme;
     }
     
-    public IgraDanaIspis() {}
+    public Korisnik getTakmicar() {
+        return takmicar;
+    }
+
+    public void setTakmicar(Korisnik takmicar) {
+        this.takmicar = takmicar;
+    }
+
+    public String getKategorija() {
+        return kategorija;
+    }
+
+    public void setKategorija(String kategorija) {
+        this.kategorija = kategorija;
+    }
+
+    public String getPojam() {
+        return pojam;
+    }
+
+    public void setPojam(String pojam) {
+        this.pojam = pojam;
+    }
     
-    public IgraDanaIspis(IgraDana igra) {
-        datum = igra.getDatum();
-        idAnagram = igra.getIdAnagram();
-        idPehar = igra.getIdPehar();
-        idPetXPet = igra.getIdPetXPet();
+    public PojamProveraIspis() {}
+        
+    public PojamProveraIspis(PojamProvera pp) {
+        datum = pp.getDatum();
+        korisnickoIme = pp.getKorisnickoIme();
+        kategorija = pp.getKategorija();
+        pojam = pp.getPojam();
     }
 }

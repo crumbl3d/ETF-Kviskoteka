@@ -35,6 +35,8 @@
                     <h:panelGrid style="width: 100%" columns="1"
                                  rendered="#{!loginController.ulogovan()}">
                         <h:form>
+                            <p:growl id="msgs" globalOnly="true" showSummary="false" showDetail="true" />
+
                             <h:outputLabel for="@next"><b>Korisničko ime</b></h:outputLabel>
                             <p:inputText class="input-text"
                                          placeholder="Unesite korisničko ime"
@@ -62,8 +64,6 @@
                                              action="#{loginController.prijava(prijavaBean.korisnickoIme, prijavaBean.lozinka)}">
                                 <f:ajax />
                             </p:commandButton>
-
-                            <p:messages globalOnly="true" closable="true" showSummary="false" showDetail="true" showIcon="false" />
                         </h:form>
                         <h:form>
                             <table class="links">

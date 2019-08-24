@@ -31,10 +31,9 @@ import entities.Pehar;
 import entities.PetXPet;
 import entities.Rezultat;
 import java.io.Serializable;
-import java.sql.Date;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import javax.annotation.ManagedBean;
 import javax.faces.application.FacesMessage;
@@ -47,7 +46,6 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.primefaces.event.RowEditEvent;
 import util.HibernateUtil;
-import util.SessionUtil;
 
 /**
  * Bean for administrator.xhtml.
@@ -120,37 +118,34 @@ public class AdministratorBean implements Serializable {
         this.datum = datum;
     }
     
-    public AdministratorBean() {
-        this.danas = java.util.Calendar.getInstance().getTime();
-
-        Session dbs = HibernateUtil.getSessionFactory().openSession();
+    private void ucitajZahteve(Session dbs) {
         Criteria cr = dbs.createCriteria(Korisnik.class);
         cr.add(Restrictions.and(Restrictions.ne("vrsta", "administrator"),
                 Restrictions.ne("vrsta", "takmicar"),
                 Restrictions.ne("vrsta", "supervizor")));
         zahtevi = cr.list();
-        cr = dbs.createCriteria(IgraDana.class);
+    }
+    
+    private void ucitajIgreDana(Session dbs) {
+        Criteria cr = dbs.createCriteria(IgraDana.class);
         List<IgraDana> igre = cr.list();
-        Date danas = Date.valueOf(LocalDate.now());
+        
         igreDana = new ArrayList<>();
-
+        
         igre.forEach((igra) -> {
-            IgraDanaIspis ispis = new IgraDanaIspis();
             Criteria cr2 = dbs.createCriteria(Rezultat.class);
             cr2.add(Restrictions.eq("datum", igra.getDatum()));
             cr2.setProjection(Projections.rowCount());
             int brojOdigranih = ((Number) cr2.uniqueResult()).intValue();
-            ispis.setDatum(igra.getDatum());
-            ispis.setIdAnagram(igra.getIdAnagram());
-            ispis.setIdPetXPet(igra.getIdPetXPet());
-            ispis.setIdPehar(igra.getIdPehar());
-            ispis.setIzmenljiva(brojOdigranih == 0 && igra.getDatum().compareTo(danas) >= 0);
+            IgraDanaIspis ispis = new IgraDanaIspis(igra);
+            ispis.setIzmenljiva(brojOdigranih == 0 && igra.getDatum().compareTo(java.sql.Date.valueOf(LocalDate.now())) >= 0);
             igreDana.add(ispis);
         });
-        
-        igreDana.add(new IgraDanaIspis());
-
-        cr = dbs.createCriteria(Anagram.class);
+        igreDana.add(new IgraDanaIspis()); // blanko red za dodavanje nove igre dana
+    }
+    
+    private void ucitajIndekse(Session dbs) {
+        Criteria cr = dbs.createCriteria(Anagram.class);
         cr.setProjection(Projections.property("idAnagram"));
         anagrami = cr.list();
 
@@ -161,7 +156,14 @@ public class AdministratorBean implements Serializable {
         cr = dbs.createCriteria(Pehar.class);
         cr.setProjection(Projections.property("idPehar"));
         pehari = cr.list();
-        
+    }
+    
+    public AdministratorBean() {
+        this.danas = java.util.Calendar.getInstance().getTime();
+        Session dbs = HibernateUtil.getSessionFactory().openSession();
+        ucitajZahteve(dbs);
+        ucitajIgreDana(dbs);
+        ucitajIndekse(dbs);
         dbs.close();
     }
     
@@ -186,10 +188,22 @@ public class AdministratorBean implements Serializable {
     
     public void onRowEdit(RowEditEvent event) {
         IgraDanaIspis ispis = (IgraDanaIspis) event.getObject();
-
+        java.sql.Date datum = ispis.getDatum();
+        if (datum == null) {
+            if (this.datum == null) {
+                FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", 
+                        "Niste postavili datum!"));
+                igreDana.set(igreDana.size() - 1, new IgraDanaIspis());
+                return;
+            }
+            datum = new java.sql.Date(this.datum.getTime());
+            ispis.setDatum(datum);
+        }
+        
         Session dbs = HibernateUtil.getSessionFactory().openSession();
         Criteria cr = dbs.createCriteria(IgraDana.class);
-        cr.add(Restrictions.eq("datum", ispis.getDatum()));
+        cr.add(Restrictions.eq("datum", datum));
         IgraDana igra = (IgraDana) cr.uniqueResult();
 
         if (ispis == igreDana.get(igreDana.size() - 1)) {
@@ -197,14 +211,13 @@ public class AdministratorBean implements Serializable {
             if (igra != null) {
                 FacesContext.getCurrentInstance().addMessage(null, 
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", 
-                        "Baza već sadrži igru dana za datum: " + ispis.getDatum()));
+                        "Baza već sadrži igru dana za datum: " + datum));
                 igreDana.set(igreDana.size() - 1, new IgraDanaIspis());
                 dbs.close();
                 return;
             }
-            ispis.setDatum(new java.sql.Date(datum.getTime()));
             igra = new IgraDana();
-            igra.setDatum(ispis.getDatum());
+            igra.setDatum(datum);
             igra.setIdAnagram(ispis.getIdAnagram());
             igra.setIdPetXPet(ispis.getIdPetXPet());
             igra.setIdPehar(ispis.getIdPehar());
@@ -212,15 +225,16 @@ public class AdministratorBean implements Serializable {
             dbs.save(igra);
             dbs.getTransaction().commit();
             dbs.close();
+            igreDana.sort(Comparator.comparing(c -> c.getDatum()));
             igreDana.add(new IgraDanaIspis());
             FacesContext.getCurrentInstance().addMessage(null, 
                 new FacesMessage("Igra dana dodata!", 
-                    "Datum: " + ispis.getDatum()));
+                    "Datum: " + datum));
         } else {
             if (igra == null) {
                 FacesContext.getCurrentInstance().addMessage(null, 
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Interna greška!", 
-                        "Baza ne sadrži igru dana za datum: " + ispis.getDatum()));
+                        "Baza ne sadrži igru dana za datum: " + datum));
                 dbs.close();
                 return;
             }
@@ -233,7 +247,7 @@ public class AdministratorBean implements Serializable {
             dbs.close();
             FacesContext.getCurrentInstance().addMessage(null, 
                 new FacesMessage("Igra dana izmenjena!", 
-                    "Datum: " + ispis.getDatum()));
+                    "Datum: " + datum));
         }
     }
 

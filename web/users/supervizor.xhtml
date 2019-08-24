@@ -28,68 +28,470 @@
                 <div class="inner body">
                     <div class="p-grid p-justify-center" style="align-self: center">
                         <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px">
-                            <p:dataTable id="zahtevi" var="zahtev" value="#{administratorBean.zahtevi}" style="width: 700px; font-size: 10pt" resizableColumns="true">
+                            <h:form id="form1">
+                                <p:growl id="msgs" showDetail="true" />
+                                
+                                <p:dataTable id="anagrami" var="anagram" value="#{supervizorBean.anagrami}" style="font-size: 10pt" editable="true" resizableColumns="true">
+                                    <f:facet name="header">
+                                        Anagrami
+                                    </f:facet>
+
+                                    <p:ajax event="rowEdit" listener="#{supervizorBean.izmenaAnagrama}" update=":form1:msgs" />
+                                    <p:ajax event="rowEditCancel" listener="#{supervizorBean.odustani}" update=":form1:msgs" />
+
+                                    <p:column headerText="RB" style="width: 35px">
+                                        <h:outputText value="#{anagram.idAnagram}" rendered="#{anagram.idAnagram != 0}" />
+                                    </p:column>
+
+                                    <p:column headerText="Zagonetka" resizable="true">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{anagram.zagonetka}" /></f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{anagram.zagonetka}" style="width: 100%" />
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+
+                                    <p:column headerText="Rešenje" resizable="true">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{anagram.resenje}" /></f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{anagram.resenje}" style="width: 100%" />
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+
+                                    <p:column style="width:35px">
+                                        <p:rowEditor rendered="#{anagram.idAnagram == 0}" />
+                                    </p:column>
+
+                                    <f:facet name="footer">
+                                        Da biste dodali anagram izmenite poslednji red.
+                                    </f:facet>
+                                </p:dataTable>
+                            </h:form>
+                        </div>
+                        <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px">
+                            <h:form id="form2">
+                                <p:growl id="msgs" showDetail="true" />
+                                
+                                <p:dataTable id="petxpet" var="petxpet" value="#{supervizorBean.petxpet}" style="font-size: 10pt" editable="true" resizableColumns="true">
+                                    <f:facet name="header">
+                                        5x5
+                                    </f:facet>
+
+                                    <p:ajax event="rowEdit" listener="#{supervizorBean.izmenaPetXPet}" update=":form2:msgs" />
+                                    <p:ajax event="rowEditCancel" listener="#{supervizorBean.odustani}" update=":form2:msgs" />
+
+                                    <p:column headerText="RB" style="width: 35px">
+                                        <h:outputText value="#{petxpet.idPetXPet}" rendered="#{petxpet.idPetXPet != 0}" />
+                                    </p:column>
+
+                                    <p:column headerText="Prva reč" resizable="true">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{petxpet.rec1}" /></f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{petxpet.rec1}" style="width: 100%" maxlength="5" />
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+
+                                    <p:column headerText="Druga reč" resizable="true">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{petxpet.rec2}" /></f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{petxpet.rec2}" style="width: 100%" maxlength="5" />
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+
+                                    <p:column headerText="Treća reč" resizable="true">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{petxpet.rec3}" /></f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{petxpet.rec3}" style="width: 100%" maxlength="5" />
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+
+                                    <p:column headerText="Četvrta reč" resizable="true">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{petxpet.rec4}" /></f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{petxpet.rec4}" style="width: 100%" maxlength="5" />
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+
+                                    <p:column headerText="Peta reč" resizable="true">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{petxpet.rec5}" /></f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{petxpet.rec5}" style="width: 100%" maxlength="5" />
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+
+                                    <p:column style="width:35px">
+                                        <p:rowEditor rendered="#{petxpet.idPetXPet == 0}" />
+                                    </p:column>
+
+                                    <f:facet name="footer">
+                                        Da biste dodali 5x5 izmenite poslednji red.
+                                    </f:facet>
+                                </p:dataTable>
+                            </h:form>
+                        </div>
+                        <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px">
+                            <p:dataTable id="zangeo" var="zangeo" value="#{supervizorBean.zangeo}" style="font-size: 10pt" resizableColumns="true">
                                 <f:facet name="header">
-                                    Zahtevi za registraciju
+                                    Zanimljiva geografija
                                 </f:facet>
 
-                                <p:column headerText="Korisničko ime" resizable="true">
-                                    #{zahtev.korisnickoIme}
+                                <p:column headerText="Datum" resizable="true">
+                                    #{zangeo.datum}
                                 </p:column>
 
                                 <p:column headerText="Ime" resizable="true">
-                                    #{zahtev.ime}
+                                    #{zangeo.takmicar.ime}
                                 </p:column>
 
                                 <p:column headerText="Prezime" resizable="true">
-                                    #{zahtev.prezime}
+                                    #{zangeo.takmicar.prezime}
                                 </p:column>
 
-                                <p:column headerText="Mejl" resizable="true">
-                                    #{zahtev.mejl}
+                                <p:column headerText="Kategorija" resizable="true">
+                                    #{zangeo.kategorija}
                                 </p:column>
 
-                                <p:column headerText="Zanimanje" resizable="true">
-                                    #{zahtev.zanimanje}
-                                </p:column>
-
-                                <p:column headerText="Pol" resizable="true">
-                                    #{zahtev.pol}
-                                </p:column>
-
-                                <p:column headerText="JMBG" resizable="true">
-                                    #{zahtev.jmbg}
+                                <p:column headerText="Pojam" resizable="true">
+                                    #{zangeo.pojam}
                                 </p:column>
 
                                 <p:column headerText="Opcije" resizable="true">
-                                    <p:commandButton value="Prihvati" action="#{administratorBean.prihvati(zahtev)}" update="zahtevi" />
-                                    <p:commandButton value="Odbij" action="#{administratorBean.odbij(zahtev)}" update="zahtevi" />
+                                    <p:commandButton value="Prihvati" action="#{supervizorBean.prihvati(zangeo)}" update="zangeo" />
+                                    <p:commandButton value="Odbij" action="#{supervizorBean.odbij(zangeo)}" update="zangeo" />
                                 </p:column>
                             </p:dataTable>
                         </div>
                         <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px">
-                            <p:dataTable id="igraDana" var="igra" value="#{administratorBean.igreDana}" style="width: 700px; font-size: 10pt" resizableColumns="true">
-                                <f:facet name="header">
-                                    Igre dana
-                                </f:facet>
+                            <p:panel id="panel" style="width: 700px" header="Pehar">
+                                <p:growl id="msgs" showDetail="true" />
+                                
+                                <h:form>
+                                    <h:panelGrid style="width: 100%" columns="2">
+                                        <h:panelGrid style="width: 100%" columns="1">
+                                            <h:outputLabel for="@next"><b>Pitanje 1</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 1. pitanje"
+                                                         value="#{supervizorBean.pehar.pitanje1}"
+                                                         required="true"
+                                                         requiredMessage="Pitanje je obavezno!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Pitanje 2</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 2. pitanje"
+                                                         value="#{supervizorBean.pehar.pitanje2}"
+                                                         required="true"
+                                                         requiredMessage="Pitanje je obavezno!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Pitanje 3</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 3. pitanje"
+                                                         value="#{supervizorBean.pehar.pitanje3}"
+                                                         required="true"
+                                                         requiredMessage="Pitanje je obavezno!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Pitanje 4</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 4. pitanje"
+                                                         value="#{supervizorBean.pehar.pitanje4}"
+                                                         required="true"
+                                                         requiredMessage="Pitanje je obavezno!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Pitanje 5</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 5. pitanje"
+                                                         value="#{supervizorBean.pehar.pitanje5}"
+                                                         required="true"
+                                                         requiredMessage="Pitanje je obavezno!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Pitanje 6</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 6. pitanje"
+                                                         value="#{supervizorBean.pehar.pitanje6}"
+                                                         required="true"
+                                                         requiredMessage="Pitanje je obavezno!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Pitanje 7</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 7. pitanje"
+                                                         value="#{supervizorBean.pehar.pitanje7}"
+                                                         required="true"
+                                                         requiredMessage="Pitanje je obavezno!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Pitanje 8</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 8. pitanje"
+                                                         value="#{supervizorBean.pehar.pitanje8}"
+                                                         required="true"
+                                                         requiredMessage="Pitanje je obavezno!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Pitanje 9</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 9. pitanje"
+                                                         value="#{supervizorBean.pehar.pitanje9}"
+                                                         required="true"
+                                                         requiredMessage="Pitanje je obavezno!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Pitanje 10</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 10. pitanje"
+                                                         value="#{supervizorBean.pehar.pitanje10}"
+                                                         required="true"
+                                                         requiredMessage="Pitanje je obavezno!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Pitanje 11</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 11. pitanje"
+                                                         value="#{supervizorBean.pehar.pitanje11}"
+                                                         required="true"
+                                                         requiredMessage="Pitanje je obavezno!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Pitanje 12</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 12. pitanje"
+                                                         value="#{supervizorBean.pehar.pitanje12}"
+                                                         required="true"
+                                                         requiredMessage="Pitanje je obavezno!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Pitanje 13</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 13. pitanje"
+                                                         value="#{supervizorBean.pehar.pitanje13}"
+                                                         required="true"
+                                                         requiredMessage="Pitanje je obavezno!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                        </h:panelGrid>
 
-                                <p:column headerText="Datum" resizable="true">
-                                    #{igra.datum}
-                                </p:column>
+                                        <h:panelGrid style="width: 100%" columns="1">
+                                            <h:outputLabel for="@next"><b>Odgovor 1</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 1. odgovor"
+                                                         value="#{supervizorBean.pehar.odgovor1}"
+                                                         maxlength="9"
+                                                         required="true"
+                                                         requiredMessage="Odgovor je obavezan!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Odgovor 2</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 2. odgovor"
+                                                         value="#{supervizorBean.pehar.odgovor2}"
+                                                         maxlength="8"
+                                                         required="true"
+                                                         requiredMessage="Odgovor je obavezan!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Odgovor 3</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 3. odgovor"
+                                                         value="#{supervizorBean.pehar.odgovor3}"
+                                                         maxlength="7"
+                                                         required="true"
+                                                         requiredMessage="Odgovor je obavezan!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Odgovor 4</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 4. odgovor"
+                                                         value="#{supervizorBean.pehar.odgovor4}"
+                                                         maxlength="6"
+                                                         required="true"
+                                                         requiredMessage="Odgovor je obavezan!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Odgovor 5</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 5. odgovor"
+                                                         value="#{supervizorBean.pehar.odgovor5}"
+                                                         maxlength="5"
+                                                         required="true"
+                                                         requiredMessage="Odgovor je obavezan!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Odgovor 6</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 6. odgovor"
+                                                         value="#{supervizorBean.pehar.odgovor6}"
+                                                         maxlength="4"
+                                                         required="true"
+                                                         requiredMessage="Odgovor je obavezan!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Odgovor 7</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 7. odgovor"
+                                                         value="#{supervizorBean.pehar.odgovor7}"
+                                                         maxlength="3"
+                                                         required="true"
+                                                         requiredMessage="Odgovor je obavezan!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Odgovor 8</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 8. odgovor"
+                                                         value="#{supervizorBean.pehar.odgovor8}"
+                                                         maxlength="4"
+                                                         required="true"
+                                                         requiredMessage="Odgovor je obavezan!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Odgovor 9</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 9. odgovor"
+                                                         value="#{supervizorBean.pehar.odgovor9}"
+                                                         maxlength="5"
+                                                         required="true"
+                                                         requiredMessage="Odgovor je obavezan!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Odgovor 10</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 10. odgovor"
+                                                         value="#{supervizorBean.pehar.odgovor10}"
+                                                         maxlength="6"
+                                                         required="true"
+                                                         requiredMessage="Odgovor je obavezan!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Odgovor 11</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 11. odgovor"
+                                                         value="#{supervizorBean.pehar.odgovor11}"
+                                                         maxlength="7"
+                                                         required="true"
+                                                         requiredMessage="Odgovor je obavezan!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Odgovor 12</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 12. odgovor"
+                                                         value="#{supervizorBean.pehar.odgovor12}"
+                                                         maxlength="8"
+                                                         required="true"
+                                                         requiredMessage="Odgovor je obavezan!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                            
+                                            <h:outputLabel for="@next"><b>Odgovor 13</b></h:outputLabel>
+                                            <p:inputText class="input-text"
+                                                         style="width: 300px"
+                                                         placeholder="Unesite 13. odgovor"
+                                                         value="#{supervizorBean.pehar.odgovor13}"
+                                                         maxlength="9"
+                                                         required="true"
+                                                         requiredMessage="Odgovor je obavezan!">
+                                                <p:ajax update="@next" event="keyup" />
+                                            </p:inputText>
+                                            <p:message for="@previous" display="text" />
+                                        </h:panelGrid>
+                                    </h:panelGrid>
 
-                                <p:column headerText="Anagram" resizable="true">
-                                    #{igra.idAnagram}
-                                </p:column>
-
-                                <p:column headerText="Pehar" resizable="true">
-                                    #{igra.idPehar}
-                                </p:column>
-
-                                <p:column headerText="Opcije" resizable="true">
-                                    <p:commandButton value="Prihvati" action="#{administratorBean.prihvati(zahtev)}" update="zahtevi" />
-                                    <p:commandButton value="Odbij" action="#{administratorBean.odbij(zahtev)}" update="zahtevi" />
-                                </p:column>
-                            </p:dataTable>
+                                    <p:commandButton style="width: 150px; left: 50%; margin-left: -75px;"
+                                                     value="Dodaj"
+                                                     update="msgs"
+                                                     action="#{supervizorBean.dodajPehar()}">
+                                        <f:ajax />
+                                    </p:commandButton>
+                                </h:form>
+                            </p:panel>
                         </div>
                     </div>
                 </div>

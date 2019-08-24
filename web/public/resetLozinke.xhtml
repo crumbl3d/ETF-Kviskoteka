@@ -18,6 +18,8 @@
                             <p:commandButton class="submit-button" value="Nazad na prijavu" action="/public/prijava" />
                         </h:form>
                         <h:form rendered="#{resetLozinkeBean.korak == 1}">
+                            <p:growl id="msgs" globalOnly="true" showSummary="false" showDetail="true" />
+
                             <h:outputLabel for="@next"><b>Korisničko ime</b></h:outputLabel>
                             <p:inputText class="input-text"
                                          placeholder="Unesite korisničko ime"
@@ -47,10 +49,10 @@
                                              action="#{resetLozinkeBean.prviKorak()}">
                                 <f:ajax />
                             </p:commandButton>
-                            
-                            <p:messages globalOnly="true" closable="true" showSummary="false" showDetail="true" showIcon="false" />
                         </h:form>
                         <h:form rendered="#{resetLozinkeBean.korak == 2}">
+                            <p:growl id="msgs" globalOnly="true" showSummary="false" showDetail="true" />
+
                             <h:outputLabel for="@next"><b>Tajno pitanje</b></h:outputLabel>
                             <br />
                             <span style="margin: 10px 0">#{resetLozinkeBean.trazeni.tajnoPitanje}</span>
@@ -71,10 +73,10 @@
                                              action="#{resetLozinkeBean.drugiKorak()}">
                                 <f:ajax />
                             </p:commandButton>
-                            
-                            <p:messages globalOnly="true" closable="true" showSummary="false" showDetail="true" showIcon="false" />
                         </h:form>
                         <h:form rendered="#{resetLozinkeBean.korak == 3}">
+                            <p:growl id="msgs" globalOnly="true" showSummary="false" showDetail="true" />
+
                             <h:outputLabel for="@next"><b>Nova lozinka</b></h:outputLabel>
                             <p:password class="input-text"
                                         placeholder="Unesite novu lozinku" 
@@ -107,8 +109,6 @@
                                              action="#{resetLozinkeBean.treciKorak()}">
                                 <f:ajax />
                             </p:commandButton>
-                            
-                            <p:messages globalOnly="true" closable="true" showSummary="false" showDetail="true" showIcon="false" />
                         </h:form>
                         <h:form>
                             <table class="links">

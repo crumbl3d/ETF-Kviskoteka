@@ -128,3 +128,7 @@ label {
     text-align: center;
     align-self: center;
 }
+
+#panel_header {
+    text-align: center;
+}

@@ -21,22 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package beans.data;
+package entities;
 
-import entities.IgraDana;
+import java.io.Serializable;
 import java.sql.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
- * Used in dataTable for displaying games of the day.
+ *
  * @author crumbl3d
  */
-public class IgraDanaIspis {
-    
+@Entity
+@Table(name = "pojamprovera")
+public class PojamProvera implements Serializable {
+
+    @Id
+    @Column(name = "datum")
     Date datum;
-    int idAnagram;
-    int idPetXPet;
-    int idPehar;
-    boolean izmenljiva = true;
+    
+    @Id
+    @Column(name = "korisnickoIme")
+    String korisnickoIme;
+    
+    @Id
+    @Column(name = "kategorija")
+    String kategorija;
+    
+    @Column(name = "pojam")
+    String pojam;
 
     public Date getDatum() {
         return datum;
@@ -46,44 +61,27 @@ public class IgraDanaIspis {
         this.datum = datum;
     }
 
-    public int getIdAnagram() {
-        return idAnagram;
+    public String getKorisnickoIme() {
+        return korisnickoIme;
     }
 
-    public void setIdAnagram(int idAnagram) {
-        this.idAnagram = idAnagram;
+    public void setKorisnickoIme(String korisnickoIme) {
+        this.korisnickoIme = korisnickoIme;
     }
 
-    public int getIdPetXPet() {
-        return idPetXPet;
+    public String getKategorija() {
+        return kategorija;
     }
 
-    public void setIdPetXPet(int idPetXPet) {
-        this.idPetXPet = idPetXPet;
+    public void setKategorija(String kategorija) {
+        this.kategorija = kategorija;
     }
 
-    public int getIdPehar() {
-        return idPehar;
+    public String getPojam() {
+        return pojam;
     }
 
-    public void setIdPehar(int idPehar) {
-        this.idPehar = idPehar;
-    }
-
-    public boolean isIzmenljiva() {
-        return izmenljiva;
-    }
-
-    public void setIzmenljiva(boolean izmenljiva) {
-        this.izmenljiva = izmenljiva;
-    }
-    
-    public IgraDanaIspis() {}
-    
-    public IgraDanaIspis(IgraDana igra) {
-        datum = igra.getDatum();
-        idAnagram = igra.getIdAnagram();
-        idPehar = igra.getIdPehar();
-        idPetXPet = igra.getIdPetXPet();
+    public void setPojam(String pojam) {
+        this.pojam = pojam;
     }
 }

@@ -111,7 +111,7 @@ public class LoginController implements Serializable {
     }
 
     public String povratak() {
-        if (ulogovan()) {
+        if (!ulogovan()) {
             return "";
         }
         return "/users/" + korisnik.getVrsta().toLowerCase() + "?faces-redirect=true";

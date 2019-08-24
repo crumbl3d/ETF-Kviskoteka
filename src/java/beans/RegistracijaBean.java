@@ -24,12 +24,18 @@
 package beans;
 
 import entities.Korisnik;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.ManagedBean;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.imageio.ImageIO;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -57,7 +63,7 @@ public class RegistracijaBean implements Serializable {
     String potvrdaLozinke;
     String pol;
     String jmbg;
-    UploadedFile slika;
+    byte[] slika;
     String tajnoPitanje;
     String odgovor;
 
@@ -214,7 +220,7 @@ public class RegistracijaBean implements Serializable {
         novi.setZanimanje(zanimanje);
         novi.setPol(pol);
         novi.setJmbg(jmbg);
-        novi.setSlika(null); // TODO: dodaj sliku
+        novi.setSlika(slika);
         novi.setTajnoPitanje(tajnoPitanje);
         novi.setOdgovor(BCrypt.hashpw(odgovor, BCrypt.gensalt(12)));
         
@@ -227,6 +233,16 @@ public class RegistracijaBean implements Serializable {
     }
     
     public void obradiPrijemSlike(FileUploadEvent event) {
-        
+        UploadedFile fajl = event.getFile();
+        slika = fajl.getContents();
+        try {
+            BufferedImage bi = ImageIO.read(new ByteArrayInputStream(slika));
+            if (bi.getWidth() > 300 || bi.getHeight() > 300) {
+                Helper.showError("Slika mora biti maksimalno veličine 300x300!");
+                slika = null;
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(RegistracijaBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

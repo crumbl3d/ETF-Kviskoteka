@@ -43,7 +43,7 @@ Contributor(s):
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/etf-kviskoteka?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/etf-kviskoteka?zeroDateTimeBehavior=convertToNull&amp;UseUnicode=true&amp;characterEncoding=utf8</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">7825starkD802</property>
     <mapping class="entities.Korisnik"/>
@@ -53,5 +53,6 @@ Contributor(s):
     <mapping class="entities.PetXPet"/>
     <mapping class="entities.Rezultat"/>
     <mapping class="entities.ZanGeo"/>
+    <mapping class="entities.PojamProvera"/>
   </session-factory>
 </hibernate-configuration>
