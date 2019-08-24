@@ -28,7 +28,7 @@
                 <div class="inner body">
                     <div class="p-grid p-justify-center" style="align-self: center">
                         <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px">
-                            <p:dataTable id="rez20dana" var="rezultat" value="#{gostBean.rez20dana}" style="width: 700px; font-size: 10pt" resizableColumns="true">
+                            <p:dataTable var="rezultat" value="#{gostBean.rez20dana}" style="width: 700px; font-size: 10pt" resizableColumns="true">
                                 <f:facet name="header">
                                     Rezultati prethodnih 20 dana
                                 </f:facet>
@@ -75,7 +75,47 @@
                             </p:dataTable>
                         </div>
                         <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px">
-                            B
+                            <p:dataTable var="rezultat" value="#{gostBean.rezMesec}" style="width: 700px; font-size: 10pt" resizableColumns="true">
+                                <f:facet name="header">
+                                    Najbolji rezultati tekućeg meseca
+                                </f:facet>
+
+                                <p:column headerText="RB" resizable="true">
+                                    #{rezultat.indeks}
+                                </p:column>
+
+                                <p:column headerText="Ime" resizable="true">
+                                    #{rezultat.takmicar.ime}
+                                </p:column>
+
+                                <p:column headerText="Prezime" resizable="true">
+                                    #{rezultat.takmicar.prezime}
+                                </p:column>
+
+                                <p:column headerText="Anagram" resizable="true">
+                                    #{rezultat.poeniAnagram}
+                                </p:column>
+
+                                <p:column headerText="Moj broj" resizable="true">
+                                    #{rezultat.poeniMojBroj}
+                                </p:column>
+
+                                <p:column headerText="5x5" resizable="true">
+                                    #{rezultat.poeniPetXPet}
+                                </p:column>
+
+                                <p:column headerText="Zanimljiva geografija" resizable="true">
+                                    #{rezultat.poeniZanGeo}
+                                </p:column>
+
+                                <p:column headerText="Pehar" resizable="true">
+                                    #{rezultat.poeniPehar}
+                                </p:column>
+
+                                <p:column headerText="Ukupno" resizable="true">
+                                    #{rezultat.poeniUkupno}
+                                </p:column>
+                            </p:dataTable>
                         </div>
                     </div>
                 </div>

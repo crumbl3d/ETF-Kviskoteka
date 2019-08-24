@@ -37,9 +37,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.ResultTransformer;
 import org.hibernate.transform.Transformers;
 import util.HibernateUtil;
 
@@ -53,6 +53,7 @@ import util.HibernateUtil;
 public class GostBean implements Serializable {
 
     ArrayList<RezultatIspis> rez20dana;
+    ArrayList<RezultatIspis> rezMesec;
 
     public ArrayList<RezultatIspis> getRez20dana() {
         return rez20dana;
@@ -61,10 +62,21 @@ public class GostBean implements Serializable {
     public void setRez20dana(ArrayList<RezultatIspis> rez20dana) {
         this.rez20dana = rez20dana;
     }
+
+    public ArrayList<RezultatIspis> getRezMesec() {
+        return rezMesec;
+    }
+
+    public void setRezMesec(ArrayList<RezultatIspis> rezMesec) {
+        this.rezMesec = rezMesec;
+    }
     
     public GostBean() {
-        Date danas = Date.valueOf(LocalDate.now());
-        Date pre20dana = Date.valueOf(LocalDate.now().minusDays(19));
+        LocalDate ld = LocalDate.now();
+        Date danas = Date.valueOf(ld);
+        Date pre20dana = Date.valueOf(ld.minusDays(19));
+        Date pocetakMeseca = Date.valueOf(ld.minusDays(ld.getDayOfMonth() - 1));
+        System.out.println("pocetak meseca: " + pocetakMeseca);
 
         rez20dana = new ArrayList<>();
         
@@ -97,7 +109,7 @@ public class GostBean implements Serializable {
                 cr2.add(Restrictions.eq("korisnickoIme", rezultat.getKorisnickoIme()));
                 Korisnik k = (Korisnik) cr2.uniqueResult();
                 if (k == null) {
-                    System.out.println("Greska prilikom dohvatanja korisnika: " + rezultat.getKorisnickoIme());;
+                    System.out.println("Greska prilikom dohvatanja korisnika: " + rezultat.getKorisnickoIme());
                 } else {
                     ispis.setTakmicar(k);
                     ispis.setPoeniAnagram(rezultat.getPoeniAnagram());
@@ -109,6 +121,44 @@ public class GostBean implements Serializable {
                 }
             }
         });
+        
+        cr = dbs.createCriteria(Rezultat.class);
+        cr.add(Restrictions.le("datum", danas));
+        cr.add(Restrictions.ge("datum", pocetakMeseca));
+        cr.setProjection(Projections.projectionList()
+                .add(Projections.groupProperty("korisnickoIme").as("korisnickoIme"))
+                .add(Projections.property("datum").as("datum"))
+                .add(Projections.avg("poeniAnagram").as("poeniAnagram"))
+                .add(Projections.avg("poeniMojBroj").as("poeniMojBroj"))
+                .add(Projections.avg("poeniPetXPet").as("poeniPetXPet"))
+                .add(Projections.avg("poeniZanGeo").as("poeniZanGeo"))
+                .add(Projections.avg("poeniPehar").as("poeniPehar"))
+                .add(Projections.avg("poeniUkupno").as("poeniUkupno")));
+        cr.addOrder(Order.desc("poeniUkupno"));
+        cr.setResultTransformer(Transformers.aliasToBean(RezultatIspis.class));
+        List<RezultatIspis> rezultati2 = cr.list();
+
+        rezMesec = new ArrayList<>();
+        
+        for (int index = 0; index < rezultati2.size(); index++) {
+            RezultatIspis rezultat = rezultati2.get(index);
+            RezultatIspis ispis = new RezultatIspis(index + 1, pocetakMeseca);
+            Criteria cr2 = dbs.createCriteria(Korisnik.class);
+            cr2.add(Restrictions.eq("korisnickoIme", rezultat.getKorisnickoIme()));
+            Korisnik k = (Korisnik) cr2.uniqueResult();
+            if (k == null) {
+                System.out.println("Greska prilikom dohvatanja korisnika: " + rezultat.getKorisnickoIme());
+            } else {
+                ispis.setTakmicar(k);
+                ispis.setPoeniAnagram(rezultat.getPoeniAnagram());
+                ispis.setPoeniMojBroj(rezultat.getPoeniMojBroj());
+                ispis.setPoeniPetXPet(rezultat.getPoeniPetXPet());
+                ispis.setPoeniZanGeo(rezultat.getPoeniZanGeo());
+                ispis.setPoeniPehar(rezultat.getPoeniPehar());
+                ispis.setPoeniUkupno(rezultat.getPoeniUkupno());
+                rezMesec.add(ispis);
+            }
+        }
         
         dbs.close();
     }    

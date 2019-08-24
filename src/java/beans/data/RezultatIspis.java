@@ -35,13 +35,15 @@ public class RezultatIspis {
     int indeks;
     Date datum;
     
+    String korisnickoIme;
+    
     Korisnik takmicar;
-    int poeniAnagram;
-    int poeniMojBroj;
-    int poeniPetXPet;
-    int poeniZanGeo;
-    int poeniPehar;
-    int poeniUkupno;
+    double poeniAnagram;
+    double poeniMojBroj;
+    double poeniPetXPet;
+    double poeniZanGeo;
+    double poeniPehar;
+    double poeniUkupno;
 
     public int getIndeks() {
         return indeks;
@@ -59,6 +61,14 @@ public class RezultatIspis {
         this.datum = datum;
     }
 
+    public String getKorisnickoIme() {
+        return korisnickoIme;
+    }
+
+    public void setKorisnickoIme(String korisnickoIme) {
+        this.korisnickoIme = korisnickoIme;
+    }
+    
     public Korisnik getTakmicar() {
         return takmicar;
     }
@@ -67,53 +77,55 @@ public class RezultatIspis {
         this.takmicar = takmicar;
     }
 
-    public int getPoeniAnagram() {
+    public double getPoeniAnagram() {
         return poeniAnagram;
     }
 
-    public void setPoeniAnagram(int poeniAnagram) {
+    public void setPoeniAnagram(double poeniAnagram) {
         this.poeniAnagram = poeniAnagram;
     }
 
-    public int getPoeniMojBroj() {
+    public double getPoeniMojBroj() {
         return poeniMojBroj;
     }
 
-    public void setPoeniMojBroj(int poeniMojBroj) {
+    public void setPoeniMojBroj(double poeniMojBroj) {
         this.poeniMojBroj = poeniMojBroj;
     }
 
-    public int getPoeniPetXPet() {
+    public double getPoeniPetXPet() {
         return poeniPetXPet;
     }
 
-    public void setPoeniPetXPet(int poeniPetXPet) {
+    public void setPoeniPetXPet(double poeniPetXPet) {
         this.poeniPetXPet = poeniPetXPet;
     }
 
-    public int getPoeniZanGeo() {
+    public double getPoeniZanGeo() {
         return poeniZanGeo;
     }
 
-    public void setPoeniZanGeo(int poeniZanGeo) {
+    public void setPoeniZanGeo(double poeniZanGeo) {
         this.poeniZanGeo = poeniZanGeo;
     }
 
-    public int getPoeniPehar() {
+    public double getPoeniPehar() {
         return poeniPehar;
     }
 
-    public void setPoeniPehar(int poeniPehar) {
+    public void setPoeniPehar(double poeniPehar) {
         this.poeniPehar = poeniPehar;
     }
 
-    public int getPoeniUkupno() {
+    public double getPoeniUkupno() {
         return poeniUkupno;
     }
 
-    public void setPoeniUkupno(int poeniUkupno) {
+    public void setPoeniUkupno(double poeniUkupno) {
         this.poeniUkupno = poeniUkupno;
     }
+    
+    public RezultatIspis() {}
     
     public RezultatIspis(int indeks, Date datum) {
         this.indeks = indeks;

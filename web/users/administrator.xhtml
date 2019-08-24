@@ -28,7 +28,7 @@
                 <div class="inner body">
                     <div class="p-grid p-justify-center" style="align-self: center">
                         <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px">
-                            <p:dataTable id="zahtevi" var="zahtev" value="#{administratorBean.zahtevi}" style="width: 700px; font-size: 10pt" resizableColumns="true">
+                            <p:dataTable id="zahtevi" var="zahtev" value="#{administratorBean.zahtevi}" style="font-size: 10pt" resizableColumns="true">
                                 <f:facet name="header">
                                     Zahtevi za registraciju
                                 </f:facet>
@@ -68,28 +68,68 @@
                             </p:dataTable>
                         </div>
                         <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px">
-                            <p:dataTable id="igraDana" var="igra" value="#{administratorBean.igreDana}" style="width: 700px; font-size: 10pt" resizableColumns="true">
-                                <f:facet name="header">
-                                    Igre dana
-                                </f:facet>
+                            <h:form id="form">
+                                <p:growl id="msgs" showDetail="true" />
+                                
+                                <p:dataTable id="igraDana" var="igra" value="#{administratorBean.igreDana}" style="font-size: 10pt" editable="true" resizableColumns="true">
+                                    <f:facet name="header">
+                                        Igre dana
+                                    </f:facet>
 
-                                <p:column headerText="Datum" resizable="true">
-                                    #{igra.datum}
-                                </p:column>
+                                    <p:ajax event="rowEdit" listener="#{administratorBean.onRowEdit}" update=":form:msgs :form:igraDana" />
+                                    <p:ajax event="rowEditCancel" listener="#{administratorBean.onRowCancel}" update=":form:msgs :form:igraDana" />
 
-                                <p:column headerText="Anagram" resizable="true">
-                                    #{igra.idAnagram}
-                                </p:column>
+                                    <p:column headerText="Datum" resizable="true">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{igra.datum}" rendered="#{igra.datum != null}" /></f:facet>
+                                            <f:facet name="input">
+                                                <p:calendar value="#{administratorBean.datum}" style="width: 100%" mindate="#{administratorBean.danas}" rendered="#{igra.datum == null}" />
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
 
-                                <p:column headerText="Pehar" resizable="true">
-                                    #{igra.idPehar}
-                                </p:column>
+                                    <p:column headerText="Anagram" resizable="true">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{igra.idAnagram}" rendered="#{igra.datum != null}" /></f:facet>
+                                            <f:facet name="input">
+                                                <h:selectOneMenu value="#{igra.idAnagram}" style="width: 100%">
+                                                    <f:selectItems value="#{administratorBean.anagrami}" var="idAnagram" itemLabel="#{idAnagram}" itemValue="#{idAnagram}" />
+                                                </h:selectOneMenu>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
 
-                                <p:column headerText="Opcije" resizable="true">
-                                    <p:commandButton value="Prihvati" action="#{administratorBean.prihvati(zahtev)}" update="zahtevi" />
-                                    <p:commandButton value="Odbij" action="#{administratorBean.odbij(zahtev)}" update="zahtevi" />
-                                </p:column>
-                            </p:dataTable>
+                                    <p:column headerText="5x5" resizable="true">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{igra.idPetXPet}" rendered="#{igra.datum != null}" /></f:facet>
+                                            <f:facet name="input">
+                                                <h:selectOneMenu value="#{igra.idPetXPet}" style="width: 100%">
+                                                    <f:selectItems value="#{administratorBean.petxpet}" var="idPetXPet" itemLabel="#{idPetXPet}" itemValue="#{idPetXPet}" />
+                                                </h:selectOneMenu>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+
+                                    <p:column headerText="Pehar" resizable="true">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{igra.idPehar}" rendered="#{igra.datum != null}" /></f:facet>
+                                            <f:facet name="input">
+                                                <h:selectOneMenu value="#{igra.idPehar}" style="width: 100%">
+                                                    <f:selectItems value="#{administratorBean.pehari}" var="idPehar" itemLabel="#{idPehar}" itemValue="#{idPehar}" />
+                                                </h:selectOneMenu>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+
+                                    <p:column style="width:35px">
+                                        <p:rowEditor rendered="#{igra.izmenljiva}" />
+                                    </p:column>
+                                    
+                                    <f:facet name="footer">
+                                        Broj igre predstavlja grupu pitanja za tu igru. Da biste dodali igru izmenite poslednji red.
+                                    </f:facet>
+                                </p:dataTable>
+                            </h:form>
                         </div>
                     </div>
                 </div>
