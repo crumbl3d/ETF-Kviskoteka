@@ -1,12 +1,79 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>ETF Kviskoteka: Anagram</title>
+        <h:outputStylesheet library="css" name="style.css" />
     </h:head>
     <h:body>
-        Hello from Facelets
+        <p:growl showDetail="true" />
+        
+        <div class="container">
+            <div class="navbar">
+                <div class="left">
+                    Takmičar: <span style="font-weight: bold">#{loginController.korisnik.ime} #{loginController.korisnik.prezime}</span>
+                </div>
+                <div class="center">
+                    <p>ETF Kviskoteka</p>
+                </div>
+                <div class="right">
+                    <h:form>
+                        <h:commandLink class="navbtn" value="ODJAVA" action="#{loginController.odjava()}" />
+                    </h:form>
+                </div>
+            </div>
+            <div class="outer body">
+                <div class="inner">
+                    <p:panel style="width: 600px" header="Anagram">
+                        <h:form id="form">
+                            <p:poll interval="1" stop="#{anagramBean.tajmerZaustavljen}" listener="#{anagramBean.tajmerTick()}" update="form" />
+                            <h:panelGrid columns="1" style="text-align: center" rendered="#{anagramBean.status == 0}">
+                                <h:outputText value="Korišćenjem datih slova sastaviti anagram. Razmak je predstavljen slovom '_' i može se upotrebiti neograničen broj puta. Ostala slova se mogu upotrebiti samo jednom." />
+                                <br/>
+                                <p:commandButton value="Počni" action="#{anagramBean.start()}" update="form" />
+                            </h:panelGrid>
+                            <h:panelGrid columns="1" style="text-align: center" rendered="#{anagramBean.status > 0}">
+                                <div style="margin-bottom: 20px">
+                                    <h:outputLabel for="zagonetka"><b>Zagonetka:</b></h:outputLabel>
+                                    <h:outputText id="zagonetka" value="#{anagramBean.anagram.zagonetka}" />
+                                </div>
+                                <h:panelGrid columns="#{anagramBean.slova.size() > 10 ? 10 : anagramBean.slova.size()}" style="margin-bottom: 10px">
+                                    <c:forEach var="i" items="#{anagramBean.indeksi}">
+                                        <p:commandButton value="#{anagramBean.slova.get(i)}" action="#{anagramBean.klik(i)}" disabled="#{anagramBean.blokirani.get(i)}" style="width: 50px" update="form" />
+                                    </c:forEach>
+                                </h:panelGrid>
+                                <div style="margin-bottom: 10px">
+                                    <h:outputLabel><b>Pokušaj:</b></h:outputLabel>
+                                    <h:panelGrid columns="2" style="width: 100%">
+                                        <div class="polje"><span>#{anagramBean.pokusaj}</span></div>
+                                        <p:commandButton value="Obriši" action="#{anagramBean.obrisi()}" update="form" />
+                                    </h:panelGrid>
+                                </div>
+                                <h:panelGrid columns="3" style="width: 100%">
+                                    <p:commandButton value="Proveri" style="width: 100px" action="#{anagramBean.proveri()}" update="form" />
+                                    <h:outputText value="#{anagramBean.preostaloVreme}" />
+                                    <p:commandButton value="Odustani" style="width: 100px" action="#{gameController.odustani()}" update="form" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" rendered="#{anagramBean.status > 1}" style="width: 100%">
+                                    <h:outputText value="#{anagramBean.poruka}" style="margin-bottom: 10px" />
+                                    <p:commandButton value="Sledeća igra" action="#{gameController.igraMojBroj(anagramBean.brojPoena)}" />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </h:form>
+                    </p:panel>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="left" />
+                <div class="copyright">
+                    Copyright © 2019 Jovan Nikolov 2016/0040
+                </div>
+                <div class="right" />
+            </div>
+        </div>
     </h:body>
 </html>
-

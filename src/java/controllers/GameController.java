@@ -27,6 +27,8 @@ import entities.IgraDana;
 import entities.Korisnik;
 import entities.Rezultat;
 import java.io.Serializable;
+import java.sql.Date;
+import java.time.LocalDate;
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -34,8 +36,6 @@ import javax.inject.Named;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
-import util.BCrypt;
-import util.Helper;
 import util.HibernateUtil;
 import util.SessionUtil;
 
@@ -55,5 +55,65 @@ public class GameController implements Serializable {
     public static GameController getCurrentInstance() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         return (GameController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "gameController");
+    }
+    
+    public IgraDana getIgra() {
+        return igra;
+    }
+    
+    public Korisnik getTakmicar() {
+        return takmicar;
+    }
+    
+    public Rezultat getRezultat() {
+        return rezultat;
+    }
+    
+    public String igraDana() {
+        reset();
+        LoginController lctl = LoginController.getCurrentInstance();
+        if (!lctl.getKorisnik().getVrsta().equals("takmicar")) {
+            return "";
+        }
+        takmicar = lctl.getKorisnik();
+        Date danas = Date.valueOf(LocalDate.now());
+        Session dbs = HibernateUtil.getSessionFactory().openSession();
+        Criteria cr = dbs.createCriteria(IgraDana.class);
+        cr.add(Restrictions.eq("datum", danas));
+        igra = (IgraDana) cr.uniqueResult();
+        if (igra == null) {
+            dbs.close();
+            return "";
+        }
+        SessionUtil.setIgraUToku(true);
+        rezultat = new Rezultat();
+        rezultat.setDatum(danas);
+        rezultat.setKorisnickoIme(SessionUtil.getCurrentUser().getKorisnickoIme());
+        dbs.beginTransaction();
+        dbs.saveOrUpdate(rezultat);
+        dbs.getTransaction().commit();
+        dbs.close();
+        return "/games/anagram?faces-redirect=true";
+    }
+    
+    public String igraMojBroj(int brojPoena) {
+        Session dbs = HibernateUtil.getSessionFactory().openSession();
+        dbs.beginTransaction();
+        rezultat.setPoeniAnagram(brojPoena);
+        dbs.update(rezultat);
+        dbs.getTransaction().commit();
+        dbs.close();
+        return "/games/mojbroj?faces-redirect=true";
+    }
+    
+    public String odustani() {
+        return "/users/takmicar.xhtml?faces-redirect=true";
+    }
+    
+    private void reset() {
+        takmicar = null;
+        igra = null;
+        rezultat = null;
+        SessionUtil.setIgraUToku(null);
     }
 }

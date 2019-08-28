@@ -65,4 +65,25 @@ public class SessionUtil {
         }
         return false;
     }
+    
+    public static Boolean getIgraUToku() {
+        HttpSession session = getSession();
+        if (session != null) {
+            return (Boolean) session.getAttribute("igrautoku");
+        }
+        return null;
+    }
+
+    public static boolean setIgraUToku(Boolean stanje) {
+        HttpSession session = getSession();
+        if (session != null) {
+            if (stanje == null) {
+                session.removeAttribute("igrautoku");
+            } else {
+                session.setAttribute("igrautoku", stanje);
+            }
+            return true;
+        }
+        return false;
+    }
 }

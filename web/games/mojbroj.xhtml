@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>ETF Kviskoteka: Moj broj</title>
+        <h:outputStylesheet library="css" name="style.css" />
+    </h:head>
+    <h:body>
+        <p:growl showDetail="true" />
+        
+        <div class="container">
+            <div class="navbar">
+                <div class="left">
+                    Takmičar: <span style="font-weight: bold">#{loginController.korisnik.ime} #{loginController.korisnik.prezime}</span>
+                </div>
+                <div class="center">
+                    <p>ETF Kviskoteka</p>
+                </div>
+                <div class="right">
+                    <h:form>
+                        <h:commandLink class="navbtn" value="ODJAVA" action="#{loginController.odjava()}" />
+                    </h:form>
+                </div>
+            </div>
+            <div class="outer body">
+                <div class="inner">
+                    <p:panel style="width: 600px" header="Moj broj">
+                        <h:form id="form">
+                            <p:poll interval="1" stop="#{mojBrojBean.tajmerZaustavljen}" listener="#{mojBrojBean.tajmerTick()}" update="form" />
+                            <h:panelGrid columns="1" style="text-align: center" rendered="#{mojBrojBean.status == 0}">
+                                <h:outputText value="Korišćenjem nasumično generisanih brojeva i operacija sastaviti izraz čiji je rezultat što približniji traženom broju." />
+                                <br/>
+                                <p:commandButton value="Počni" action="#{mojBrojBean.start()}" update="form" />
+                            </h:panelGrid>
+                            <h:panelGrid columns="1" style="text-align: center" rendered="#{mojBrojBean.status > 0}">
+                                <table cellspacing="5px">
+                                    <tr>
+                                        <td><div class="polje-cifra"><span>#{mojBrojBean.brojevi.get(0)}</span></div></td>
+                                        <td><div class="polje-cifra"><span>#{mojBrojBean.brojevi.get(1)}</span></div></td>
+                                        <td><div class="polje-cifra"><span>#{mojBrojBean.brojevi.get(2)}</span></div></td>
+                                    </tr>
+                                </table>
+                                <h:panelGrid columns="3" style="width: 100%">
+                                    <h:panelGrid columns="4">
+                                        <p:commandButton value="#{mojBrojBean.brojevi.get(3)}" action="#{mojBrojBean.klik(3)}" disabled="#{mojBrojBean.blokirani.get(3)}" update="form" />
+                                        <p:commandButton value="#{mojBrojBean.brojevi.get(4)}" action="#{mojBrojBean.klik(4)}" disabled="#{mojBrojBean.blokirani.get(4)}" update="form" />
+                                        <p:commandButton value="#{mojBrojBean.brojevi.get(5)}" action="#{mojBrojBean.klik(5)}" disabled="#{mojBrojBean.blokirani.get(5)}" update="form" />
+                                        <p:commandButton value="#{mojBrojBean.brojevi.get(6)}" action="#{mojBrojBean.klik(6)}" disabled="#{mojBrojBean.blokirani.get(6)}" update="form" />
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2">
+                                        <p:commandButton value="#{mojBrojBean.brojevi.get(7)}" action="#{mojBrojBean.klik(7)}" disabled="#{mojBrojBean.blokirani.get(7)}" update="form" />
+                                        <p:commandButton value="#{mojBrojBean.brojevi.get(8)}" action="#{mojBrojBean.klik(8)}" disabled="#{mojBrojBean.blokirani.get(8)}" update="form" />
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="6">
+                                        <p:commandButton value="(" action="#{mojBrojBean.klik(9)}" update="form" />
+                                        <p:commandButton value=")" action="#{mojBrojBean.klik(10)}" update="form" />
+                                        <p:commandButton value="+" action="#{mojBrojBean.klik(11)}" update="form" />
+                                        <p:commandButton value="-" action="#{mojBrojBean.klik(12)}" update="form" />
+                                        <p:commandButton value="*" action="#{mojBrojBean.klik(13)}" update="form" />
+                                        <p:commandButton value="/" action="#{mojBrojBean.klik(14)}" update="form" />
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                                <p:commandButton value="Stop" action="#{mojBrojBean.stop()}" rendered="#{mojBrojBean.status == 1}" />
+                                <h:panelGrid columns="1" rendered="#{mojBrojBean.status > 1}">
+                                    <h:outputLabel><b>Izraz:</b></h:outputLabel>
+                                    <h:panelGrid columns="2" style="width: 100%">
+                                        <div class="polje"><span>#{mojBrojBean.izraz}</span></div>
+                                        <p:commandButton value="Obriši" action="#{mojBrojBean.obrisi()}" update="form" />
+                                        <h:outputLabel><b>Prijavljen broj:</b></h:outputLabel>
+                                        <h:inputText value="#{mojBrojBean.prijavljenBroj}" />
+                                    </h:panelGrid>
+                                    <br/>
+                                    <h:panelGrid columns="3" style="width: 100%">
+                                        <p:commandButton value="Proveri" style="width: 100px" action="#{mojBrojBean.proveri()}" update="form" />
+                                        <h:outputText value="#{mojBrojBean.preostaloVreme}" />
+                                        <p:commandButton value="Odustani" style="width: 100px" action="#{gameController.odustani()}" update="form" />
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" rendered="#{mojBrojBean.status > 2}" style="width: 100%">
+                                    <h:outputText value="#{mojBrojBean.poruka}" style="margin-bottom: 10px" />
+                                    <p:commandButton value="Sledeća igra" action="#{gameController.igraMojBroj(mojBrojBean.brojPoena)}" />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </h:form>
+                    </p:panel>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="left" />
+                <div class="copyright">
+                    Copyright © 2019 Jovan Nikolov 2016/0040
+                </div>
+                <div class="right" />
+            </div>
+        </div>
+    </h:body>
+</html>

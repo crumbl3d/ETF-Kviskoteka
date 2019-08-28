@@ -135,33 +135,23 @@ public class SupervizorBean implements Serializable {
     public void izmenaAnagrama(RowEditEvent event) {
         Locale locale = new Locale.Builder().setLanguage("sr").setRegion("RS").setScript("Latn").build();
         Anagram anagram = (Anagram) event.getObject();
-        String zagonetka = anagram.getZagonetka().toLowerCase(locale), resenje = anagram.getResenje().toLowerCase(locale);
-        anagram.setResenje(resenje);
         
-        if (!Helper.checkValid(zagonetka)) {
+        if (!Helper.checkValid(anagram.getZagonetka())) {
             FacesContext.getCurrentInstance().addMessage(null, 
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", 
                         "Niste postavili zagonetku!"));
             return;
         }
         
-        if (!Helper.checkValid(resenje)) {
+        if (!Helper.checkValid(anagram.getResenje())) {
             FacesContext.getCurrentInstance().addMessage(null, 
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", 
                         "Niste postavili rešenje!"));
             return;
         }
-        
-        String slova = "";
-        for (int i = 0; i < zagonetka.length(); i++) {
-            char c = zagonetka.charAt(i);
-            if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c == 'č' || c == 'ć' || c == 'š' || c == 'ž' || c == 'đ') {
-                slova += c;
-            }
-        }
 
         anagram.setIdAnagram(anagrami.size() > 1 ? anagrami.get(anagrami.size() - 2).getIdAnagram() + 1 : 1);
-        anagram.setSlova(slova);
+        anagram.setResenje(anagram.getResenje().toLowerCase(locale));
 
         Session dbs = HibernateUtil.getSessionFactory().openSession();
         dbs.beginTransaction();

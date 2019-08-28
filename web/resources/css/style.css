@@ -129,6 +129,26 @@ label {
     align-self: center;
 }
 
-#panel_header {
+.ui-panel-titlebar {
     text-align: center;
+}
+
+.polje {
+    background-color: #eee;
+    width: 450px;
+    height: 30px;
+}
+
+.polje span {
+    padding-left: 5px;
+}
+
+.polje-cifra {
+    background-color: #eee;
+    width: 30px;
+    height: 30px;
+}
+
+.polje-cifra span {
+    padding: 5px;
 }

@@ -23,7 +23,6 @@
  */
 package beans;
 
-import controllers.LoginController;
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
 import javax.faces.view.ViewScoped;

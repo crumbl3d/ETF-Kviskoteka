@@ -43,10 +43,7 @@ public class Anagram implements Serializable {
     
     @Column(name = "zagonetka")
     String zagonetka;
-    
-    @Column(name = "slova")
-    String slova;
-    
+
     @Column(name = "resenje")
     String resenje;
 
@@ -64,14 +61,6 @@ public class Anagram implements Serializable {
 
     public void setZagonetka(String zagonetka) {
         this.zagonetka = zagonetka;
-    }
-
-    public String getSlova() {
-        return slova;
-    }
-
-    public void setSlova(String slova) {
-        this.slova = slova;
     }
 
     public String getResenje() {

@@ -76,7 +76,6 @@ public class GostBean implements Serializable {
         Date danas = Date.valueOf(ld);
         Date pre20dana = Date.valueOf(ld.minusDays(19));
         Date pocetakMeseca = Date.valueOf(ld.minusDays(ld.getDayOfMonth() - 1));
-        System.out.println("pocetak meseca: " + pocetakMeseca);
 
         rez20dana = new ArrayList<>();
         
