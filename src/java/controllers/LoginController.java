@@ -57,8 +57,17 @@ public class LoginController implements Serializable {
         return korisnik;
     }
 
-    public void setKorisnik(Korisnik korisnik) {
-        this.korisnik = korisnik;
+    public String getVrsta() {
+        if (korisnik == null) {
+            return "Gost";
+        } else {
+            switch (korisnik.getVrsta()) {
+                case "takmicar": return "Takmičar: ";
+                case "administrator": return "Administrator: ";
+                case "supervizor": return "Supervizor: ";
+                default: return "Gost";
+            }
+        }
     }
     
     public boolean ulogovan() {

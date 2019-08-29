@@ -1,35 +1,39 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>ETF Kviskoteka: Početna</title>
-    </h:head>
-    <h:body>
-        <h:outputStylesheet library="css" name="style.css" />
-        <div class="outer">
-            <div class="inner">
-                <p:panel style="width: 400px" header="ETF Kviskoteka: Početna">
-                    <h:panelGrid style="width: 100%" columns="1">
-                        <div style="margin-left: 8px">
-                            <span style="font-size: 12pt"><b>Dobrodošli na sajt ETF Kviskoteke!</b></span>
-                            <br />
-                            <span style="font-size: 10pt">
-                                Možete nastaviti kao gost ili se prijaviti da biste se takmičili.
-                                Ukoliko nemate nalog možete se registrovati, a nakon odobrenja administratora ulogovati se kao takmičar.
-                            </span>
-                        </div>
-                        <h:form>
-                            <h:panelGrid style="width: 100%" columns="2" cellpadding="4">
-                                <p:commandButton style="width: 170px" value="Nastavi kao gost" action="/public/gost" />
-                                <p:commandButton style="width: 170px" value="Prijava" action="/public/prijava" />
-                            </h:panelGrid>
-                        </h:form>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./templates/masterTemplate.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="subtitle">Početna</ui:define>
+
+    <ui:define name="content">
+        <p:panel class="login-panel" header="ETF Kviskoteka: Početna">
+            <h:form class="form-default" rendered="#{loginController.ulogovan()}">
+                <h:panelGrid class="w100p text-center" columns="1">
+                    <div class="font-12pt font-bold text-center p5">
+                        Već ste prijavljeni kao #{loginController.korisnik.ime} #{loginController.korisnik.prezime}!
+                    </div>
+                    <h:panelGrid class="w100p m0" columns="2">
+                        <p:commandButton class="w100p" value="Odjava" action="#{loginController.odjava()}" />
+                        <p:commandButton class="w100p" value="Povratak" action="#{loginController.povratak()}" />
                     </h:panelGrid>
-                </p:panel>
-            </div>
-        </div>
-    </h:body>
-</html>
+                </h:panelGrid>
+            </h:form>
+            <h:form class="form-default" rendered="#{!loginController.ulogovan()}">
+                <h:panelGrid class="w100p text-center" columns="1">
+                    <div class="font-12pt font-bold text-center p5">Dobrodošli na sajt ETF Kviskoteke!</div>
+                    <div class="font-10pt font-normal text-justify p5">
+                        Možete nastaviti kao gost ili se prijaviti da biste se takmičili.
+                        Ukoliko nemate nalog možete se registrovati, a nakon odobrenja administratora ulogovati se kao takmičar.
+                    </div>
+                    <h:panelGrid class="w100p m0 p0" columns="2">
+                        <p:commandButton style="width: 170px" value="Nastavi kao gost" action="/public/gost" />
+                        <p:commandButton style="width: 170px" value="Prijava" action="/public/prijava" />
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>
