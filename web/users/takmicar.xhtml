@@ -9,16 +9,17 @@
     <ui:define name="subtitle">Takmičar</ui:define>
 
     <ui:define name="content">
-        <p:tabView style="width: 100%; margin: 20px">
+        <p:tabView class="tabview" dynamic="true">
             <p:tab title="Nova igra">
-                <h:form>
+                <div class="w100p">test</div>
+                <h:form class="form-default w100p">
                     <h:panelGrid columns="1">
-                        <p:commandButton value="Igraj igru dana" action="#{gameController.igraDana()}" /><!--disabled="#{takmicarBean.mojRezultat != null}" />-->
+                        <p:commandButton value="Igraj igru dana" action="#{gameController.zapocniIgruDana()}" /><!--disabled="#{takmicarBean.mojRezultat != null}" />-->
                     </h:panelGrid>
                 </h:form>
             </p:tab>
             <p:tab title="Rezultati">
-                <p:dataTable var="rezultat" value="#{takmicarBean.rez10naj}" style="font-size: 10pt" resizableColumns="true">
+                <p:dataTable var="rezultat" value="#{takmicarBean.rez10naj}">
                     <f:facet name="header">
                         Rang lista tekuće igre dana
                     </f:facet>
@@ -27,45 +28,48 @@
                         #{rezultat.indeks}
                     </p:column>
 
-                    <p:column headerText="Ime" resizable="true">
+                    <p:column headerText="Ime" style="width: 100px; text-align: center">
                         <h:outputText value="#{rezultat.takmicar.ime}" rendered="#{rezultat.takmicar != null}" />
                     </p:column>
 
-                    <p:column headerText="Prezime" resizable="true">
+                    <p:column headerText="Prezime" style="width: 100px; text-align: center">
                         <h:outputText value="#{rezultat.takmicar.prezime}" rendered="#{rezultat.takmicar != null}" />
                     </p:column>
 
-                    <p:column headerText="Anagram" style="width: 50px; text-align: center">
+                    <p:column headerText="Anagram" style="width: 80px; text-align: center">
                         <h:outputText value="#{rezultat.poeniAnagram}" rendered="#{rezultat.takmicar != null}">
                             <f:convertNumber maxFractionDigits="0" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="Moj broj" style="width: 50px; text-align: center">
+                    <p:column headerText="Moj broj" style="width: 80px; text-align: center">
                         <h:outputText value="#{rezultat.poeniMojBroj}" rendered="#{rezultat.takmicar != null}">
                             <f:convertNumber maxFractionDigits="0" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="5x5" style="width: 20px; text-align: center">
+                    <p:column headerText="5x5" style="width: 40px; text-align: center">
                         <h:outputText value="#{rezultat.poeniPetXPet}" rendered="#{rezultat.takmicar != null}">
                             <f:convertNumber maxFractionDigits="0" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="Zanimljiva geografija" style="width: 70px; text-align: center">
+                    <p:column style="width: 80px; text-align: center">
+                        <f:facet name="header">
+                            Zanimljiva <br/> geografija
+                        </f:facet>
                         <h:outputText value="#{rezultat.poeniZanGeo}" rendered="#{rezultat.takmicar != null}">
                             <f:convertNumber maxFractionDigits="0" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="Pehar" style="width: 40px; text-align: center">
+                    <p:column headerText="Pehar" style="width: 80px; text-align: center">
                         <h:outputText value="#{rezultat.poeniPehar}" rendered="#{rezultat.takmicar != null}">
                             <f:convertNumber maxFractionDigits="0" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="Σ" style="width: 20px; text-align: center">
+                    <p:column headerText="Σ" style="width: 40px; text-align: center">
                         <h:outputText value="#{rezultat.poeniUkupno}" rendered="#{rezultat.takmicar != null}">
                             <f:convertNumber maxFractionDigits="0" />
                         </h:outputText>

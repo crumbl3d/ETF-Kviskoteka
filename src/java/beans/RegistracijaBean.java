@@ -46,7 +46,7 @@ import util.Helper;
 import util.HibernateUtil;
 
 /**
- *
+ * Bean for registracija.xhtml.
  * @author crumbl3d
  */
 @ManagedBean
@@ -165,7 +165,7 @@ public class RegistracijaBean implements Serializable {
             return "";
         }
         if (!lozinka.equals(potvrdaLozinke)) {
-            Helper.showError("Potvrda lozinke nije ispravna! Proverite ispravnost unosa!");
+            Helper.showError("Greška!", "Potvrda lozinke nije ispravna! Proverite ispravnost unosa!");
             return "";
         }
 
@@ -175,7 +175,7 @@ public class RegistracijaBean implements Serializable {
         Criteria cr = dbs.createCriteria(Korisnik.class);
         cr.add(Restrictions.eq("korisnickoIme", korisnickoIme));
         if (cr.uniqueResult() != null) {
-            Helper.showError("Korisničko ime je zauzeto! Molimo Vas odaberite neko drugo.");
+            Helper.showError("Greška!", "Korisničko ime je zauzeto! Molimo Vas odaberite neko drugo.");
             dbs.close();
             return "";
         }
@@ -185,7 +185,7 @@ public class RegistracijaBean implements Serializable {
             format.setLenient(false);
             format.parse(jmbg.substring(0, 3) + (jmbg.charAt(4) > '2' ? '1' : '2') + jmbg.substring(4, 6));
         } catch (ParseException e) {
-            Helper.showError("JMBG nije validan! Datum rodjenja nije validan!");
+            Helper.showError("Greška!", "JMBG nije validan! Datum rodjenja nije validan!");
             dbs.close();
             return "";
         }
@@ -198,13 +198,13 @@ public class RegistracijaBean implements Serializable {
               + 2 * (jmbg.charAt(5) - '0' + jmbg.charAt(11) - '0');
         int k = s % 11;
         if (k == 1) {
-            Helper.showError("JMBG nije validan! Treba promeniti jedinstveni broj!");
+            Helper.showError("Greška!", "JMBG nije validan! Treba promeniti jedinstveni broj!");
             dbs.close();
             return "";
         } else if (k > 1) {
             k = 11 - k;
             if (jmbg.charAt(12) - '0' != k) {
-                Helper.showError("JMBG nije validan! Kontrolna cifra nije validna! (Validna je " + k + ")");
+                Helper.showError("Greška!", "JMBG nije validan! Kontrolna cifra nije validna! (Validna je " + k + ")");
                 dbs.close();
                 return "";
             }
@@ -238,7 +238,7 @@ public class RegistracijaBean implements Serializable {
         try {
             BufferedImage bi = ImageIO.read(new ByteArrayInputStream(slika));
             if (bi.getWidth() > 300 || bi.getHeight() > 300) {
-                Helper.showError("Slika mora biti maksimalno veličine 300x300!");
+                Helper.showError("Greška!", "Slika mora biti maksimalno veličine 300x300!");
                 slika = null;
             }
         } catch (IOException ex) {

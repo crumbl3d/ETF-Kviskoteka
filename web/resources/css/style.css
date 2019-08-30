@@ -77,6 +77,63 @@ body {
     height: 50px;
 }
 
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.text-justify {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.font-10pt {
+    font-size: 10pt;
+}
+
+.font-12pt {
+    font-size: 12pt;
+}
+
+.font-normal {
+    font-weight: normal;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.w100p {
+    width: 100%;
+}
+
+.m0 {
+    margin: 0;
+}
+
+.p0 {
+    padding: 0;
+}
+
+.p5 {
+    padding: 5px;
+}
+
+.break-up {
+    padding-top: 10px;
+}
+
+.break-down {
+    padding-bottom: 10px;
+}
+
 .header-user-type {
     margin-left: 10px;
     color: white;
@@ -141,7 +198,7 @@ body {
     margin: 0 0 8px;
 }
 
-.login-panel {
+.login-panel, .guide-panel {
     width: 400px;
 }
 
@@ -149,58 +206,51 @@ body {
     width: 358px;
 }
 
-.text-center {
-    text-align: center;
+.game-panel {
+    width: 600px;
 }
 
-.text-justify {
-    text-align: justify;
-    text-justify: inter-word;
+.zangeo-panel {
+    width: 400px;
 }
 
-.font-10pt {
-    font-size: 10pt;
-}
-
-.font-12pt {
-    font-size: 12pt;
-}
-
-.font-normal {
-    font-weight: normal;
-}
-
-.font-bold {
-    font-weight: bold;
-}
-
-.w100p {
+.tabview {
+    position: relative;
+    margin-right: 30px;
     width: 100%;
+    height: 100%;
 }
 
-.break-up {
-    padding-top: 10px;
+.pokusaj {
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 468px;
+    height: 30px;
+    margin-right: 10px;
 }
 
-.break-down {
-    padding-bottom: 10px;
-}
-
-.m0 {
-    margin: 0;
-}
-
-.p0 {
-    padding: 0;
-}
-
-.p5 {
+.pokusaj span {
     padding: 5px;
+    padding-left: 10px;
 }
 
-/*
+.polje {
+    width: 30px;
+    height: 30px;
+}
 
-.loading {
+.polje div {
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+}
+
+/* .loading {
     position: fixed;
     left: 0px;
     top: 0px;
@@ -208,47 +258,4 @@ body {
     height: 100%;
     z-index: 9999;
     background: url("#{resource['images/loading.gif']}") center no-repeat #fff;
-}
-
-.left {
-    flex: 1;
-    text-align: left;
-    align-self: center;
-    margin-left: 10px;
-    color: white;
-    font-size: 12pt;
-}
-
-.center {
-    text-align: center;
-    align-self: center;
-    color: white;
-    font-weight: bold;
-    font-size: 16pt;
-}
-
-.right {
-    flex: 1;
-    text-align: right;
-    align-self: center;
-}
-
-.polje {
-    background-color: #eee;
-    width: 450px;
-    height: 30px;
-}
-
-.polje span {
-    padding-left: 5px;
-}
-
-.polje-cifra {
-    background-color: #eee;
-    width: 30px;
-    height: 30px;
-}
-
-.polje-cifra span {
-    padding: 5px;
-}*/
+} */

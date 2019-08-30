@@ -29,3 +29,11 @@ THE SOFTWARE.
 .ui-panel-titlebar {
     text-align: center;
 }
+
+.ui-tabs-panels, .ui-tabs-header {
+    background: #ffffff;
+}
+
+.ui-tabs-selected, .ui-tabs-active {
+    background: #f0f0f0;
+}

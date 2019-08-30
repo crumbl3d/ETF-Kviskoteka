@@ -32,20 +32,47 @@ import javax.faces.context.FacesContext;
  */
 public class Helper {
     
-    public static void showError(String message) {
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "", message));
+    public static final String SEVERITY_INFO = "INFO";
+    public static final String SEVERITY_WARN = "WARN";
+    public static final String SEVERITY_ERROR = "ERROR";
+    public static final String SEVERITY_FATAL = "FATAL";
+    
+    
+    public static void showMessage(String severity, String summary, String detail) {
+        FacesMessage.Severity messageSeverity = FacesMessage.SEVERITY_INFO;
+        if (severity != null) {
+            if (SEVERITY_FATAL.equalsIgnoreCase(severity)) {
+                messageSeverity = FacesMessage.SEVERITY_FATAL;
+            } else if (SEVERITY_ERROR.equalsIgnoreCase(severity)) {
+                messageSeverity = FacesMessage.SEVERITY_ERROR;
+            } else if (SEVERITY_WARN.equalsIgnoreCase(severity)) {
+                messageSeverity = FacesMessage.SEVERITY_WARN;
+            }
+        }
+        FacesContext.getCurrentInstance().addMessage(null, 
+                new FacesMessage(messageSeverity, summary, detail));
+    }
+
+    public static void showFatal(String summary, String detail) {
+        showMessage(SEVERITY_FATAL, summary, detail);
     }
     
-    public static void showWarning(String message) {
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_WARN, "", message));
+    public static void showError(String summary, String detail) {
+        showMessage(SEVERITY_ERROR, summary, detail);
+    }
+    
+    public static void showWarning(String summary, String detail) {
+        showMessage(SEVERITY_WARN, summary, detail);
+    }
+        
+    public static void showInfo(String summary, String detail) {
+        showMessage(SEVERITY_INFO, summary, detail);
     }
     
     public static boolean checkValid(Object object, String message) {
         if (object == null || (object instanceof String && ((String) object).isEmpty())) {
             if (message != null && !message.isEmpty()) {
-                showError(message);
+                showError(null, message);
             }
             return false;
         }
@@ -54,5 +81,10 @@ public class Helper {
     
     public static boolean checkValid(Object object) {
         return checkValid(object, null);
+    }
+
+    public static Object getObject(String name) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        return facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, name);
     }
 }

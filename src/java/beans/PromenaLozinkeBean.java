@@ -87,7 +87,7 @@ public class PromenaLozinkeBean implements Serializable {
             return "";
         }
         if (!novaLozinka.equals(potvrdaLozinke)) {
-            Helper.showError("Potvrda lozinke nije ispravna! Proverite ispravnost unosa!");
+            Helper.showError("Greška!", "Potvrda lozinke nije ispravna! Proverite ispravnost unosa!");
             return "";
         }
         
@@ -103,7 +103,7 @@ public class PromenaLozinkeBean implements Serializable {
         }
         
         if (!BCrypt.checkpw(staraLozinka, k.getLozinka())) {
-            Helper.showError("Pogrešna lozinka!");
+            Helper.showError("Greška!", "Pogrešna lozinka!");
             dbs.close();
             return "";
         }
@@ -111,13 +111,13 @@ public class PromenaLozinkeBean implements Serializable {
         if (!k.getVrsta().equalsIgnoreCase("takmicar") && 
             !k.getVrsta().equalsIgnoreCase("administrator") &&
             !k.getVrsta().equalsIgnoreCase("supervizor")) {
-            Helper.showWarning("Korisnik postoji ali još uvek nije prihvaćen!");
+            Helper.showWarning(null, "Korisnik postoji ali još uvek nije prihvaćen!");
             dbs.close();
             return "";
         }
 
         if (staraLozinka.equals(novaLozinka)) {
-            Helper.showWarning("Nova lozinka je identična staroj!");
+            Helper.showWarning(null, "Nova lozinka je identična staroj!");
             dbs.close();
             return "";
         }

@@ -31,17 +31,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import javax.annotation.ManagedBean;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+
+import util.Helper;
 import util.HibernateUtil;
 
 /**
- *
+ * Bean for anagram.xhtml.
  * @author crumbl3d
  */
 @ManagedBean
@@ -62,80 +62,40 @@ public class AnagramBean implements Serializable {
         return anagram;
     }
 
-    public void setAnagram(Anagram anagram) {
-        this.anagram = anagram;
-    }
-
     public int getStatus() {
         return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     public List<Integer> getIndeksi() {
         return indeksi;
     }
 
-    public void setIndeksi(List<Integer> indeksi) {
-        this.indeksi = indeksi;
-    }
-
     public int getPreostaloVreme() {
         return preostaloVreme;
-    }
-
-    public void setPreostaloVreme(int preostaloVreme) {
-        this.preostaloVreme = preostaloVreme;
     }
 
     public int getBrojPoena() {
         return brojPoena;
     }
 
-    public void setBrojPoena(int brojPoena) {
-        this.brojPoena = brojPoena;
-    }
-
     public List<Boolean> getBlokirani() {
         return blokirani;
-    }
-
-    public void setBlokirani(List<Boolean> blokirani) {
-        this.blokirani = blokirani;
     }
 
     public List<Character> getSlova() {
         return slova;
     }
 
-    public void setSlova(List<Character> slova) {
-        this.slova = slova;
-    }
-
     public String getPokusaj() {
         return pokusaj;
-    }
-
-    public void setPokusaj(String pokusaj) {
-        this.pokusaj = pokusaj;
     }
 
     public String getPoruka() {
         return poruka;
     }
 
-    public void setPoruka(String poruka) {
-        this.poruka = poruka;
-    }
-    
     public boolean isTajmerZaustavljen() {
         return tajmerZaustavljen;
-    }
-
-    public void setTajmerZaustavljen(boolean tajmerZaustavljen) {
-        this.tajmerZaustavljen = tajmerZaustavljen;
     }
 
     public void start() {
@@ -184,14 +144,12 @@ public class AnagramBean implements Serializable {
     public void proveri() {
         tajmerZaustavljen = true;
         String s1 = pokusaj.trim().replaceAll("\\s+", "_"), s2 = anagram.getResenje().trim().replaceAll("\\s+", "_");
-        System.out.println("s1: " + s1 + " s2: " + s2);
+        status = 2;
         if (s1.equalsIgnoreCase(s2)) {
             poruka = "Čestitamo! Uspeli ste da rešite anagram! Dobili ste 10 poena!";
-            status = 2;
             brojPoena = 10;
         } else {
-            poruka = "Nažalost niste uspeli da rešite anagram!";
-            status = 3;
+            poruka = "Nažalost u ovoj igri niste osvojili poene.";
             brojPoena = 0;
         }
     }
@@ -200,9 +158,7 @@ public class AnagramBean implements Serializable {
         GameController gctl = GameController.getCurrentInstance();
         IgraDana igra = gctl.getIgra();
         if (igra == null) {
-            FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                            "Interna greška!", "Igra nije učitana!"));
+            Helper.showFatal("Interna greška!", "Igra nije učitana!");
             return;
         }
         Session dbs = HibernateUtil.getSessionFactory().openSession();
@@ -210,10 +166,7 @@ public class AnagramBean implements Serializable {
         cr.add(Restrictions.eq("idAnagram", igra.getIdAnagram()));
         anagram = (Anagram) cr.uniqueResult();
         if (anagram == null) {
-            FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                            "Interna greška!", "Nevalidan id anagrama: "
-                                    + igra.getIdAnagram() + "!"));
+            Helper.showFatal("Interna greška!", "Nevalidan id anagrama: " + igra.getIdAnagram() + "!");
             return;
         }
 

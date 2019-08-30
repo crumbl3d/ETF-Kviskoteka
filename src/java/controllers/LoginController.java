@@ -27,7 +27,6 @@ import entities.Korisnik;
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -49,8 +48,7 @@ public class LoginController implements Serializable {
     Korisnik korisnik;
 
     public static LoginController getCurrentInstance() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        return (LoginController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "loginController");
+        return (LoginController) Helper.getObject("loginController");
     }
     
     public Korisnik getKorisnik() {
@@ -92,7 +90,7 @@ public class LoginController implements Serializable {
         }
 
         if (!BCrypt.checkpw(lozinka, k.getLozinka())) {
-            Helper.showError("Pogrešna lozinka!");
+            Helper.showError("Greška!", "Pogrešna lozinka!");
             return "";
         }
 
@@ -104,7 +102,7 @@ public class LoginController implements Serializable {
             return "/users/" + korisnik.getVrsta().toLowerCase() + "?faces-redirect=true";
         }
 
-        Helper.showWarning("Korisnik postoji ali još uvek nije prihvaćen!");
+        Helper.showWarning(null, "Korisnik postoji ali još uvek nije prihvaćen!");
         return "";
     }
 
@@ -124,5 +122,10 @@ public class LoginController implements Serializable {
             return "";
         }
         return "/users/" + korisnik.getVrsta().toLowerCase() + "?faces-redirect=true";
+    }
+    
+    // temporary, remove!!!
+    public LoginController() {
+        prijava("pera", "PeraDetlic2!");
     }
 }

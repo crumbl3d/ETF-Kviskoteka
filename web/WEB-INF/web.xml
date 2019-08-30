@@ -24,7 +24,7 @@
     </session-config>
     <welcome-file-list>
         <!-- TODO: Change back to faces/index.xhtml -->
-        <!--<welcome-file>faces/games/mojbroj.xhtml</welcome-file>-->
-        <welcome-file>faces/index.xhtml</welcome-file>
+        <!--<welcome-file>faces/index.xhtml</welcome-file>-->
+        <welcome-file>faces/games/zangeo.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>
