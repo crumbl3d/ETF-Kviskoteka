@@ -56,10 +56,6 @@ public class ResetLozinkeBean implements Serializable {
         return korak;
     }
 
-    public void setKorak(int korak) {
-        this.korak = korak;
-    }
-
     public String getKorisnickoIme() {
         return korisnickoIme;
     }
@@ -104,10 +100,6 @@ public class ResetLozinkeBean implements Serializable {
         return trazeni;
     }
 
-    public void setTrazeni(Korisnik trazeni) {
-        this.trazeni = trazeni;
-    }
-
     public void prviKorak() {
         if (korak != 1 || !Helper.checkValid(korisnickoIme) || !Helper.checkValid(jmbg)) {
             return;
@@ -136,7 +128,7 @@ public class ResetLozinkeBean implements Serializable {
         }
 
         if (!BCrypt.checkpw(odgovor, trazeni.getOdgovor())) {
-            Helper.showError("Pogrešan odgovor!");
+            Helper.showError("Greška!", "Pogrešan odgovor!");
             korak = 0;
             return;
         }
@@ -150,11 +142,11 @@ public class ResetLozinkeBean implements Serializable {
             return "";
         }
         if (!novaLozinka.equals(potvrdaLozinke)) {
-            Helper.showError("Potvrda lozinke nije ispravna! Proverite ispravnost unosa!");
+            Helper.showError("Greška!", "Potvrda lozinke nije ispravna! Proverite ispravnost unosa!");
             return "";
         }
         if (BCrypt.checkpw(novaLozinka, trazeni.getLozinka())) {
-            Helper.showWarning("Nova lozinka je identična staroj!");
+            Helper.showWarning(null, "Nova lozinka je identična staroj!");
             return "";
         }
 

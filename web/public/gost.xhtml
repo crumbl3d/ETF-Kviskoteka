@@ -1,132 +1,110 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>ETF Kviskoteka: Gost</title>
-        <h:outputStylesheet library="css" name="style.css" />
-        <h:outputStylesheet library="css" name="primeflex.css" />
-    </h:head>
-    <h:body>
-        <div class="container">
-            <div class="navbar">
-                <div class="left">
-                    <span style="font-weight: bold">Dobrodošli!</span>
-                </div>
-                <div class="center">
-                    <p>ETF Kviskoteka</p>
-                </div>
-                <div class="right">
-                    <h:form>
-                        <h:commandLink class="navbtn" value="PRIJAVA" action="/public/prijava" />
-                    </h:form>
-                </div>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./../templates/masterTemplate.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="subtitle">Gost</ui:define>
+
+    <ui:define name="content">
+        <div class="p-grid p-justify-center" style="align-self: center">
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <p:panel header="Rezultati prethodnih 20 dana" style="margin: 10px">
+                    <p:dataTable var="rezultat" value="#{gostBean.rez20dana}" style="font-size: 10pt">
+                        <p:column headerText="RB" style="width: 20px; text-align: center">
+                            #{rezultat.indeks}
+                        </p:column>
+
+                        <p:column headerText="Datum" style="width: 80px; text-align: center">
+                            <h:outputText value="#{rezultat.datum}">
+                                <f:convertDateTime pattern="dd.MM.yyyy." />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Ime" style="width: 100px; text-align: center">
+                            #{rezultat.takmicar.ime}
+                        </p:column>
+
+                        <p:column headerText="Prezime" style="width: 100px; text-align: center">
+                            #{rezultat.takmicar.prezime}
+                        </p:column>
+
+                        <p:column headerText="Anagram" style="width: 80px; text-align: center">
+                            #{rezultat.poeniAnagram}
+                        </p:column>
+
+                        <p:column headerText="Moj broj" style="width: 80px; text-align: center">
+                            #{rezultat.poeniMojBroj}
+                        </p:column>
+
+                        <p:column headerText="5x5" style="width: 40px; text-align: center">
+                            #{rezultat.poeniPetXPet}
+                        </p:column>
+
+                        <p:column style="width: 80px; text-align: center">
+                            <f:facet name="header">
+                                Zanimljiva <br/> geografija
+                            </f:facet>
+                            #{rezultat.poeniZanGeo}
+                        </p:column>
+
+                        <p:column headerText="Pehar" style="width: 80px; text-align: center">
+                            #{rezultat.poeniPehar}
+                        </p:column>
+
+                        <p:column headerText="Σ" style="width: 40px; text-align: center">
+                            #{rezultat.poeniUkupno}
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
             </div>
-            <div class="outer">
-                <div class="inner body">
-                    <div class="p-grid p-justify-center" style="align-self: center">
-                        <div class="p-col-12 p-md-6 p-lg-3">
-                            <p:dataTable var="rezultat" value="#{gostBean.rez20dana}" style="font-size: 10pt" resizableColumns="true">
-                                <f:facet name="header">
-                                    Rezultati prethodnih 20 dana
-                                </f:facet>
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <p:panel header="Najbolji rezultati tekućeg meseca" footer="Napomena: Tabela sadrži prosek poena za najbolje takmičare" style="margin: 10px">
+                    <p:dataTable var="rezultat" value="#{gostBean.rezMesec}" style="font-size: 10pt">
+                        <p:column headerText="RB" style="width: 20px; text-align: center">
+                            #{rezultat.indeks}
+                        </p:column>
 
-                                <p:column headerText="RB" resizable="true">
-                                    #{rezultat.indeks}
-                                </p:column>
-                                
-                                <p:column headerText="Datum" resizable="true">
-                                    #{rezultat.datum}
-                                </p:column>
+                        <p:column headerText="Ime" style="width: 100px; text-align: center">
+                            #{rezultat.takmicar.ime}
+                        </p:column>
 
-                                <p:column headerText="Ime" resizable="true">
-                                    #{rezultat.takmicar.ime}
-                                </p:column>
+                        <p:column headerText="Prezime" style="width: 100px; text-align: center">
+                            #{rezultat.takmicar.prezime}
+                        </p:column>
 
-                                <p:column headerText="Prezime" resizable="true">
-                                    #{rezultat.takmicar.prezime}
-                                </p:column>
+                        <p:column headerText="Anagram" style="width: 80px; text-align: center">
+                            #{rezultat.poeniAnagram}
+                        </p:column>
 
-                                <p:column headerText="Anagram" resizable="true">
-                                    #{rezultat.poeniAnagram}
-                                </p:column>
+                        <p:column headerText="Moj broj" style="width: 80px; text-align: center">
+                            #{rezultat.poeniMojBroj}
+                        </p:column>
 
-                                <p:column headerText="Moj broj" resizable="true">
-                                    #{rezultat.poeniMojBroj}
-                                </p:column>
+                        <p:column headerText="5x5" style="width: 40px; text-align: center">
+                            #{rezultat.poeniPetXPet}
+                        </p:column>
 
-                                <p:column headerText="5x5" resizable="true">
-                                    #{rezultat.poeniPetXPet}
-                                </p:column>
+                        <p:column  style="width: 80px; text-align: center">
+                            <f:facet name="header">
+                                Zanimljiva <br/> geografija
+                            </f:facet>
+                            #{rezultat.poeniZanGeo}
+                        </p:column>
 
-                                <p:column headerText="Zanimljiva geografija" resizable="true">
-                                    #{rezultat.poeniZanGeo}
-                                </p:column>
+                        <p:column headerText="Pehar" style="width: 80px; text-align: center">
+                            #{rezultat.poeniPehar}
+                        </p:column>
 
-                                <p:column headerText="Pehar" resizable="true">
-                                    #{rezultat.poeniPehar}
-                                </p:column>
-
-                                <p:column headerText="Ukupno" resizable="true">
-                                    #{rezultat.poeniUkupno}
-                                </p:column>
-                            </p:dataTable>
-                        </div>
-                        <div class="p-col-12 p-md-6 p-lg-3">
-                            <p:dataTable var="rezultat" value="#{gostBean.rezMesec}" style="font-size: 10pt" resizableColumns="true">
-                                <f:facet name="header">
-                                    Najbolji rezultati tekućeg meseca
-                                </f:facet>
-
-                                <p:column headerText="RB" resizable="true">
-                                    #{rezultat.indeks}
-                                </p:column>
-
-                                <p:column headerText="Ime" resizable="true">
-                                    #{rezultat.takmicar.ime}
-                                </p:column>
-
-                                <p:column headerText="Prezime" resizable="true">
-                                    #{rezultat.takmicar.prezime}
-                                </p:column>
-
-                                <p:column headerText="Anagram" resizable="true">
-                                    #{rezultat.poeniAnagram}
-                                </p:column>
-
-                                <p:column headerText="Moj broj" resizable="true">
-                                    #{rezultat.poeniMojBroj}
-                                </p:column>
-
-                                <p:column headerText="5x5" resizable="true">
-                                    #{rezultat.poeniPetXPet}
-                                </p:column>
-
-                                <p:column headerText="Zanimljiva geografija" resizable="true">
-                                    #{rezultat.poeniZanGeo}
-                                </p:column>
-
-                                <p:column headerText="Pehar" resizable="true">
-                                    #{rezultat.poeniPehar}
-                                </p:column>
-
-                                <p:column headerText="Ukupno" resizable="true">
-                                    #{rezultat.poeniUkupno}
-                                </p:column>
-                            </p:dataTable>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="footer">
-                <div class="left" />
-                <div class="copyright">
-                    Copyright © 2019 Jovan Nikolov 2016/0040
-                </div>
-                <div class="right" />
+                        <p:column headerText="Σ" style="width: 40px; text-align: center">
+                            #{rezultat.poeniUkupno}
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
             </div>
         </div>
-    </h:body>
-</html>
+    </ui:define>
+
+</ui:composition>

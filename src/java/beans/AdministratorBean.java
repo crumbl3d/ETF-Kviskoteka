@@ -36,8 +36,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import javax.annotation.ManagedBean;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.hibernate.Criteria;
@@ -45,6 +43,8 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.primefaces.event.RowEditEvent;
+
+import util.Helper;
 import util.HibernateUtil;
 
 /**
@@ -65,10 +65,6 @@ public class AdministratorBean implements Serializable {
     public List<Korisnik> getZahtevi() {
         return zahtevi;
     }
-    
-    public void setZahtevi(List<Korisnik> zahtevi) {
-        this.zahtevi = zahtevi;
-    }
 
     public List<IgraDanaIspis> getIgreDana() {
         return igreDana;
@@ -82,32 +78,16 @@ public class AdministratorBean implements Serializable {
         return anagrami;
     }
 
-    public void setAnagrami(List<Integer> anagrami) {
-        this.anagrami = anagrami;
-    }
-
     public List<Integer> getPetxpet() {
         return petxpet;
-    }
-
-    public void setPetxpet(List<Integer> petxpet) {
-        this.petxpet = petxpet;
     }
 
     public List<Integer> getPehari() {
         return pehari;
     }
 
-    public void setPehari(List<Integer> pehari) {
-        this.pehari = pehari;
-    }
-
     public java.util.Date getDanas() {
         return danas;
-    }
-
-    public void setDanas(java.util.Date danas) {
-        this.danas = danas;
     }
 
     public java.util.Date getDatum() {
@@ -191,9 +171,7 @@ public class AdministratorBean implements Serializable {
         java.sql.Date datum = ispis.getDatum();
         if (datum == null) {
             if (this.datum == null) {
-                FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", 
-                        "Niste postavili datum!"));
+                Helper.showError("Greška!", "Niste postavili datum!");
                 igreDana.set(igreDana.size() - 1, new IgraDanaIspis());
                 return;
             }
@@ -209,9 +187,7 @@ public class AdministratorBean implements Serializable {
         if (ispis == igreDana.get(igreDana.size() - 1)) {
             // menja se poslednji red (dodajemo novu igru)
             if (igra != null) {
-                FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", 
-                        "Baza već sadrži igru dana za datum: " + datum));
+                Helper.showError("Greška!", "Baza već sadrži igru dana za datum: " + datum);
                 igreDana.set(igreDana.size() - 1, new IgraDanaIspis());
                 dbs.close();
                 return;
@@ -227,14 +203,10 @@ public class AdministratorBean implements Serializable {
             dbs.close();
             igreDana.sort(Comparator.comparing(c -> c.getDatum()));
             igreDana.add(new IgraDanaIspis());
-            FacesContext.getCurrentInstance().addMessage(null, 
-                new FacesMessage("Igra dana dodata!", 
-                    "Datum: " + datum));
+            Helper.showInfo("Igra dana dodata!", "Datum: " + datum);
         } else {
             if (igra == null) {
-                FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Interna greška!", 
-                        "Baza ne sadrži igru dana za datum: " + datum));
+                Helper.showFatal("Interna greška!", "Baza ne sadrži igru dana za datum: " + datum);
                 dbs.close();
                 return;
             }
@@ -245,15 +217,11 @@ public class AdministratorBean implements Serializable {
             dbs.update(igra);
             dbs.getTransaction().commit();
             dbs.close();
-            FacesContext.getCurrentInstance().addMessage(null, 
-                new FacesMessage("Igra dana izmenjena!", 
-                    "Datum: " + datum));
+            Helper.showInfo("Igra dana izmenjena!", "Datum: " + datum);
         }
     }
 
     public void onRowCancel(RowEditEvent event) {
-        FacesContext.getCurrentInstance().addMessage(null, 
-            new FacesMessage("Izmena prekinuta!", 
-                "Datum: " + ((IgraDanaIspis) event.getObject()).getDatum()));
+        Helper.showInfo("Izmena prekinuta!", "Datum: " + ((IgraDanaIspis) event.getObject()).getDatum());
     }
 }

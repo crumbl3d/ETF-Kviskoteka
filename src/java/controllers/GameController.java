@@ -31,11 +31,12 @@ import java.sql.Date;
 import java.time.LocalDate;
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+
+import util.Helper;
 import util.HibernateUtil;
 import util.SessionUtil;
 
@@ -53,8 +54,7 @@ public class GameController implements Serializable {
     Rezultat rezultat;
 
     public static GameController getCurrentInstance() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        return (GameController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "gameController");
+        return (GameController) Helper.getObject("gameController");
     }
     
     public IgraDana getIgra() {
@@ -69,9 +69,12 @@ public class GameController implements Serializable {
         return rezultat;
     }
     
-    public String igraDana() {
+    public String zapocniIgruDana() {
         reset();
         LoginController lctl = LoginController.getCurrentInstance();
+        if (!lctl.ulogovan()) {
+            return "";
+        }
         if (!lctl.getKorisnik().getVrsta().equals("takmicar")) {
             return "";
         }
@@ -93,17 +96,58 @@ public class GameController implements Serializable {
         dbs.saveOrUpdate(rezultat);
         dbs.getTransaction().commit();
         dbs.close();
-        return "/games/anagram?faces-redirect=true";
+        return "/games/anagram.xhtml?faces-redirect=true";
     }
     
-    public String igraMojBroj(int brojPoena) {
+    public String krajAnagram(int brojPoena) {
         Session dbs = HibernateUtil.getSessionFactory().openSession();
         dbs.beginTransaction();
         rezultat.setPoeniAnagram(brojPoena);
         dbs.update(rezultat);
         dbs.getTransaction().commit();
         dbs.close();
-        return "/games/mojbroj?faces-redirect=true";
+        return "/games/mojbroj.xhtml?faces-redirect=true";
+    }
+    
+    public String krajMojBroj(int brojPoena) {
+        Session dbs = HibernateUtil.getSessionFactory().openSession();
+        dbs.beginTransaction();
+        rezultat.setPoeniMojBroj(brojPoena);
+        dbs.update(rezultat);
+        dbs.getTransaction().commit();
+        dbs.close();
+        return "/games/petxpet.xhtml?faces-redirect=true";
+    }
+    
+    public String krajPetXPet(int brojPoena) {
+        Session dbs = HibernateUtil.getSessionFactory().openSession();
+        dbs.beginTransaction();
+        rezultat.setPoeniPetXPet(brojPoena);
+        dbs.update(rezultat);
+        dbs.getTransaction().commit();
+        dbs.close();
+        return "/games/zangeo.xhtml?faces-redirect=true";
+    }
+    
+    public String krajZanGeo(int brojPoena, boolean wip) {
+        Session dbs = HibernateUtil.getSessionFactory().openSession();
+        dbs.beginTransaction();
+        rezultat.setPoeniZanGeo(brojPoena);
+        rezultat.setWip(wip);
+        dbs.update(rezultat);
+        dbs.getTransaction().commit();
+        dbs.close();
+        return "/games/pehar.xhtml?faces-redirect=true";
+    }
+
+    public String krajPehar(int brojPoena) {
+        Session dbs = HibernateUtil.getSessionFactory().openSession();
+        dbs.beginTransaction();
+        rezultat.setPoeniPehar(brojPoena);
+        dbs.update(rezultat);
+        dbs.getTransaction().commit();
+        dbs.close();
+        return "/games/takmicar.xhtml?faces-redirect=true";
     }
     
     public String odustani() {
@@ -115,5 +159,10 @@ public class GameController implements Serializable {
         igra = null;
         rezultat = null;
         SessionUtil.setIgraUToku(null);
+    }
+    
+    // temporary, remove!!!
+    public GameController() {
+        zapocniIgruDana();
     }
 }

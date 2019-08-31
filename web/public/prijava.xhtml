@@ -1,85 +1,62 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>ETF Kviskoteka: Prijava</title>
-        <h:outputStylesheet library="css" name="style.css" />
-    </h:head>
-    <h:body>
-        <div class="outer">
-            <div class="inner">
-                <p:panel id="panel" style="width: 400px" header="ETF Kviskoteka: Prijava">
-                    <h:panelGrid style="width: 100%" columns="1"
-                                 rendered="#{loginController.ulogovan()}">
-                        <h:form>
-                            <b>Već ste prijavljeni kao #{loginController.korisnik.ime} #{loginController.korisnik.prezime}!</b>
-                            <h:panelGrid style="width: 100%; margin-top: 10px" columns="2">
-                                <p:commandButton style="width: 100%"
-                                                 value="Odjava"
-                                                 update="panel"
-                                                 action="#{loginController.odjava()}">
-                                    <f:ajax />
-                                </p:commandButton>
-                                <p:commandButton style="width: 100%"
-                                                 value="Povratak"
-                                                 update="panel"
-                                                 action="#{loginController.povratak()}">
-                                    <f:ajax />
-                                </p:commandButton>
-                            </h:panelGrid>
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGrid style="width: 100%" columns="1"
-                                 rendered="#{!loginController.ulogovan()}">
-                        <h:form>
-                            <p:growl id="msgs" globalOnly="true" showSummary="false" showDetail="true" />
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./../templates/masterTemplate.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
 
-                            <h:outputLabel for="@next"><b>Korisničko ime</b></h:outputLabel>
-                            <p:inputText class="input-text"
-                                         placeholder="Unesite korisničko ime"
-                                         value="#{prijavaBean.korisnickoIme}"
-                                         required="true"
-                                         requiredMessage="Korisničko ime je obavezno!">
-                                <p:ajax update="@next" event="keyup" />
-                            </p:inputText>
-                            <p:message for="@previous" display="text" />
-                            
-                            <h:outputLabel for="@next"><b>Lozinka</b></h:outputLabel>
-                            <p:password class="input-text"
-                                        placeholder="Unesite lozinku" 
-                                        value="#{prijavaBean.lozinka}"
-                                        maxlength="12"
-                                        required="true"
-                                        requiredMessage="Lozinka je obavezna!">
-                                <p:ajax update="@next" event="keyup" />
-                            </p:password>
-                            <p:message for="@previous" display="text" />
-                            
-                            <p:commandButton class="submit-button"
-                                             value="Prijava"
-                                             update="panel"
-                                             action="#{loginController.prijava(prijavaBean.korisnickoIme, prijavaBean.lozinka)}">
-                                <f:ajax />
-                            </p:commandButton>
-                        </h:form>
-                        <h:form>
-                            <table class="links">
-                                <tr>
-                                    <td><h:commandLink value="Registracija" action="/public/registracija" /></td>
-                                    <td style="text-align: right"><h:commandLink value="Nastavi kao gost" action="/public/gost" /></td>
-                                </tr>
-                                <tr>
-                                    <td><h:commandLink value="Zaboravili ste lozinku?" action="/public/resetLozinke" /></td>
-                                    <td style="text-align: right"><h:commandLink value="Promena lozinke" action="/public/promenaLozinke" /></td>
-                                </tr>
-                            </table>
-                        </h:form>
+    <ui:define name="subtitle">Prijava</ui:define>
+
+    <ui:define name="content">
+        <p:panel class="login-panel" header="ETF Kviskoteka: Prijava">
+            <p:growl id="msgs" globalOnly="true" showSummary="false" showDetail="true" />
+
+            <h:form class="form-default" rendered="#{loginController.ulogovan()}">
+                <h:panelGrid class="w100p text-center" columns="1">
+                    <div class="font-12pt font-bold text-center p5">
+                        Već ste prijavljeni kao #{loginController.korisnik.ime} #{loginController.korisnik.prezime}!
+                    </div>
+                    <h:panelGrid class="w100p m0 break-down" columns="2">
+                        <p:commandButton class="w100p" value="Odjava" action="#{loginController.odjava()}" />
+                        <p:commandButton class="w100p" value="Povratak" action="#{loginController.povratak()}" />
                     </h:panelGrid>
-                </p:panel>
-            </div>
-        </div>
-    </h:body>
-</html>
+                </h:panelGrid>
+            </h:form>
+
+            <h:form class="form-default" rendered="#{!loginController.ulogovan()}">
+                <h:panelGrid class="w100p" columns="1">
+                    <h:outputLabel class="font-10pt font-bold" for="korisnickoIme" value="Korisničko ime" />
+                    <p:inputText id="korisnickoIme" class="login-panel-input"
+                                 placeholder="Unesite korisničko ime" value="#{prijavaBean.korisnickoIme}"
+                                 required="true" requiredMessage="Korisničko ime je obavezno!">
+                        <p:ajax update="msgKorisnickoIme" event="keyup" />
+                    </p:inputText>
+                    <p:message id="msgKorisnickoIme" class="break-down" for="korisnickoIme" display="text" />
+
+                    <h:outputLabel class="font-10pt font-bold" for="lozinka" value="Lozinka" />
+                    <p:password id="lozinka" class="login-panel-input"
+                                placeholder="Unesite lozinku" value="#{prijavaBean.lozinka}"
+                                maxlength="12" required="true" requiredMessage="Lozinka je obavezna!">
+                        <p:ajax update="msgLozinka" event="keyup" />
+                    </p:password>
+                    <p:message id="msgLozinka" class="break-down" for="lozinka" display="text" />
+
+                    <p:commandButton class="w100p" value="Prijava" action="#{loginController.prijava(prijavaBean.korisnickoIme, prijavaBean.lozinka)}" update="msgs" />
+                </h:panelGrid>
+            </h:form>
+            <h:form class="form-default" rendered="#{!loginController.ulogovan()}">
+                <table class="w100p font-10pt font-normal p5">
+                    <tr>
+                        <td><h:commandLink value="Registracija" action="/public/registracija" /></td>
+                        <td style="text-align: right"><h:commandLink value="Nastavi kao gost" action="/public/gost" /></td>
+                    </tr>
+                    <tr>
+                        <td><h:commandLink value="Zaboravili ste lozinku?" action="/public/resetLozinke" /></td>
+                        <td style="text-align: right"><h:commandLink value="Promena lozinke" action="/public/promenaLozinke" /></td>
+                    </tr>
+                </table>
+            </h:form>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>

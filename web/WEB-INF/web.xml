@@ -23,6 +23,8 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/index.xhtml</welcome-file>
+        <!-- TODO: Change back to faces/index.xhtml -->
+        <!--<welcome-file>faces/index.xhtml</welcome-file>-->
+        <welcome-file>faces/games/pehar.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet library="css" name="style.css" />
+        <title>ETF Kviskoteka: <ui:insert name="subtitle">Master Template</ui:insert></title>
+    </h:head>
+    <h:body>
+	<f:facet name="last"><h:outputStylesheet library="css" name="primefaces.css" /></f:facet>
+
+        <div id="wrapper">
+            <div id="header">
+                <div class="left">
+                    <ui:insert name="header-left">
+                        <h:outputText class="header-user-type" value="#{loginController.vrsta}" />
+                        <h:outputText class="header-user-name" value="#{loginController.korisnik.ime} #{loginController.korisnik.prezime}" rendered="#{loginController.ulogovan()}" />
+                    </ui:insert>
+                </div>
+                <div class="center">
+                    <ui:insert name="header-center">
+                        <h:outputText class="header-title" value="ETF Kviskoteka" />
+                    </ui:insert>
+                </div>
+                <div class="right">
+                    <ui:insert name="header-right">
+                        <h:form>
+                            <h:commandLink class="header-btn" value="PRIJAVA" action="/public/prijava.xhtml" rendered="#{!loginController.ulogovan()}" />
+                            <h:commandLink class="header-btn" value="ODJAVA" action="#{loginController.odjava()}" rendered="#{loginController.ulogovan()}" />
+                        </h:form>
+                    </ui:insert>
+                </div>
+            </div>
+            <div id="content">
+                <div id="center-content">
+                    <ui:insert name="content">Content example</ui:insert>
+                </div>
+            </div>
+            <div id="footer">
+                <div class="left" />
+                <div class="center">Copyright © 2019 Jovan Nikolov 2016/0040</div>
+                <div class="right" />
+            </div>
+        </div>
+    </h:body>
+</html>

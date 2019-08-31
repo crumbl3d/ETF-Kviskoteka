@@ -1,90 +1,71 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>ETF Kviskoteka: Promena lozinke</title>
-        <h:outputStylesheet library="css" name="style.css" />
-    </h:head>
-    <h:body>
-        <div class="outer">
-            <div class="inner">
-                <p:panel id="panel" style="width: 400px" header="ETF Kviskoteka: Promena lozinke">
-                    <h:panelGrid style="width: 100%" columns="1">
-                        <h:form>
-                            <p:growl id="msgs" globalOnly="true" showSummary="false" showDetail="true" />
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./../templates/masterTemplate.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
 
-                            <h:outputLabel for="@next"><b>Korisničko ime</b></h:outputLabel>
-                            <p:inputText class="input-text"
-                                         placeholder="Unesite korisničko ime"
-                                         value="#{promenaLozinkeBean.korisnickoIme}"
-                                         required="true"
-                                         requiredMessage="Korisničko ime je obavezno!">
-                                <p:ajax update="@next" event="keyup" />
-                            </p:inputText>
-                            <p:message for="@previous" display="text" />
+    <ui:define name="subtitle">Promena lozinke</ui:define>
 
-                            <h:outputLabel for="@next"><b>Stara lozinka</b></h:outputLabel>
-                            <p:password class="input-text"
-                                        placeholder="Unesite staru lozinku" 
-                                        value="#{promenaLozinkeBean.staraLozinka}"
-                                        maxlength="12"
-                                        required="true"
-                                        requiredMessage="Stara lozinka je obavezna!">
-                                <p:ajax update="@next" event="keyup" />
-                            </p:password>
-                            <p:message for="@previous" display="text" />
+    <ui:define name="content">
+        <p:panel class="login-panel" header="ETF Kviskoteka: Promena lozinke">
+            <p:growl id="msgs" globalOnly="true" showSummary="false" showDetail="true" />
 
-                            <h:outputLabel for="@next"><b>Nova lozinka</b></h:outputLabel>
-                            <p:password class="input-text"
-                                        placeholder="Unesite novu lozinku" 
-                                        value="#{promenaLozinkeBean.novaLozinka}"
-                                        maxlength="12"
-                                        required="true"
-                                        requiredMessage="Nova lozinka je obavezna!"
-                                        validatorMessage="Lozinka mora imati minimalno 8, a najviše 12 karaktera i to bar 1 veliko slovo, bar 3 mala slova, bar 1 cifru i bar 1 specijalan znak. Pritom početni karakter mora biti malo ili veliko slovo, a maksimalan broj uzastopnih karaktera je 2.">
-                                <p:ajax update="@next" event="keyup" />
-                                <f:validateRegex pattern="^(?!.*([A-Za-z0-9@$!%*?&amp;])\1{2})(?=.*?[A-Z])(?=(.*?[a-z]){3,})(?=.*?[0-9])(?=.*?[@$!%*?&amp;])(?=)[A-Za-z][A-Za-z\d@$!%*?&amp;]{7,11}$" />
-                            </p:password>
-                            <p:message for="@previous" display="text" />
+            <h:form class="form-default">
+                <h:panelGrid class="w100p" columns="1">
+                    <h:outputLabel class="font-10pt font-bold" for="korisnickoIme" value="Korisničko ime" />
+                    <p:inputText id="korisnickoIme" class="login-panel-input"
+                                 placeholder="Unesite korisničko ime" value="#{promenaLozinkeBean.korisnickoIme}"
+                                 required="true" requiredMessage="Korisničko ime je obavezno!">
+                        <p:ajax update="msgKorisnickoIme" event="keyup" />
+                    </p:inputText>
+                    <p:message id="msgKorisnickoIme" class="break-down" for="korisnickoIme" display="text" />
 
-                            <h:outputLabel for="@next"><b>Potvrda nove lozinke</b></h:outputLabel>
-                            <p:password class="input-text"
-                                        placeholder="Ponovo unesite novu lozinku" 
-                                        value="#{promenaLozinkeBean.potvrdaLozinke}"
-                                        maxlength="12"
-                                        required="true"
-                                        requiredMessage="Nova lozinka se mora potvrditi!"
-                                        validatorMessage="Lozinka mora imati minimalno 8, a najviše 12 karaktera i to bar 1 veliko slovo, bar 3 mala slova, bar 1 cifru i bar 1 specijalan znak. Pritom početni karakter mora biti malo ili veliko slovo, a maksimalan broj uzastopnih karaktera je 2.">
-                                <p:ajax update="@next" event="keyup" />
-                                <f:validateRegex pattern="^(?!.*([A-Za-z0-9@$!%*?&amp;])\1{2})(?=.*?[A-Z])(?=(.*?[a-z]){3,})(?=.*?[0-9])(?=.*?[@$!%*?&amp;])(?=)[A-Za-z][A-Za-z\d@$!%*?&amp;]{7,11}$" />
-                            </p:password>
-                            <p:message for="@previous" display="text" />
+                    <h:outputLabel class="font-10pt font-bold" for="staraLozinka" value="Stara lozinka" />
+                    <p:password id="staraLozinka" class="login-panel-input"
+                                placeholder="Unesite staru lozinku" value="#{promenaLozinkeBean.staraLozinka}"
+                                maxlength="12" required="true" requiredMessage="Stara lozinka je obavezna!">
+                        <p:ajax update="msgStaraLozinka" event="keyup" />
+                    </p:password>
+                    <p:message id="msgStaraLozinka" class="break-down" for="staraLozinka" display="text" />
 
-                            <p:commandButton class="submit-button"
-                                             value="Promeni lozinku"
-                                             update="panel"
-                                             action="#{promenaLozinkeBean.promenaLozinke()}">
-                                <f:ajax />
-                            </p:commandButton>
-                        </h:form>
-                        <h:form>
-                            <table class="links">
-                                <tr>
-                                    <td><h:commandLink value="Registracija" action="/public/registracija" /></td>
-                                    <td style="text-align: right"><h:commandLink value="Nastavi kao gost" action="/public/gost" /></td>
-                                </tr>
-                                <tr>
-                                    <td><h:commandLink value="Zaboravili ste lozinku?" action="/public/resetLozinke" /></td>
-                                    <td style="text-align: right"><h:commandLink value="Prijava" action="/public/prijava" /></td>
-                                </tr>
-                            </table>
-                        </h:form>
-                    </h:panelGrid>
-                </p:panel>
-            </div>
-        </div>
-    </h:body>
-</html>
+                    <h:outputLabel class="font-10pt font-bold" for="novaLozinka" value="Nova lozinka" />
+                    <p:password id="novaLozinka" class="login-panel-input"
+                                placeholder="Unesite novu lozinku" value="#{promenaLozinkeBean.novaLozinka}"
+                                maxlength="12" required="true" requiredMessage="Nova lozinka je obavezna!"
+                                validatorMessage="Lozinka mora imati minimalno 8, a najviše 12 karaktera i to bar 1 veliko slovo, bar 3 mala slova, bar 1 cifru i bar 1 specijalan znak. Pritom početni karakter mora biti malo ili veliko slovo, a maksimalan broj uzastopnih karaktera je 2.">
+                        <p:ajax update="msgNovaLozinka" event="keyup" />
+                        <f:validateRegex pattern="^(?!.*([A-Za-z0-9@$!%*?&amp;])\1{2})(?=.*?[A-Z])(?=(.*?[a-z]){3,})(?=.*?[0-9])(?=.*?[@$!%*?&amp;])(?=)[A-Za-z][A-Za-z\d@$!%*?&amp;]{7,11}$" />
+                    </p:password>
+                    <p:message id="msgNovaLozinka" class="break-down" for="novaLozinka" display="text" />
+
+                    <h:outputLabel class="font-10pt font-bold" for="potvrdaLozinke" value="Nova lozinka" />
+                    <p:password id="potvrdaLozinke" class="login-panel-input"
+                                placeholder="Ponovo unesite novu lozinku" value="#{promenaLozinkeBean.potvrdaLozinke}"
+                                maxlength="12" required="true" requiredMessage="Nova lozinka se mora potvrditi!"
+                                validatorMessage="Lozinka mora imati minimalno 8, a najviše 12 karaktera i to bar 1 veliko slovo, bar 3 mala slova, bar 1 cifru i bar 1 specijalan znak. Pritom početni karakter mora biti malo ili veliko slovo, a maksimalan broj uzastopnih karaktera je 2.">
+                        <p:ajax update="msgPotvrdaLozinka" event="keyup" />
+                        <f:validateRegex pattern="^(?!.*([A-Za-z0-9@$!%*?&amp;])\1{2})(?=.*?[A-Z])(?=(.*?[a-z]){3,})(?=.*?[0-9])(?=.*?[@$!%*?&amp;])(?=)[A-Za-z][A-Za-z\d@$!%*?&amp;]{7,11}$" />
+                    </p:password>
+                    <p:message id="msgPotvrdaLozinka" class="break-down" for="potvrdaLozinke" display="text" />
+
+                    <p:commandButton class="w100p" value="Promeni lozinku" action="#{promenaLozinkeBean.promenaLozinke()}" update="msgs" />
+                </h:panelGrid>
+            </h:form>
+            <h:form class="form-default">
+                <table class="w100p font-10pt font-normal p5">
+                    <tr>
+                        <td><h:commandLink value="Registracija" action="/public/registracija" /></td>
+                        <td style="text-align: right"><h:commandLink value="Nastavi kao gost" action="/public/gost" /></td>
+                    </tr>
+                    <tr>
+                        <td><h:commandLink value="Zaboravili ste lozinku?" action="/public/resetLozinke" /></td>
+                        <td style="text-align: right"><h:commandLink value="Prijava" action="/public/prijava" /></td>
+                    </tr>
+                </table>
+            </h:form>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>

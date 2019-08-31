@@ -1,7 +1,25 @@
 /*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
+The MIT License
+
+Copyright 2019 crumbl3d.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 */
 /* 
     Created on : 16-Aug-2019, 12:36:57
@@ -14,91 +32,167 @@ html, body {
     height: 100%;
 }
 
-label {
-    font-size: 10pt;
+body {
+    background: url("#{resource['images/pattern.png']}") center repeat #f5f5f5;
+    color: #000000;
+    font-size: 12pt;
+    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
 }
 
-.outer {
+#wrapper {
+    min-height: 100%;
+    position: relative;
+}
+
+#header, #footer {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    background: #333;
+    color: #ffffff;
+}
+
+#header {
+    top: 0;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+}
+
+#content {
     display: table;
     height: 100%;
     margin: 0 auto;
 }
 
-.inner {
+#center-content {
     display: table-cell;
     vertical-align: middle;
+    padding: 60px 10px 60px;
     width: 100%;
 }
 
-.input-text {
-    width: 350px;
-    margin-bottom: 10px;
+#footer {
+    bottom: 0;
+    height: 50px;
 }
 
-.submit-button {
-    width: 100%;
-    margin-top: 10px;
-    margin-bottom: 15px;
+.text-left {
+    text-align: left !important;
 }
 
-.links {
-    width: 100%;
+.text-right {
+    text-align: right !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.text-justify {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.font-10pt {
     font-size: 10pt;
 }
 
-.loading {
-    position: fixed;
-    left: 0px;
-    top: 0px;
+.font-12pt {
+    font-size: 12pt;
+}
+
+.font-normal {
+    font-weight: normal;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.font-blue {
+    color: blue;
+}
+
+.font-red {
+    color: red;
+}
+
+.w100p {
     width: 100%;
-    height: 100%;
-    z-index: 9999;
-    background: url("#{resource['images/loading.gif']}") center no-repeat #fff;
 }
 
-.navbar {
-    display: flex;
-    background: #333;
-    height: 50px;
-    font-family: Arial, Helvetica, sans-serif;
+.m0 {
+    margin: 0;
 }
 
-.navbtn {
-    float: right;
+.p0 {
+    padding: 0;
+}
+
+.p5 {
+    padding: 5px;
+}
+
+.break-up {
+    padding-top: 10px;
+}
+
+.break-down {
+    padding-bottom: 10px;
+}
+
+.header-user-type {
+    margin-left: 10px;
+    color: white;
+    font-weight: normal;
+    font-size: 12pt;
+}
+
+.header-user-name {
+    color: white;
+    font-weight: bold;
+    font-size: 12pt;
+}
+
+.header-title {
+    color: white;
+    font-weight: bold;
+    font-size: 16pt;
+}
+
+.header-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 18px;
+    padding: 16px 20px;
     background-color: #0066ff;
     color: white;
-    padding: 16px 20px;
     font-size: 12pt;
     font-weight: bolder;
     text-align: center;
     text-decoration: none;
 }
 
-.navbtn:hover {
+.header-btn:hover {
     background-color: #ddd;
     color: black;
+}
+
+.flex {
+    display: flex;
 }
 
 .left {
     flex: 1;
     text-align: left;
     align-self: center;
-    margin-left: 10px;
-    color: white;
-    font-size: 12pt;
 }
 
 .center {
     text-align: center;
     align-self: center;
-    color: white;
-    font-weight: bold;
-    font-size: 16pt;
-}
-
-.container {
-    min-height: 100%;
-    position: relative;
 }
 
 .right {
@@ -107,48 +201,104 @@ label {
     align-self: center;
 }
 
-.body {
-    padding: 20px;
-    padding-bottom: 70px;
+.center-block {
+    margin: 0 auto;
 }
 
-.footer {
-    position: absolute;
+.form-default {
+    padding: 0;
+    margin: 0 0 8px;
+}
+
+.login-panel, .guide-panel {
+    width: 400px;
+}
+
+.login-panel-input {
+    width: 358px;
+}
+
+.game-panel {
+    width: 600px;
+}
+
+.zangeo-panel {
+    width: 400px;
+}
+
+.zangeo-poen {
+    width: 30px;
+    height: 30px;
+    padding: 5px;
     display: flex;
-    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.pehar-panel {
+    width: 800px;
+}
+
+.tabview {
+    position: relative;
+    margin-right: 30px;
     width: 100%;
-    height: 50px;
-    background: #333;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
+    height: 100%;
 }
 
-.copyright {
-    text-align: center;
-    align-self: center;
+.pokusaj {
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 468px;
+    height: 30px;
+    margin-right: 10px;
 }
 
-.ui-panel-titlebar {
-    text-align: center;
+.pokusaj span {
+    padding: 5px;
+    padding-left: 10px;
 }
 
 .polje {
-    background-color: #eee;
-    width: 450px;
-    height: 30px;
-}
-
-.polje span {
-    padding-left: 5px;
-}
-
-.polje-cifra {
-    background-color: #eee;
     width: 30px;
     height: 30px;
 }
 
-.polje-cifra span {
-    padding: 5px;
+.polje div {
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
 }
+
+.krug {
+    width: 30px;
+    height: 30px;
+}
+
+.krug div {
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+/* .loading {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url("#{resource['images/loading.gif']}") center no-repeat #fff;
+} */

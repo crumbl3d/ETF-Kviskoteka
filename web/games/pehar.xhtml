@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./../templates/masterTemplate.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="subtitle">Pehar</ui:define>
+
+    <ui:define name="content">
+        <h:panelGrid id="content-wrapper" columns="1">
+            <p:panel id="guidePanel" class="guide-panel" header="ETF Kviskoteka: Pehar" rendered="#{peharBean.status eq 0}">
+                <h:panelGrid columns="1">
+                    <div class="font-12pt font-bold text-center break-down">Uputstvo</div>
+                    <div class="font-10pt font-normal text-justify break-down">
+                        Odgovarajući na postavljena pitanja popuniti pehar.
+                        Svaki susedni odgovor se razlikuje za tačno jedno slovo.
+                        Za svaki odgovor dobijate onoliko poena koliko je on dugačak.
+                        Ukoliko ne znate odgovor, računar će ga popuniti, a vi nećete dobiti poene.
+                    </div>
+                    <h:form class="form-default w100p">
+                        <div class="flex">
+                            <div class="left" />
+                            <div class="center">
+                                <p:commandButton value="Počni" action="#{peharBean.start()}" update="content-wrapper" />
+                            </div>
+                            <div class="right" />
+                        </div>
+                    </h:form>
+                </h:panelGrid>
+            </p:panel>
+
+            <p:panel id="gamePanel" class="game-panel" header="ETF Kviskoteka: Pehar" rendered="#{peharBean.status gt 0}">
+                <h:form id="form" class="form-default">
+                    <p:poll interval="1" stop="#{peharBean.tajmerZaustavljen}" listener="#{peharBean.tajmerTick()}" update="vreme" />
+                    
+                    <h:panelGrid class="w100p" columns="1">
+                        <h:panelGrid id="pehar" class="w100p" columns="2">
+                            <h:panelGrid class="w100p" cellpadding="0" cellspacing="0" columns="1">
+                                <c:forEach var="i" begin="0" end="12">
+                                    <h:panelGrid class="center-block" columns="#{peharBean.tacniOdgovori[i].length() + 2}">
+                                        <h:panelGroup class="krug" layout="block">
+                                            <div>
+                                                <h:outputText class="font-12pt font-bold font-red"
+                                                              rendered="#{peharBean.indeks gt i and peharBean.poeniProtivnik[i] gt 0}"
+                                                              value="#{peharBean.poeniProtivnik[i]}" />
+                                            </div>
+                                        </h:panelGroup>
+                                        <c:forEach var="j" begin="0" end="#{peharBean.tacniOdgovori[i].length() - 1}">
+                                            <h:panelGroup class="polje" layout="block">
+                                                <div>
+                                                    <!--<h:outputText class="font-bold"
+                                                                  rendered="#{peharBean.poeni[i] eq 0 and peharBean.indeks le i}"
+                                                                  value="?" />-->
+                                                    <h:outputText class="font-12pt font-bold font-red"
+                                                                  rendered="#{peharBean.poeni[i] eq 0 and peharBean.indeks gt i}"
+                                                                  value="#{peharBean.tacniOdgovori[i].charAt(j)}" />
+                                                    <h:outputText class="font-12pt font-bold font-blue"
+                                                                  rendered="#{peharBean.poeni[i] gt 0}"
+                                                                  value="#{peharBean.odgovori[i].charAt(j)}" />
+                                                </div>
+                                            </h:panelGroup>
+                                        </c:forEach>
+                                        <h:panelGroup class="krug" layout="block">
+                                            <div>
+                                                <h:outputText class="font-12pt font-bold font-blue"
+                                                              rendered="#{peharBean.indeks gt i and peharBean.poeni[i] gt 0}"
+                                                              value="#{peharBean.poeni[i]}" />
+                                            </div>
+                                        </h:panelGroup>
+                                    </h:panelGrid>
+                                </c:forEach> 
+                            </h:panelGrid>
+
+                            <h:panelGrid class="w100p text-center" columns="1" rendered="#{peharBean.indeks lt 13}">
+                                <div class="font-12pt font-bold text-center break-down">Pitanje #{peharBean.indeks + 1}:</div>
+                                <div class="font-12pt font-normal text-center break-down">#{peharBean.trenutnoPitanje}</div>
+                                <p:inputText id="odgovor" class="w100p" value="#{peharBean.trenutniOdgovor}" maxlength="#{peharBean.tacniOdgovori[peharBean.indeks].length()}" />
+                            </h:panelGrid>
+                        </h:panelGrid>
+                        
+                        <h:panelGrid class="w100p text-center" columns="3">
+                            <p:commandButton value="Proveri" style="width: 100px" action="#{peharBean.proveri()}" />
+                            <h:outputText id="vreme" value="#{peharBean.preostaloVreme}" />
+                            <p:commandButton value="Odustani" style="width: 100px" action="#{gameController.odustani()}" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                    <h:panelGrid id="kraj" class="w100p" columns="1">
+                        <h:panelGrid class="w100p text-center" columns="1" rendered="#{peharBean.status gt 1}">
+                            <div class="font-12pt font-normal break-down">#{peharBean.poruka}</div>
+                            <p:commandButton value="Kraj igre dana" action="#{gameController.krajPehar(peharBean.brojPoena)}" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:form>
+            </p:panel>
+        </h:panelGrid>
+    </ui:define>
+
+</ui:composition>

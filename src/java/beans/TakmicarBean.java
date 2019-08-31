@@ -44,7 +44,7 @@ import util.HibernateUtil;
 import util.SessionUtil;
 
 /**
- *
+ * Bean for takmicar.xhtml.
  * @author crumbl3d
  */
 @ManagedBean
@@ -52,25 +52,26 @@ import util.SessionUtil;
 @Named(value = "takmicarBean")
 public class TakmicarBean implements Serializable {
 
+    int aktivanPogled;
     Rezultat mojRezultat;
     ArrayList<RezultatIspis> rez10naj;
 
+    public int getAktivanPogled() {
+        return aktivanPogled;
+    }
+
+    public void setAktivanPogled(int aktivanPogled) {
+        this.aktivanPogled = aktivanPogled;
+    }
+    
     public Rezultat getMojRezultat() {
         return mojRezultat;
     }
 
-    public void setMojRezultat(Rezultat mojRezultat) {
-        this.mojRezultat = mojRezultat;
-    }
-    
     public ArrayList<RezultatIspis> getRez10naj() {
         return rez10naj;
     }
 
-    public void setRez10naj(ArrayList<RezultatIspis> rez10naj) {
-        this.rez10naj = rez10naj;
-    }
-    
     public TakmicarBean() {
         LocalDate ld = LocalDate.now();
         Date danas = Date.valueOf(ld);

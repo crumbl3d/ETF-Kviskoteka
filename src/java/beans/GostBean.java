@@ -44,7 +44,7 @@ import org.hibernate.transform.Transformers;
 import util.HibernateUtil;
 
 /**
- *
+ * Bean for gost.xhtml.
  * @author crumbl3d
  */
 @ManagedBean
@@ -59,16 +59,8 @@ public class GostBean implements Serializable {
         return rez20dana;
     }
 
-    public void setRez20dana(ArrayList<RezultatIspis> rez20dana) {
-        this.rez20dana = rez20dana;
-    }
-
     public ArrayList<RezultatIspis> getRezMesec() {
         return rezMesec;
-    }
-
-    public void setRezMesec(ArrayList<RezultatIspis> rezMesec) {
-        this.rezMesec = rezMesec;
     }
     
     public GostBean() {

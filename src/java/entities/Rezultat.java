@@ -30,6 +30,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.Type;
 
 /**
  *
@@ -62,6 +63,10 @@ public class Rezultat implements Serializable {
     @Column(name = "poeniPehar")
     int poeniPehar;
 
+    @Column(name = "wip", nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    boolean wip;
+    
     @Formula("poeniAnagram + poeniMojBroj + poeniPetXPet + poeniZanGeo + poeniPehar")
     int poeniUkupno;
     
@@ -119,6 +124,14 @@ public class Rezultat implements Serializable {
 
     public void setPoeniPehar(int poeniPehar) {
         this.poeniPehar = poeniPehar;
+    }
+
+    public boolean isWip() {
+        return wip;
+    }
+
+    public void setWip(boolean wip) {
+        this.wip = wip;
     }
 
     public int getPoeniUkupno() {

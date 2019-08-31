@@ -36,8 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.ManagedBean;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.hibernate.Criteria;
@@ -48,7 +46,7 @@ import util.Helper;
 import util.HibernateUtil;
 
 /**
- *
+ * Bean for supervizor.xhtml.
  * @author crumbl3d
  */
 @ManagedBean
@@ -137,16 +135,12 @@ public class SupervizorBean implements Serializable {
         Anagram anagram = (Anagram) event.getObject();
         
         if (!Helper.checkValid(anagram.getZagonetka())) {
-            FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", 
-                        "Niste postavili zagonetku!"));
+            Helper.showError("Greška!", "Niste postavili zagonetku!");
             return;
         }
         
         if (!Helper.checkValid(anagram.getResenje())) {
-            FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", 
-                        "Niste postavili rešenje!"));
+            Helper.showError("Greška!", "Niste postavili rešenje!");
             return;
         }
 
@@ -159,42 +153,30 @@ public class SupervizorBean implements Serializable {
         dbs.getTransaction().commit();
         dbs.close();
         anagrami.add(new Anagram());
-        FacesContext.getCurrentInstance().addMessage(null, 
-            new FacesMessage(FacesMessage.SEVERITY_INFO, "Uspeh!", 
-                "Dodali ste novi anagram!"));
+        Helper.showInfo("Uspeh!", "Dodali ste novi anagram!");
     }
         
     public void izmenaPetXPet(RowEditEvent event) {
         PetXPet igra = (PetXPet) event.getObject();
         
         if (!Helper.checkValid(igra.getRec1())) {
-            FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", 
-                        "Niste postavili prvu reč!"));
+            Helper.showError("Greška!", "Niste postavili prvu reč!");
             return;
         }        
         if (!Helper.checkValid(igra.getRec2())) {
-            FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", 
-                        "Niste postavili drugu reč!"));
+            Helper.showError("Greška!", "Niste postavili drugu reč!");
             return;
         }        
         if (!Helper.checkValid(igra.getRec3())) {
-            FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", 
-                        "Niste postavili treću reč!"));
+            Helper.showError("Greška!", "Niste postavili treću reč!");
             return;
         }        
         if (!Helper.checkValid(igra.getRec4())) {
-            FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", 
-                        "Niste postavili četvrtu reč!"));
+            Helper.showError("Greška!", "Niste postavili četvrtu reč!");
             return;
         }        
         if (!Helper.checkValid(igra.getRec5())) {
-            FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", 
-                        "Niste postavili petu reč!"));
+            Helper.showError("Greška!", "Niste postavili petu reč!");
             return;
         }
         
@@ -206,14 +188,11 @@ public class SupervizorBean implements Serializable {
         dbs.getTransaction().commit();
         dbs.close();
         petxpet.add(new PetXPet());
-        FacesContext.getCurrentInstance().addMessage(null, 
-            new FacesMessage(FacesMessage.SEVERITY_INFO, "Uspeh!", 
-                "Dodali ste novu igru 5x5!"));
+        Helper.showInfo("Uspeh!", "Dodali ste novu igru 5x5!");
     }
 
     public void odustani(RowEditEvent event) {
-        FacesContext.getCurrentInstance().addMessage(null, 
-            new FacesMessage("Info:", "Akcija prekinuta."));
+        Helper.showInfo("Info:", "Akcija prekinuta.");
     }
      
     public void prihvati(PojamProveraIspis ispis) {
@@ -279,10 +258,8 @@ public class SupervizorBean implements Serializable {
                 || !Helper.checkValid(pehar.getPitanje10()) || !Helper.checkValid(pehar.getOdgovor10())
                 || !Helper.checkValid(pehar.getPitanje11()) || !Helper.checkValid(pehar.getOdgovor11())
                 || !Helper.checkValid(pehar.getPitanje12()) || !Helper.checkValid(pehar.getOdgovor12())
-                || !Helper.checkValid(pehar.getPitanje13()) || !Helper.checkValid(pehar.getOdgovor13())) {       
-            FacesContext.getCurrentInstance().addMessage(null, 
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", 
-                    "Sva polja su obavezna!"));
+                || !Helper.checkValid(pehar.getPitanje13()) || !Helper.checkValid(pehar.getOdgovor13())) {
+            Helper.showError("Greška!", "Sva polja su obavezna!");
             return;
         }
 
@@ -292,9 +269,7 @@ public class SupervizorBean implements Serializable {
         dbs.getTransaction().commit();
         dbs.close();
         pehar = new Pehar();
-              
-        FacesContext.getCurrentInstance().addMessage(null, 
-            new FacesMessage(FacesMessage.SEVERITY_INFO, "Poruka zadovoljstva!", 
-                "Uspešno ste dodali pehar!"));
+
+        Helper.showInfo("Poruka zadovoljstva!", "Uspešno ste dodali pehar!");
     }
 }
