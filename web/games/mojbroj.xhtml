@@ -11,7 +11,7 @@
 
     <ui:define name="content">
         <h:panelGrid id="content-wrapper" columns="1">
-            <p:panel id="guidePanel" class="guide-panel" header="ETF Kviskoteka: Moj broj" rendered="#{mojBrojBean.status == 0}">
+            <p:panel id="guidePanel" class="guide-panel" header="ETF Kviskoteka: Moj broj" rendered="#{mojBrojBean.status eq 0}">
                 <h:panelGrid columns="1">
                     <div class="font-12pt font-bold text-center break-down">Uputstvo</div>
                     <div class="font-10pt font-normal text-justify break-down">
@@ -30,7 +30,7 @@
                 </h:panelGrid>
             </p:panel>
 
-            <p:panel id="gamePanel" class="game-panel" header="ETF Kviskoteka: Moj broj" rendered="#{mojBrojBean.status > 0}">
+            <p:panel id="gamePanel" class="game-panel" header="ETF Kviskoteka: Moj broj" rendered="#{mojBrojBean.status gt 0}">
                 <h:form id="form" class="form-default">
                     <p:poll interval="1" stop="#{mojBrojBean.tajmerZaustavljen}" listener="#{mojBrojBean.tajmerTick()}" update="vreme kraj" />
 
@@ -58,14 +58,14 @@
                             <p:commandButton style="width: 60px" value="#{mojBrojBean.brojevi.get(8)}" action="#{mojBrojBean.klik(8)}" disabled="#{mojBrojBean.blokirani.get(8)}" update="brojevi izraz" />
                         </h:panelGrid>
 
-                        <h:panelGroup class="flex w100p" layout="block" rendered="#{mojBrojBean.status == 1}">
+                        <h:panelGroup class="flex w100p" layout="block" rendered="#{mojBrojBean.status eq 1}">
                             <div class="left" />
                             <div class="center"><p:commandButton value="Stop" action="#{mojBrojBean.stop()}" update="panel" /></div>
                             <div class="right" />
                         </h:panelGroup>
 
-                        <h:panelGroup layout="block" class="font-12pt font-bold text-center" rendered="#{mojBrojBean.status > 1}">Operacije:</h:panelGroup>
-                        <h:panelGrid id="operacije" style="width: 564px; padding: 10px 100px" columns="6" rendered="#{mojBrojBean.status > 1}">
+                        <h:panelGroup layout="block" class="font-12pt font-bold text-center" rendered="#{mojBrojBean.status gt 1}">Operacije:</h:panelGroup>
+                        <h:panelGrid id="operacije" style="width: 564px; padding: 10px 100px" columns="6" rendered="#{mojBrojBean.status gt 1}">
                             <p:commandButton value="(" action="#{mojBrojBean.klik(9)}" update="izraz" />
                             <p:commandButton value=")" action="#{mojBrojBean.klik(10)}" update="izraz" />
                             <p:commandButton value="+" action="#{mojBrojBean.klik(11)}" update="izraz" />
@@ -74,7 +74,7 @@
                             <p:commandButton value="/" action="#{mojBrojBean.klik(14)}" update="izraz" />
                         </h:panelGrid>
                         
-                        <h:panelGrid class="w100p" columns="1" rendered="#{mojBrojBean.status > 1}">
+                        <h:panelGrid class="w100p" columns="1" rendered="#{mojBrojBean.status gt 1}">
                             <div class="font-12pt font-bold text-center break-down">Izraz:</div>
                             <h:panelGrid id="izraz" class="w100p break-down" cellpadding="0" columns="2">
                                 <div class="pokusaj"><span>#{mojBrojBean.izraz}</span></div>
@@ -101,13 +101,13 @@
                             <h:panelGrid class="w100p text-center" columns="3">
                                 <p:commandButton value="Proveri" style="width: 100px" action="#{mojBrojBean.proveri()}" update="kraj" />
                                 <h:outputText id="vreme" value="#{mojBrojBean.preostaloVreme}" />
-                                <p:commandButton value="Odustani" style="width: 100px" action="#{gameController.odustani()}" update="kraj" />
+                                <p:commandButton value="Odustani" style="width: 100px" action="#{gameController.odustani()}" />
                             </h:panelGrid>
                         </h:panelGrid>
                     </h:panelGrid>
 
                     <h:panelGrid id="kraj" class="w100p" columns="1">
-                        <h:panelGrid class="w100p text-center" columns="1" rendered="#{mojBrojBean.status > 2}">
+                        <h:panelGrid class="w100p text-center" columns="1" rendered="#{mojBrojBean.status gt 2}">
                             <div class="font-12pt font-normal break-down">#{mojBrojBean.poruka}</div>
                             <p:commandButton value="Sledeća igra" action="#{gameController.krajMojBroj(mojBrojBean.brojPoena)}" />
                         </h:panelGrid>

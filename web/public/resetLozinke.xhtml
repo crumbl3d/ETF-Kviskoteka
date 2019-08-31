@@ -12,14 +12,14 @@
         <p:panel id="panel" class="login-panel" header="ETF Kviskoteka: Reset lozinke">
             <p:growl id="msgs" globalOnly="true" showSummary="false" showDetail="true" />
 
-            <h:form class="form-default" rendered="#{resetLozinkeBean.korak == 0}">
+            <h:form class="form-default" rendered="#{resetLozinkeBean.korak eq 0}">
                 <h:panelGrid class="w100p" columns="1">
                     <p:messages globalOnly="true" showSummary="false" showDetail="true" showIcon="false" />
                     <p:commandButton class="w100p" value="Nazad na prijavu" action="/public/prijava" />
                 </h:panelGrid>
             </h:form>
             
-            <h:form class="form-default" rendered="#{resetLozinkeBean.korak == 1}">
+            <h:form class="form-default" rendered="#{resetLozinkeBean.korak eq 1}">
                 <h:panelGrid class="w100p" columns="1">
                     <h:outputLabel class="font-10pt font-bold" for="korisnickoIme" value="Korisničko ime" />
                     <p:inputText id="korisnickoIme" class="login-panel-input"
@@ -43,7 +43,7 @@
                 </h:panelGrid>
             </h:form>
             
-            <h:form rendered="#{resetLozinkeBean.korak == 2}">
+            <h:form rendered="#{resetLozinkeBean.korak eq 2}">
                 <h:panelGrid class="w100p" columns="1">
                     <h:outputLabel class="font-10pt font-bold" value="Tajno pitanje" />
                     <div class="break-down">#{resetLozinkeBean.trazeni.tajnoPitanje}</div>
@@ -60,7 +60,7 @@
                 </h:panelGrid>
             </h:form>
 
-            <h:form rendered="#{resetLozinkeBean.korak == 3}">
+            <h:form rendered="#{resetLozinkeBean.korak eq 3}">
                 <h:panelGrid class="w100p" columns="1">
                     <h:outputLabel class="font-10pt font-bold" for="novaLozinka" value="Nova lozinka" />
                     <p:password id="novaLozinka" class="login-panel-input"

@@ -24,18 +24,18 @@
 package beans;
 
 import controllers.GameController;
-import entities.Anagram;
 import entities.IgraDana;
+import entities.Korisnik;
+import entities.PojamProvera;
+import entities.ZanGeo;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.Stack;
 import javax.annotation.ManagedBean;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
 import util.Helper;
@@ -50,9 +50,12 @@ import util.HibernateUtil;
 @Named(value="zanGeoBean")
 public class ZanGeoBean implements Serializable {
 
+    IgraDana igra;
+    Korisnik takmicar;
     int status, preostaloVreme, brojPoena;
-    String poruka, slovo, drzava, grad, jezero, reka, planina, zivotinja, biljka, grupa;
-    boolean tajmerZaustavljen;
+    String poruka, slovo;
+    String[] nazivi, kategorije, pojmovi, poeni;
+    boolean tajmerZaustavljen, wip;
     
     public int getStatus() {
         return status;
@@ -73,73 +76,25 @@ public class ZanGeoBean implements Serializable {
     public String getSlovo() {
         return slovo;
     }
-    
-    public String getDrzava() {
-        return drzava;
+
+    public String[] getNazivi() {
+        return nazivi;
     }
 
-    public void setDrzava(String drzava) {
-        this.drzava = drzava;
+    public String[] getPojmovi() {
+        return pojmovi;
     }
 
-    public String getGrad() {
-        return grad;
-    }
-
-    public void setGrad(String grad) {
-        this.grad = grad;
-    }
-
-    public String getJezero() {
-        return jezero;
-    }
-
-    public void setJezero(String jezero) {
-        this.jezero = jezero;
-    }
-
-    public String getReka() {
-        return reka;
-    }
-
-    public void setReka(String reka) {
-        this.reka = reka;
-    }
-
-    public String getPlanina() {
-        return planina;
-    }
-
-    public void setPlanina(String planina) {
-        this.planina = planina;
-    }
-
-    public String getZivotinja() {
-        return zivotinja;
-    }
-
-    public void setZivotinja(String zivotinja) {
-        this.zivotinja = zivotinja;
-    }
-
-    public String getBiljka() {
-        return biljka;
-    }
-
-    public void setBiljka(String biljka) {
-        this.biljka = biljka;
-    }
-
-    public String getGrupa() {
-        return grupa;
-    }
-
-    public void setGrupa(String grupa) {
-        this.grupa = grupa;
+    public String[] getPoeni() {
+        return poeni;
     }
 
     public boolean isTajmerZaustavljen() {
         return tajmerZaustavljen;
+    }
+
+    public boolean isWip() {
+        return wip;
     }
 
     public void start() {
@@ -159,14 +114,72 @@ public class ZanGeoBean implements Serializable {
     public void proveri() {
         tajmerZaustavljen = true;
         status = 2;
-        poruka = "temp";
+        
+        Session dbs = HibernateUtil.getSessionFactory().openSession();
+
+        brojPoena = 0;
+        wip = false;
+        int supervizor = 0;
+        for (int i = 0; i < 8; i++) {
+            String pojam = pojmovi[i].isEmpty() ? null : slovo + pojmovi[i];
+            int p = proveriPojam(kategorije[i], pojam, dbs);
+            if (p == -1) {
+                poeni[i] = "?";
+                wip = true;
+                supervizor++;
+                dodajProveruPojma(kategorije[i], pojam, dbs);
+            } else {
+                poeni[i] = String.valueOf(p);
+                brojPoena += p;
+            }
+        }
+
+        dbs.close();
+        
+        if (supervizor > 0) {
+            poruka = "Uneli ste " + supervizor + (supervizor == 1 ? " pojam" : (supervizor < 5 ? " pojma" : " pojmova")) + " koji ne postoje u bazi (označeni sa '?'). Vaš rezultat će se pojaviti na rang listi tek nakon što supervizor proveri date pojmove. Imaćete najmanje " + brojPoena + " poena, a najviše " + (brojPoena + 4 * supervizor) + " poena.";
+        } else if (brojPoena > 0) {
+            poruka = "Čestitamo! Osvojili ste " + brojPoena + " poena.";
+        } else {
+            poruka = "Nažalost u ovoj igri niste osvojili poene.";
+        }
+    }
+    
+    private int proveriPojam(String kategorija, String pojam, Session dbs) {
+        if (pojam == null || pojam.isEmpty()) {
+            return 0;
+        }
+        Criteria cr = dbs.createCriteria(ZanGeo.class);
+        cr.add(Restrictions.eq("kategorija", kategorija));
+        cr.add(Restrictions.ilike("pojam", pojam, MatchMode.ANYWHERE));
+        ZanGeo z = (ZanGeo) cr.uniqueResult();
+        return z != null ? 2 : -1;
+    }
+    
+    private void dodajProveruPojma(String kategorija, String pojam, Session dbs) {
+        if (pojam == null || pojam.isEmpty()) {
+            return;
+        }
+        PojamProvera provera = new PojamProvera();
+        provera.setDatum(igra.getDatum());
+        provera.setKorisnickoIme(takmicar.getKorisnickoIme());
+        provera.setKategorija(kategorija.toLowerCase());
+        provera.setPojam(pojam.toLowerCase());
+        dbs.beginTransaction();
+        dbs.save(provera);
+        dbs.getTransaction().commit();
     }
     
     public ZanGeoBean() {
         GameController gctl = GameController.getCurrentInstance();
-        IgraDana igra = gctl.getIgra();
+        igra = gctl.getIgra();
         if (igra == null) {
             Helper.showFatal("Interna greška!", "Igra nije učitana!");
+            return;
+        }
+        takmicar = gctl.getTakmicar();
+        if (takmicar == null) {
+            Helper.showFatal("Interna greška!", "Takmičar nije ulogovan!");
             return;
         }
         
@@ -179,5 +192,10 @@ public class ZanGeoBean implements Serializable {
             "T", "U", "V", "Z", "Ž" };
         Random generator = new Random(igra.getDatum().getTime());
         slovo = latinica[generator.nextInt(30)];
+        
+        nazivi = new String[] { "Država", "Grad", "Jezero", "Planina", "Reka", "Životinja", "Biljka", "Muzička grupa" };
+        pojmovi = new String[] { "", "", "", "", "", "", "", "" };
+        poeni = new String[] { "", "", "", "", "", "", "", "" };
+        kategorije = new String[] { "drzava", "grad", "jezero", "planina", "reka", "zivotinja", "biljka", "grupa" };
     }
 }

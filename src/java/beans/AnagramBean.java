@@ -26,6 +26,7 @@ package beans;
 import controllers.GameController;
 import entities.Anagram;
 import entities.IgraDana;
+import entities.Korisnik;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -161,6 +162,12 @@ public class AnagramBean implements Serializable {
             Helper.showFatal("Interna greška!", "Igra nije učitana!");
             return;
         }
+        Korisnik takmicar = gctl.getTakmicar();
+        if (takmicar == null) {
+            Helper.showFatal("Interna greška!", "Takmičar nije ulogovan!");
+            return;
+        }
+
         Session dbs = HibernateUtil.getSessionFactory().openSession();
         Criteria cr = dbs.createCriteria(Anagram.class);
         cr.add(Restrictions.eq("idAnagram", igra.getIdAnagram()));

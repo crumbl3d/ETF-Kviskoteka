@@ -25,6 +25,7 @@ package beans;
 
 import controllers.GameController;
 import entities.IgraDana;
+import entities.Korisnik;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -312,6 +313,12 @@ public class MojBrojBean implements Serializable {
             Helper.showFatal("Interna greška!", "Igra nije učitana!");
             return;
         }
+        Korisnik takmicar = gctl.getTakmicar();
+        if (takmicar == null) {
+            Helper.showFatal("Interna greška!", "Takmičar nije ulogovan!");
+            return;
+        }
+
         generator = new Random(igra.getDatum().getTime());
         brojevi = new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
         blokirani = new ArrayList<>(Arrays.asList(false, false, false, false, false, false, false, false, false));

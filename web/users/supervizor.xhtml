@@ -23,7 +23,7 @@
                         <p:ajax event="rowEditCancel" listener="#{supervizorBean.odustani}" update="msgs" />
 
                         <p:column headerText="RB" style="width: 20px; text-align: center">
-                            <h:outputText value="#{anagram.idAnagram}" rendered="#{anagram.idAnagram != 0}" />
+                            <h:outputText value="#{anagram.idAnagram}" rendered="#{anagram.idAnagram ne 0}" />
                         </p:column>
 
                         <p:column headerText="Zagonetka" style="width: 200px">
@@ -45,7 +45,7 @@
                         </p:column>
 
                         <p:column style="width:35px">
-                            <p:rowEditor rendered="#{anagram.idAnagram == 0}" />
+                            <p:rowEditor rendered="#{anagram.idAnagram eq 0}" />
                         </p:column>
 
                         <f:facet name="footer">
@@ -56,7 +56,6 @@
             </div>
             <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px">
                 <h:form class="form-default" id="form2">
-
                     <p:dataTable id="petxpet" var="petxpet" value="#{supervizorBean.petxpet}" style="font-size: 10pt" editable="true" resizableColumns="true">
                         <f:facet name="header">
                             5x5
@@ -66,7 +65,7 @@
                         <p:ajax event="rowEditCancel" listener="#{supervizorBean.odustani}" update="msgs" />
 
                         <p:column headerText="RB" style="width: 35px">
-                            <h:outputText value="#{petxpet.idPetXPet}" rendered="#{petxpet.idPetXPet != 0}" />
+                            <h:outputText value="#{petxpet.idPetXPet}" rendered="#{petxpet.idPetXPet ne 0}" />
                         </p:column>
 
                         <p:column headerText="Prva reč" resizable="true">
@@ -115,7 +114,7 @@
                         </p:column>
 
                         <p:column style="width:35px">
-                            <p:rowEditor rendered="#{petxpet.idPetXPet == 0}" />
+                            <p:rowEditor rendered="#{petxpet.idPetXPet eq 0}" />
                         </p:column>
 
                         <f:facet name="footer">
@@ -157,8 +156,7 @@
                 </p:dataTable>
             </div>
             <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px">
-                <p:panel id="panel" style="width: 700px" header="Pehar">
-
+                <p:panel id="panel" style="width: 700px; marign: 5px" header="Pehar">
                     <h:form>
                         <h:panelGrid class="w100p" columns="2">
                             <h:panelGrid class="w100p" columns="1">

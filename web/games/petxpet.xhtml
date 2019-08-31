@@ -7,11 +7,11 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="subtitle">Anagram</ui:define>
+    <ui:define name="subtitle">5x5</ui:define>
 
     <ui:define name="content">
         <h:panelGrid id="content-wrapper" columns="1">
-            <p:panel id="guidePanel" class="guide-panel" header="ETF Kviskoteka: Anagram" rendered="#{anagramBean.status eq 0}">
+            <p:panel id="guidePanel" class="guide-panel" header="ETF Kviskoteka: 5x5" rendered="#{anagramBean.status eq 0}">
                 <h:panelGrid columns="1">
                     <div class="font-12pt font-bold text-center break-down">Uputstvo</div>
                     <div class="font-10pt font-normal text-justify break-down">
@@ -31,7 +31,7 @@
                 </h:panelGrid>
             </p:panel>
 
-            <p:panel id="gamePanel" class="game-panel" header="ETF Kviskoteka: Anagram" rendered="#{anagramBean.status gt 0}">
+            <p:panel id="gamePanel" class="game-panel" header="ETF Kviskoteka: 5x5" rendered="#{anagramBean.status gt 0}">
                 <h:form id="form" class="form-default">
                     <p:poll interval="1" stop="#{anagramBean.tajmerZaustavljen}" listener="#{anagramBean.tajmerTick()}" update="vreme kraj" />
 
@@ -61,7 +61,7 @@
                     <h:panelGrid id="kraj" class="w100p" columns="1">
                         <h:panelGrid class="w100p text-center" columns="1" rendered="#{anagramBean.status gt 1}">
                             <div class="font-12pt font-normal break-down">#{anagramBean.poruka}</div>
-                            <p:commandButton value="Sledeća igra" action="#{gameController.krajAnagram(anagramBean.brojPoena)}" />
+                            <p:commandButton value="Sledeća igra" action="#{gameController.krajPetXPet(anagramBean.brojPoena)}" />
                         </h:panelGrid>
                     </h:panelGrid>
                 </h:form>

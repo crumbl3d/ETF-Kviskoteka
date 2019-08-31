@@ -11,12 +11,12 @@
 
     <ui:define name="content">
         <h:panelGrid id="content-wrapper" columns="1">
-            <p:panel id="guidePanel" class="guide-panel" header="ETF Kviskoteka: Zanimljiva geografija" rendered="#{zanGeoBean.status == 0}">
+            <p:panel id="guidePanel" class="guide-panel" header="ETF Kviskoteka: Zanimljiva geografija" rendered="#{zanGeoBean.status eq 0}">
                 <h:panelGrid columns="1">
                     <div class="font-12pt font-bold text-center break-down">Uputstvo</div>
                     <div class="font-10pt font-normal text-justify break-down">
                         Za zadato slovo uneti što je više moguće pojmova za 2 minuta.
-                        Napomena: Prvo slovo je već uneto i ne sme se unositi ponovo!
+                        <b>Napomena:</b> Prvo slovo je već uneto i ne sme se unositi ponovo!
                     </div>
                     <h:form class="form-default w100p">
                         <div class="flex">
@@ -30,58 +30,39 @@
                 </h:panelGrid>
             </p:panel>
 
-            <p:panel id="gamePanel" class="zangeo-panel" header="ETF Kviskoteka: Zanimljiva geografija" rendered="#{zanGeoBean.status > 0}">
+            <p:panel id="gamePanel" class="zangeo-panel" header="ETF Kviskoteka: Zanimljiva geografija" rendered="#{zanGeoBean.status gt 0}">
                 <h:form id="form" class="form-default">
-                    <p:poll interval="1" stop="#{zanGeoBean.tajmerZaustavljen}" listener="#{zanGeoBean.tajmerTick()}" update="vreme kraj" />
+                    <p:poll interval="1" stop="#{zanGeoBean.tajmerZaustavljen}" listener="#{zanGeoBean.tajmerTick()}" update="vreme kraj poeni" />
 
                     <h:panelGrid class="w100p" columns="1">
                         <div class="font-12pt font-bold text-center break-down">Slovo: #{zanGeoBean.slovo}</div>
 
-                        <h:panelGrid class="w100p" columns="3">
-                            <h:panelGroup layout="block" class="font-12pt font-bold text-right p5">Država:</h:panelGroup>
-                            <h:panelGroup layout="block" class="polje p5"><div>#{zanGeoBean.slovo}</div></h:panelGroup>
-                            <p:inputText id="drzava" class="w100p break-down" value="#{zanGeoBean.drzava}" />
-                            
-                            <div class="font-12pt font-bold text-right p5">Grad:</div>
-                            <h:panelGroup layout="block" class="polje p5"><div>#{zanGeoBean.slovo}</div></h:panelGroup>
-                            <p:inputText id="grad" class="w100p break-down" value="#{zanGeoBean.grad}" />
-                            
-                            <div class="font-12pt font-bold text-right p5">Jezero:</div>
-                            <h:panelGroup layout="block" class="polje p5"><div>#{zanGeoBean.slovo}</div></h:panelGroup>
-                            <p:inputText id="jezero" class="w100p break-down" value="#{zanGeoBean.jezero}" />
-                            
-                            <div class="font-12pt font-bold text-right p5">Planina:</div>
-                            <h:panelGroup layout="block" class="polje p5"><div>#{zanGeoBean.slovo}</div></h:panelGroup>
-                            <p:inputText id="planina" class="w100p break-down" value="#{zanGeoBean.planina}" />
-                            
-                            <div class="font-12pt font-bold text-right p5">Reka:</div>
-                            <h:panelGroup layout="block" class="polje p5"><div>#{zanGeoBean.slovo}</div></h:panelGroup>
-                            <p:inputText id="reka" class="w100p break-down" value="#{zanGeoBean.reka}" />
-                            
-                            <div class="font-12pt font-bold text-right p5">Životinja:</div>
-                            <h:panelGroup layout="block" class="polje p5"><div>#{zanGeoBean.slovo}</div></h:panelGroup>
-                            <p:inputText id="zivotinja" class="w100p break-down" value="#{zanGeoBean.zivotinja}" />
-                            
-                            <div class="font-12pt font-bold text-right p5">Biljka:</div>
-                            <h:panelGroup layout="block" class="polje p5"><div>#{zanGeoBean.slovo}</div></h:panelGroup>
-                            <p:inputText id="biljka" class="w100p break-down" value="#{zanGeoBean.biljka}" />
-                            
-                            <div class="font-12pt font-bold text-right p5">Muzička grupa:</div>
-                            <h:panelGroup layout="block" class="polje p5"><div>#{zanGeoBean.slovo}</div></h:panelGroup>
-                            <p:inputText id="grupa" class="w100p break-down" value="#{zanGeoBean.grupa}" />
+                        <h:panelGrid class="w100p" cellpadding="0" columns="2">
+                            <h:panelGrid class="w100p" cellpadding="0" columns="3">
+                                <c:forEach var="i" begin="0" end="7">
+                                    <h:panelGroup layout="block" class="font-12pt font-bold text-right p5">#{zanGeoBean.nazivi[i]}:</h:panelGroup>
+                                    <h:panelGroup layout="block" class="polje p5"><div>#{zanGeoBean.slovo}</div></h:panelGroup>
+                                    <p:inputText id="drzava" class="w100p break-down" value="#{zanGeoBean.pojmovi[i]}" />
+                                </c:forEach>
+                            </h:panelGrid>
+                            <h:panelGrid id="poeni" cellpadding="0" columns="1">
+                                <c:forEach var="i" begin="0" end="7">
+                                    <h:panelGroup layout="block" class="zangeo-poen">#{zanGeoBean.poeni[i]}</h:panelGroup>
+                                </c:forEach>
+                            </h:panelGrid>
                         </h:panelGrid>
 
                         <h:panelGrid class="w100p text-center" columns="3">
-                            <p:commandButton value="Proveri" style="width: 100px" action="#{zanGeoBean.proveri()}" update="kraj" />
+                            <p:commandButton value="Proveri" style="width: 100px" action="#{zanGeoBean.proveri()}" update="kraj poeni" />
                             <h:outputText id="vreme" value="#{zanGeoBean.preostaloVreme}" />
-                            <p:commandButton value="Odustani" style="width: 100px" action="#{gameController.odustani()}" update="kraj" />
+                            <p:commandButton value="Odustani" style="width: 100px" action="#{gameController.odustani()}" />
                         </h:panelGrid>
                     </h:panelGrid>
 
                     <h:panelGrid id="kraj" class="w100p" columns="1">
-                        <h:panelGrid class="w100p text-center" columns="1" rendered="#{zanGeoBean.status > 1}">
+                        <h:panelGrid class="w100p text-center" columns="1" rendered="#{zanGeoBean.status gt 1}">
                             <div class="font-12pt font-normal break-down">#{zanGeoBean.poruka}</div>
-                            <p:commandButton value="Sledeća igra" action="#{gameController.krajZanGeo(zanGeoBean.brojPoena)}" />
+                            <p:commandButton value="Sledeća igra" action="#{gameController.krajZanGeo(zanGeoBean.brojPoena, zanGeoBean.wip)}" />
                         </h:panelGrid>
                     </h:panelGrid>
                 </h:form>

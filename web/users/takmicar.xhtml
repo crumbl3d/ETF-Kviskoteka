@@ -14,7 +14,7 @@
                 <div class="w100p">test</div>
                 <h:form class="form-default w100p">
                     <h:panelGrid columns="1">
-                        <p:commandButton value="Igraj igru dana" action="#{gameController.zapocniIgruDana()}" /><!--disabled="#{takmicarBean.mojRezultat != null}" />-->
+                        <p:commandButton value="Igraj igru dana" action="#{gameController.zapocniIgruDana()}" /><!--disabled="#{takmicarBean.mojRezultat ne null}" />-->
                     </h:panelGrid>
                 </h:form>
             </p:tab>
@@ -29,27 +29,27 @@
                     </p:column>
 
                     <p:column headerText="Ime" style="width: 100px; text-align: center">
-                        <h:outputText value="#{rezultat.takmicar.ime}" rendered="#{rezultat.takmicar != null}" />
+                        <h:outputText value="#{rezultat.takmicar.ime}" rendered="#{rezultat.takmicar ne null}" />
                     </p:column>
 
                     <p:column headerText="Prezime" style="width: 100px; text-align: center">
-                        <h:outputText value="#{rezultat.takmicar.prezime}" rendered="#{rezultat.takmicar != null}" />
+                        <h:outputText value="#{rezultat.takmicar.prezime}" rendered="#{rezultat.takmicar ne null}" />
                     </p:column>
 
                     <p:column headerText="Anagram" style="width: 80px; text-align: center">
-                        <h:outputText value="#{rezultat.poeniAnagram}" rendered="#{rezultat.takmicar != null}">
+                        <h:outputText value="#{rezultat.poeniAnagram}" rendered="#{rezultat.takmicar ne null}">
                             <f:convertNumber maxFractionDigits="0" />
                         </h:outputText>
                     </p:column>
 
                     <p:column headerText="Moj broj" style="width: 80px; text-align: center">
-                        <h:outputText value="#{rezultat.poeniMojBroj}" rendered="#{rezultat.takmicar != null}">
+                        <h:outputText value="#{rezultat.poeniMojBroj}" rendered="#{rezultat.takmicar ne null}">
                             <f:convertNumber maxFractionDigits="0" />
                         </h:outputText>
                     </p:column>
 
                     <p:column headerText="5x5" style="width: 40px; text-align: center">
-                        <h:outputText value="#{rezultat.poeniPetXPet}" rendered="#{rezultat.takmicar != null}">
+                        <h:outputText value="#{rezultat.poeniPetXPet}" rendered="#{rezultat.takmicar ne null}">
                             <f:convertNumber maxFractionDigits="0" />
                         </h:outputText>
                     </p:column>
@@ -58,19 +58,19 @@
                         <f:facet name="header">
                             Zanimljiva <br/> geografija
                         </f:facet>
-                        <h:outputText value="#{rezultat.poeniZanGeo}" rendered="#{rezultat.takmicar != null}">
+                        <h:outputText value="#{rezultat.poeniZanGeo}" rendered="#{rezultat.takmicar ne null}">
                             <f:convertNumber maxFractionDigits="0" />
                         </h:outputText>
                     </p:column>
 
                     <p:column headerText="Pehar" style="width: 80px; text-align: center">
-                        <h:outputText value="#{rezultat.poeniPehar}" rendered="#{rezultat.takmicar != null}">
+                        <h:outputText value="#{rezultat.poeniPehar}" rendered="#{rezultat.takmicar ne null}">
                             <f:convertNumber maxFractionDigits="0" />
                         </h:outputText>
                     </p:column>
 
                     <p:column headerText="Σ" style="width: 40px; text-align: center">
-                        <h:outputText value="#{rezultat.poeniUkupno}" rendered="#{rezultat.takmicar != null}">
+                        <h:outputText value="#{rezultat.poeniUkupno}" rendered="#{rezultat.takmicar ne null}">
                             <f:convertNumber maxFractionDigits="0" />
                         </h:outputText>
                     </p:column>

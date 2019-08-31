@@ -116,17 +116,38 @@ public class GameController implements Serializable {
         dbs.update(rezultat);
         dbs.getTransaction().commit();
         dbs.close();
+        return "/games/petxpet.xhtml?faces-redirect=true";
+    }
+    
+    public String krajPetXPet(int brojPoena) {
+        Session dbs = HibernateUtil.getSessionFactory().openSession();
+        dbs.beginTransaction();
+        rezultat.setPoeniPetXPet(brojPoena);
+        dbs.update(rezultat);
+        dbs.getTransaction().commit();
+        dbs.close();
         return "/games/zangeo.xhtml?faces-redirect=true";
     }
     
-    public String krajZanGeo(int brojPoena) {
+    public String krajZanGeo(int brojPoena, boolean wip) {
         Session dbs = HibernateUtil.getSessionFactory().openSession();
         dbs.beginTransaction();
-        rezultat.setPoeniMojBroj(brojPoena);
+        rezultat.setPoeniZanGeo(brojPoena);
+        rezultat.setWip(wip);
         dbs.update(rezultat);
         dbs.getTransaction().commit();
         dbs.close();
         return "/games/pehar.xhtml?faces-redirect=true";
+    }
+
+    public String krajPehar(int brojPoena) {
+        Session dbs = HibernateUtil.getSessionFactory().openSession();
+        dbs.beginTransaction();
+        rezultat.setPoeniPehar(brojPoena);
+        dbs.update(rezultat);
+        dbs.getTransaction().commit();
+        dbs.close();
+        return "/games/takmicar.xhtml?faces-redirect=true";
     }
     
     public String odustani() {

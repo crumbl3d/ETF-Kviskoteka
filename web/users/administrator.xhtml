@@ -64,16 +64,16 @@
 
                         <p:column headerText="Datum" resizable="true">
                             <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{igra.datum}" rendered="#{igra.datum != null}" /></f:facet>
+                                <f:facet name="output"><h:outputText value="#{igra.datum}" rendered="#{igra.datum ne null}" /></f:facet>
                                 <f:facet name="input">
-                                    <p:calendar value="#{administratorBean.datum}" style="width: 100%" mindate="#{administratorBean.danas}" rendered="#{igra.datum == null}" />
+                                    <p:calendar value="#{administratorBean.datum}" style="width: 100%" mindate="#{administratorBean.danas}" rendered="#{igra.datum eq null}" />
                                 </f:facet>
                             </p:cellEditor>
                         </p:column>
 
                         <p:column headerText="Anagram" resizable="true">
                             <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{igra.idAnagram}" rendered="#{igra.datum != null}" /></f:facet>
+                                <f:facet name="output"><h:outputText value="#{igra.idAnagram}" rendered="#{igra.datum ne null}" /></f:facet>
                                 <f:facet name="input">
                                     <h:selectOneMenu value="#{igra.idAnagram}" style="width: 100%">
                                         <f:selectItems value="#{administratorBean.anagrami}" var="idAnagram" itemLabel="#{idAnagram}" itemValue="#{idAnagram}" />
@@ -84,7 +84,7 @@
 
                         <p:column headerText="5x5" resizable="true">
                             <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{igra.idPetXPet}" rendered="#{igra.datum != null}" /></f:facet>
+                                <f:facet name="output"><h:outputText value="#{igra.idPetXPet}" rendered="#{igra.datum ne null}" /></f:facet>
                                 <f:facet name="input">
                                     <h:selectOneMenu value="#{igra.idPetXPet}" style="width: 100%">
                                         <f:selectItems value="#{administratorBean.petxpet}" var="idPetXPet" itemLabel="#{idPetXPet}" itemValue="#{idPetXPet}" />
@@ -95,7 +95,7 @@
 
                         <p:column headerText="Pehar" resizable="true">
                             <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{igra.idPehar}" rendered="#{igra.datum != null}" /></f:facet>
+                                <f:facet name="output"><h:outputText value="#{igra.idPehar}" rendered="#{igra.datum ne null}" /></f:facet>
                                 <f:facet name="input">
                                     <h:selectOneMenu value="#{igra.idPehar}" style="width: 100%">
                                         <f:selectItems value="#{administratorBean.pehari}" var="idPehar" itemLabel="#{idPehar}" itemValue="#{idPehar}" />
