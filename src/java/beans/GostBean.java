@@ -80,6 +80,7 @@ public class GostBean implements Serializable {
         Criteria cr = dbs.createCriteria(Rezultat.class);
         cr.add(Restrictions.le("datum", danas));
         cr.add(Restrictions.ge("datum", pre20dana));
+        cr.add(Restrictions.eq("wip", false));
         cr.setProjection(Projections.projectionList()
                 .add(Projections.groupProperty("datum").as("datum"))
                 .add(Projections.max("poeniUkupno").as("poeniUkupno"))
@@ -116,6 +117,7 @@ public class GostBean implements Serializable {
         cr = dbs.createCriteria(Rezultat.class);
         cr.add(Restrictions.le("datum", danas));
         cr.add(Restrictions.ge("datum", pocetakMeseca));
+        cr.add(Restrictions.eq("wip", false));
         cr.setProjection(Projections.projectionList()
                 .add(Projections.groupProperty("korisnickoIme").as("korisnickoIme"))
                 .add(Projections.property("datum").as("datum"))

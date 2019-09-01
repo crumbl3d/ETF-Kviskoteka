@@ -24,7 +24,7 @@
             </h:form>
 
             <h:form class="form-default" rendered="#{!loginController.ulogovan()}">
-                <h:panelGrid class="w100p" columns="1">
+                <h:panelGrid id="login" class="w100p" columns="1">
                     <h:outputLabel class="font-10pt font-bold" for="korisnickoIme" value="Korisničko ime" />
                     <p:inputText id="korisnickoIme" class="login-panel-input"
                                  placeholder="Unesite korisničko ime" value="#{prijavaBean.korisnickoIme}"
@@ -41,7 +41,7 @@
                     </p:password>
                     <p:message id="msgLozinka" class="break-down" for="lozinka" display="text" />
 
-                    <p:commandButton class="w100p" value="Prijava" action="#{loginController.prijava(prijavaBean.korisnickoIme, prijavaBean.lozinka)}" update="msgs" />
+                    <p:commandButton class="w100p" value="Prijava" action="#{loginController.prijava(prijavaBean.korisnickoIme, prijavaBean.lozinka)}" update="msgs login" />
                 </h:panelGrid>
             </h:form>
             <h:form class="form-default" rendered="#{!loginController.ulogovan()}">

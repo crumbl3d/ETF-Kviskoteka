@@ -26,14 +26,10 @@ THE SOFTWARE.
     Author     : crumbl3d
 */
 
-.ui-panel-titlebar {
+.ui-panel-titlebar, .ui-panel-footer, .ui-row-editor {
     text-align: center;
 }
 
-.ui-tabs-panels, .ui-tabs-header {
-    background: #ffffff;
-}
-
-.ui-tabs-selected, .ui-tabs-active {
-    background: #f0f0f0;
+.ui-column-title, .ui-datatable-data {
+    font-size: 10pt;
 }

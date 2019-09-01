@@ -30,7 +30,7 @@
                 </h:panelGrid>
             </p:panel>
 
-            <p:panel id="gamePanel" class="zangeo-panel" header="ETF Kviskoteka: Zanimljiva geografija" rendered="#{zanGeoBean.status gt 0}">
+            <p:panel id="zangeo-panel" class="game-panel" header="ETF Kviskoteka: Zanimljiva geografija" rendered="#{zanGeoBean.status gt 0}">
                 <h:form id="form" class="form-default">
                     <p:poll interval="1" stop="#{zanGeoBean.tajmerZaustavljen}" listener="#{zanGeoBean.tajmerTick()}" update="vreme kraj poeni" />
 
@@ -52,11 +52,11 @@
                             </h:panelGrid>
                         </h:panelGrid>
 
-                        <h:panelGrid class="w100p text-center" columns="3">
-                            <p:commandButton value="Proveri" style="width: 100px" action="#{zanGeoBean.proveri()}" update="kraj poeni" />
-                            <h:outputText id="vreme" value="#{zanGeoBean.preostaloVreme}" />
-                            <p:commandButton value="Odustani" style="width: 100px" action="#{gameController.odustani()}" />
-                        </h:panelGrid>
+                        <h:panelGroup class="w100p flex" layout="block">
+                            <div class="left text-right p5"><p:commandButton class="btn" value="Proveri" action="#{zanGeoBean.proveri()}" update="kraj" /></div>
+                            <div class="center text-center p5"><h:panelGroup id="vreme" class="krug font-12pt font-bold center-block" layout="block"><div>#{zanGeoBean.preostaloVreme}</div></h:panelGroup></div>
+                            <div class="right text-left p5"><p:commandButton class="btn" value="Odustani" action="#{gameController.odustani()}" /></div>
+                        </h:panelGroup>
                     </h:panelGrid>
 
                     <h:panelGrid id="kraj" class="w100p" columns="1">

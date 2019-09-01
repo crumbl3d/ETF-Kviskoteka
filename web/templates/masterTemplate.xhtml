@@ -7,6 +7,7 @@
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet library="css" name="style.css" />
+        <h:outputStylesheet library="css" name="primeflex.css" />
         <title>ETF Kviskoteka: <ui:insert name="subtitle">Master Template</ui:insert></title>
     </h:head>
     <h:body>
@@ -28,7 +29,7 @@
                 <div class="right">
                     <ui:insert name="header-right">
                         <h:form>
-                            <h:commandLink class="header-btn" value="PRIJAVA" action="/public/prijava.xhtml" rendered="#{!loginController.ulogovan()}" />
+                            <h:commandLink class="header-btn" value="PRIJAVA" action="/public/prijava" rendered="#{!loginController.ulogovan()}" />
                             <h:commandLink class="header-btn" value="ODJAVA" action="#{loginController.odjava()}" rendered="#{loginController.ulogovan()}" />
                         </h:form>
                     </ui:insert>

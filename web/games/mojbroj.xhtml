@@ -97,12 +97,12 @@
                                 </div>
                                 <div class="right text-left"><p:commandButton style="margin-left: 10px" value="Obriši" action="#{mojBrojBean.obrisiPrijava()}" update="form" /></div>
                             </h:panelGroup>
-
-                            <h:panelGrid class="w100p text-center" columns="3">
-                                <p:commandButton value="Proveri" style="width: 100px" action="#{mojBrojBean.proveri()}" update="kraj" />
-                                <h:outputText id="vreme" value="#{mojBrojBean.preostaloVreme}" />
-                                <p:commandButton value="Odustani" style="width: 100px" action="#{gameController.odustani()}" />
-                            </h:panelGrid>
+                            
+                            <h:panelGroup class="w100p flex" layout="block">
+                                <div class="left text-right p5"><p:commandButton class="btn" value="Proveri" action="#{mojBrojBean.proveri()}" update="kraj" /></div>
+                                <div class="center text-center p5"><h:panelGroup id="vreme" class="krug font-12pt font-bold center-block" layout="block"><div>#{mojBrojBean.preostaloVreme}</div></h:panelGroup></div>
+                                <div class="right text-left p5"><p:commandButton class="btn" value="Odustani" action="#{gameController.odustani()}" /></div>
+                            </h:panelGroup>
                         </h:panelGrid>
                     </h:panelGrid>
 

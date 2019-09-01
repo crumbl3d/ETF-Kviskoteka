@@ -10,95 +10,95 @@
 
     <ui:define name="content">
         <div class="p-grid p-justify-center" style="align-self: center">
-            <div class="p-col-12 p-md-6 p-lg-3">
-                <p:panel header="Rezultati prethodnih 20 dana" style="margin: 10px">
-                    <p:dataTable var="rezultat" value="#{gostBean.rez20dana}" style="font-size: 10pt">
+            <div class="p-col-12 p-md-6 p-lg-3" style="width: 800px; margin: 5px">
+                <p:panel header="Rezultati prethodnih 20 dana">
+                    <p:dataTable class="w100p" var="rezultat" value="#{gostBean.rez20dana}">
                         <p:column headerText="RB" style="width: 20px; text-align: center">
                             #{rezultat.indeks}
                         </p:column>
 
-                        <p:column headerText="Datum" style="width: 80px; text-align: center">
+                        <p:column headerText="Datum" style="width: 60px; text-align: center">
                             <h:outputText value="#{rezultat.datum}">
                                 <f:convertDateTime pattern="dd.MM.yyyy." />
                             </h:outputText>
                         </p:column>
 
-                        <p:column headerText="Ime" style="width: 100px; text-align: center">
+                        <p:column headerText="Ime" style="width: 80px; text-align: center">
                             #{rezultat.takmicar.ime}
                         </p:column>
 
-                        <p:column headerText="Prezime" style="width: 100px; text-align: center">
+                        <p:column headerText="Prezime" style="width: 80px; text-align: center">
                             #{rezultat.takmicar.prezime}
                         </p:column>
 
-                        <p:column headerText="Anagram" style="width: 80px; text-align: center">
+                        <p:column headerText="Anagram" style="width: 50px; text-align: center">
                             #{rezultat.poeniAnagram}
                         </p:column>
 
-                        <p:column headerText="Moj broj" style="width: 80px; text-align: center">
+                        <p:column headerText="Moj broj" style="width: 50px; text-align: center">
                             #{rezultat.poeniMojBroj}
                         </p:column>
 
-                        <p:column headerText="5x5" style="width: 40px; text-align: center">
+                        <p:column headerText="5x5" style="width: 20px; text-align: center">
                             #{rezultat.poeniPetXPet}
                         </p:column>
 
-                        <p:column style="width: 80px; text-align: center">
+                        <p:column style="width: 60px; text-align: center">
                             <f:facet name="header">
                                 Zanimljiva <br/> geografija
                             </f:facet>
                             #{rezultat.poeniZanGeo}
                         </p:column>
 
-                        <p:column headerText="Pehar" style="width: 80px; text-align: center">
+                        <p:column headerText="Pehar" style="width: 50px; text-align: center">
                             #{rezultat.poeniPehar}
                         </p:column>
 
-                        <p:column headerText="Σ" style="width: 40px; text-align: center">
+                        <p:column headerText="Σ" style="width: 20px; text-align: center">
                             #{rezultat.poeniUkupno}
                         </p:column>
                     </p:dataTable>
                 </p:panel>
             </div>
-            <div class="p-col-12 p-md-6 p-lg-3">
-                <p:panel header="Najbolji rezultati tekućeg meseca" footer="Napomena: Tabela sadrži prosek poena za najbolje takmičare" style="margin: 10px">
-                    <p:dataTable var="rezultat" value="#{gostBean.rezMesec}" style="font-size: 10pt">
+            <div class="p-col-12 p-md-6 p-lg-3" style="width: 800px; margin: 5px">
+                <p:panel header="Najbolji rezultati tekućeg meseca" footer="Napomena: Tabela sadrži prosek poena za najbolje takmičare.">
+                    <p:dataTable class="w100p" var="rezultat" value="#{gostBean.rezMesec}">
                         <p:column headerText="RB" style="width: 20px; text-align: center">
                             #{rezultat.indeks}
                         </p:column>
 
-                        <p:column headerText="Ime" style="width: 100px; text-align: center">
+                        <p:column headerText="Ime" style="width: 80px; text-align: center">
                             #{rezultat.takmicar.ime}
                         </p:column>
 
-                        <p:column headerText="Prezime" style="width: 100px; text-align: center">
+                        <p:column headerText="Prezime" style="width: 80px; text-align: center">
                             #{rezultat.takmicar.prezime}
                         </p:column>
 
-                        <p:column headerText="Anagram" style="width: 80px; text-align: center">
+                        <p:column headerText="Anagram" style="width: 50px; text-align: center">
                             #{rezultat.poeniAnagram}
                         </p:column>
 
-                        <p:column headerText="Moj broj" style="width: 80px; text-align: center">
+                        <p:column headerText="Moj broj" style="width: 50px; text-align: center">
                             #{rezultat.poeniMojBroj}
                         </p:column>
 
-                        <p:column headerText="5x5" style="width: 40px; text-align: center">
+                        <p:column headerText="5x5" style="width: 20px; text-align: center">
                             #{rezultat.poeniPetXPet}
                         </p:column>
 
-                        <p:column  style="width: 80px; text-align: center">
+                        <p:column  style="width: 60px; text-align: center">
                             <f:facet name="header">
                                 Zanimljiva <br/> geografija
                             </f:facet>
                             #{rezultat.poeniZanGeo}
                         </p:column>
 
-                        <p:column headerText="Pehar" style="width: 80px; text-align: center">
+                        <p:column headerText="Pehar" style="width: 50px; text-align: center">
                             #{rezultat.poeniPehar}
                         </p:column>
 
-                        <p:column headerText="Σ" style="width: 40px; text-align: center">
+                        <p:column headerText="Σ" style="width: 20px; text-align: center">
                             #{rezultat.poeniUkupno}
                         </p:column>
                     </p:dataTable>

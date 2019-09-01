@@ -196,16 +196,46 @@ public class SupervizorBean implements Serializable {
     }
      
     public void prihvati(PojamProveraIspis ispis) {
+        obradiZanGeo(ispis, true);
+    }
+        
+    public void odbij(PojamProveraIspis ispis) {
+        obradiZanGeo(ispis, false);
+    }
+    
+    public void obradiZanGeo(PojamProveraIspis ispis, boolean prihvacen) {
         Session dbs = HibernateUtil.getSessionFactory().openSession();
-        Criteria cr = dbs.createCriteria(Rezultat.class);
-        cr.add(Restrictions.eq("datum", ispis.getDatum()));
-        cr.add(Restrictions.eq("korisnickoIme", ispis.getKorisnickoIme()));
-        Rezultat rez = (Rezultat) cr.uniqueResult();
-        if (rez == null) {
-            System.out.println("Greska prilikom dohvatanja rezultata: " + ispis.getKorisnickoIme() + " za datum: " + ispis.getDatum());
-            return;
+
+        int brojPreostalih = -1;
+        for (PojamProveraIspis p : zangeo) {
+            if (p.getDatum().equals(ispis.getDatum()) && p.getKorisnickoIme().equals(ispis.getKorisnickoIme())) {
+                brojPreostalih++;
+            }
         }
-        rez.setPoeniZanGeo(rez.getPoeniZanGeo() + 4);
+        
+        boolean izmenaRezultata = prihvacen || brojPreostalih == 0;
+        
+        Criteria cr = null;
+        Rezultat rez = null;
+        
+        if (izmenaRezultata) {
+            cr = dbs.createCriteria(Rezultat.class);
+            cr.add(Restrictions.eq("datum", ispis.getDatum()));
+            cr.add(Restrictions.eq("korisnickoIme", ispis.getKorisnickoIme()));
+            rez = (Rezultat) cr.uniqueResult();
+            if (rez == null) {
+                System.out.println("Greska prilikom dohvatanja rezultata: " + ispis.getKorisnickoIme() + " za datum: " + ispis.getDatum());
+                dbs.close();
+                return;
+            }
+            if (prihvacen) {
+                rez.setPoeniZanGeo(rez.getPoeniZanGeo() + 4);
+            }
+            if (brojPreostalih == 0) {
+                rez.setWip(false);
+            }
+        }
+        
         cr = dbs.createCriteria(PojamProvera.class);
         cr.add(Restrictions.eq("datum", ispis.getDatum()));
         cr.add(Restrictions.eq("korisnickoIme", ispis.getKorisnickoIme()));
@@ -213,35 +243,25 @@ public class SupervizorBean implements Serializable {
         PojamProvera pp = (PojamProvera) cr.uniqueResult();
         if (pp == null) {
             System.out.println("Greska prilikom dohvatanja pojma: " + ispis.getKorisnickoIme() + " za datum: " + ispis.getDatum() + " i kategoriju: " + ispis.getKategorija());
+            dbs.close();
             return;
         }
-        ZanGeo pojam = new ZanGeo();
-        pojam.setKategorija(ispis.getKategorija());
-        pojam.setPojam(ispis.getPojam());
+
         dbs.beginTransaction();
-        dbs.update(rez);
-        dbs.save(pojam);
-        dbs.delete(pp);
-        dbs.getTransaction().commit();
-        dbs.close();
-        zangeo.remove(ispis);
-    }
-        
-    public void odbij(PojamProveraIspis ispis) {
-        Session dbs = HibernateUtil.getSessionFactory().openSession();
-        Criteria cr = dbs.createCriteria(PojamProvera.class);
-        cr.add(Restrictions.eq("datum", ispis.getDatum()));
-        cr.add(Restrictions.eq("korisnickoIme", ispis.getKorisnickoIme()));
-        cr.add(Restrictions.eq("kategorija", ispis.getKategorija()));
-        PojamProvera pp = (PojamProvera) cr.uniqueResult();
-        if (pp == null) {
-            System.out.println("Greska prilikom dohvatanja pojma: " + ispis.getKorisnickoIme() + " za datum: " + ispis.getDatum() + " i kategoriju: " + ispis.getKategorija());
-            return;
+        if (izmenaRezultata) {
+            dbs.update(rez);
         }
-        dbs.beginTransaction();
+        if (prihvacen) {
+            ZanGeo pojam = new ZanGeo();
+            pojam.setKategorija(ispis.getKategorija());
+            pojam.setPojam(ispis.getPojam());
+            dbs.save(pojam);
+        }
         dbs.delete(pp);
         dbs.getTransaction().commit();
+
         dbs.close();
+
         zangeo.remove(ispis);
     }
     

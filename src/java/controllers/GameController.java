@@ -70,7 +70,10 @@ public class GameController implements Serializable {
     }
     
     public String zapocniIgruDana() {
-        reset();
+        takmicar = null;
+        igra = null;
+        rezultat = null;
+        SessionUtil.setIgraUToku(null);
         LoginController lctl = LoginController.getCurrentInstance();
         if (!lctl.ulogovan()) {
             return "";
@@ -96,7 +99,7 @@ public class GameController implements Serializable {
         dbs.saveOrUpdate(rezultat);
         dbs.getTransaction().commit();
         dbs.close();
-        return "/games/anagram.xhtml?faces-redirect=true";
+        return "/games/anagram?faces-redirect=true";
     }
     
     public String krajAnagram(int brojPoena) {
@@ -106,7 +109,7 @@ public class GameController implements Serializable {
         dbs.update(rezultat);
         dbs.getTransaction().commit();
         dbs.close();
-        return "/games/mojbroj.xhtml?faces-redirect=true";
+        return "/games/mojbroj?faces-redirect=true";
     }
     
     public String krajMojBroj(int brojPoena) {
@@ -116,7 +119,7 @@ public class GameController implements Serializable {
         dbs.update(rezultat);
         dbs.getTransaction().commit();
         dbs.close();
-        return "/games/petxpet.xhtml?faces-redirect=true";
+        return "/games/petxpet?faces-redirect=true";
     }
     
     public String krajPetXPet(int brojPoena) {
@@ -126,7 +129,7 @@ public class GameController implements Serializable {
         dbs.update(rezultat);
         dbs.getTransaction().commit();
         dbs.close();
-        return "/games/zangeo.xhtml?faces-redirect=true";
+        return "/games/zangeo?faces-redirect=true";
     }
     
     public String krajZanGeo(int brojPoena, boolean wip) {
@@ -137,7 +140,7 @@ public class GameController implements Serializable {
         dbs.update(rezultat);
         dbs.getTransaction().commit();
         dbs.close();
-        return "/games/pehar.xhtml?faces-redirect=true";
+        return "/games/pehar?faces-redirect=true";
     }
 
     public String krajPehar(int brojPoena) {
@@ -147,20 +150,13 @@ public class GameController implements Serializable {
         dbs.update(rezultat);
         dbs.getTransaction().commit();
         dbs.close();
-        return "/games/takmicar.xhtml?faces-redirect=true";
+        return "/games/rezultat?faces-redirect=true";
     }
     
     public String odustani() {
-        return "/users/takmicar.xhtml?faces-redirect=true";
+        return "/users/takmicar?faces-redirect=true";
     }
-    
-    private void reset() {
-        takmicar = null;
-        igra = null;
-        rezultat = null;
-        SessionUtil.setIgraUToku(null);
-    }
-    
+
     // temporary, remove!!!
     public GameController() {
         zapocniIgruDana();

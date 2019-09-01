@@ -27,10 +27,23 @@
                         Možete nastaviti kao gost ili se prijaviti da biste se takmičili.
                         Ukoliko nemate nalog možete se registrovati, a nakon odobrenja administratora ulogovati se kao takmičar.
                     </div>
-                    <h:panelGrid class="w100p m0 p0" columns="2">
-                        <p:commandButton style="width: 170px" value="Nastavi kao gost" action="/public/gost" />
-                        <p:commandButton style="width: 170px" value="Prijava" action="/public/prijava" />
-                    </h:panelGrid>
+                    <h:panelGroup class="m0 p0" layout="block">
+                        <table>
+                            <tr>
+                                <td style="width: 180px">
+                                    <p:commandButton class="w100p p5" value="Prijava" action="/public/prijava" />
+                                </td>
+                                <td style="width: 180px">
+                                    <p:commandButton class="w100p p5" value="Registracija" action="/public/registracija" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <p:commandButton class="w100p p5" value="Nastavi kao gost" action="/public/gost" />
+                                </td>
+                            </tr>
+                        </table>
+                    </h:panelGroup>
                 </h:panelGrid>
             </h:form>
         </p:panel>

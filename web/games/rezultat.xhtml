@@ -11,58 +11,49 @@
 
     <ui:define name="content">
         <h:panelGrid id="content-wrapper" columns="1">
-            <p:panel id="guidePanel" class="guide-panel" header="ETF Kviskoteka: Rezultat" rendered="#{anagramBean.status eq 0}">
-                <h:panelGrid columns="1">
-                    <div class="font-12pt font-bold text-center break-down">Uputstvo</div>
-                    <div class="font-10pt font-normal text-justify break-down">
-                        Korišćenjem datih slova sastaviti anagram.
-                        Razmak je predstavljen slovom '_' i može se upotrebiti neograničen broj puta.
-                        Ostala slova se mogu upotrebiti samo jednom.
-                    </div>
-                    <h:form class="form-default w100p">
-                        <div class="flex">
-                            <div class="left" />
-                            <div class="center">
-                                <p:commandButton value="Počni" action="#{anagramBean.start()}" update="content-wrapper" />
-                            </div>
-                            <div class="right" />
-                        </div>
-                    </h:form>
-                </h:panelGrid>
-            </p:panel>
-
-            <p:panel id="gamePanel" class="game-panel" header="ETF Kviskoteka: Anagram" rendered="#{anagramBean.status gt 0}">
+            <p:panel id="gamePanel" class="rezultat-panel" header="ETF Kviskoteka: Rezultat">
                 <h:form id="form" class="form-default">
-                    <p:poll interval="1" stop="#{anagramBean.tajmerZaustavljen}" listener="#{anagramBean.tajmerTick()}" update="vreme kraj" />
-
-                    <h:panelGrid class="w100p" columns="1">
-                        <div class="font-12pt font-bold text-center break-down">Zagonetka:</div>
-                        <div class="font-12pt font-normal text-center break-down">#{anagramBean.anagram.zagonetka}</div>
-
-                        <h:panelGrid id="dugmici" class="break-down" columns="#{anagramBean.slova.size() gt 10 ? 10 : anagramBean.slova.size()}">
-                            <c:forEach var="i" items="#{anagramBean.indeksi}">
-                                <p:commandButton style="width: 50px" value="#{anagramBean.slova.get(i)}" action="#{anagramBean.klik(i)}" disabled="#{anagramBean.blokirani.get(i)}" update="dugmici pokusaj" />
-                            </c:forEach>
+                    <h:panelGrid class="w100p text-center" columns="1">
+                        <div class="font-12pt font-bold text-center break-down">Vaš rezultat:</div>
+                        
+                        <h:panelGrid class="center-block text-right break-down" cellspacing="5px" columns="2">
+                            <h:outputLabel class="font-12pt font-bold" value="Anagram:" />
+                            <div class="krug"><div><span class="font-12pt font-bold">#{gameController.rezultat.poeniAnagram}</span></div></div>
+                            
+                            <h:outputLabel class="font-12pt font-bold" value="Moj broj:" />
+                            <div class="krug"><div><span class="font-12pt font-bold">#{gameController.rezultat.poeniMojBroj}</span></div></div>
+                            
+                            <h:outputLabel class="font-12pt font-bold" value="5x5:" />
+                            <div class="krug"><div><span class="font-12pt font-bold">#{gameController.rezultat.poeniPetXPet}</span></div></div>
+                            
+                            <h:panelGrid cellpadding="0" cellspacing="0" columns="2">
+                                <h:panelGroup layout="block">
+                                    <h:outputLabel class="font-12pt font-bold" value="Zanimljiva" />
+                                    <br />
+                                    <h:outputLabel class="font-12pt font-bold" value="geografija" />
+                                </h:panelGroup>
+                                <h:outputLabel class="font-12pt font-bold" value=":" />
+                            </h:panelGrid>
+                            <h:panelGroup class="krug" layout="block">
+                                <div>
+                                    <h:outputText class="font-12pt font-bold" rendered="#{gameController.rezultat.wip}" value="?" />
+                                    <h:outputText class="font-12pt font-bold" rendered="#{!gameController.rezultat.wip}" value="#{gameController.rezultat.poeniZanGeo}" />
+                                </div>
+                            </h:panelGroup>
+                            
+                            <h:outputLabel class="font-12pt font-bold" value="Pehar:" />
+                            <div class="krug"><div><span class="font-12pt font-bold">#{gameController.rezultat.poeniPehar}</span></div></div>
+                            
+                            <h:outputLabel class="font-12pt font-bold text-right" value="Σ:" />
+                            <h:panelGroup class="krug" layout="block">
+                                <div>
+                                    <h:outputText class="font-12pt font-bold" rendered="#{gameController.rezultat.wip}" value="?" />
+                                    <h:outputText class="font-12pt font-bold" rendered="#{!gameController.rezultat.wip}" value="#{gameController.rezultat.poeniUkupno}" />
+                                </div>
+                            </h:panelGroup>
                         </h:panelGrid>
-
-                        <div class="font-12pt font-bold text-center break-down">Pokušaj:</div>
-                        <h:panelGrid id="pokusaj" class="w100p break-down" cellpadding="0" columns="2">
-                            <div class="pokusaj"><span>#{anagramBean.pokusaj}</span></div>
-                            <p:commandButton value="Obriši" action="#{anagramBean.obrisi()}" update="form" />
-                        </h:panelGrid>
-
-                        <h:panelGrid class="w100p text-center" columns="3">
-                            <p:commandButton value="Proveri" style="width: 100px" action="#{anagramBean.proveri()}" update="kraj" />
-                            <h:outputText id="vreme" value="#{anagramBean.preostaloVreme}" />
-                            <p:commandButton value="Odustani" style="width: 100px" action="#{gameController.odustani()}" />
-                        </h:panelGrid>
-                    </h:panelGrid>
-
-                    <h:panelGrid id="kraj" class="w100p" columns="1">
-                        <h:panelGrid class="w100p text-center" columns="1" rendered="#{anagramBean.status gt 1}">
-                            <div class="font-12pt font-normal break-down">#{anagramBean.poruka}</div>
-                            <p:commandButton value="Sledeća igra" action="#{gameController.krajAnagram(anagramBean.brojPoena)}" />
-                        </h:panelGrid>
+                        
+                        <p:commandButton class="center-block" value="Na glavnu stranu" action="/users/takmicar" />
                     </h:panelGrid>
                 </h:form>
             </p:panel>

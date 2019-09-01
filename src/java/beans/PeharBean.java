@@ -47,8 +47,8 @@ import util.HibernateUtil;
 @ViewScoped
 @Named(value="peharBean")
 public class PeharBean implements Serializable {
-
-    UIComponent pgPehar;
+    
+    public static final int MAX_BROJ_POENA = 2 * (9 + 8 + 7 + 6 + 5 + 4) + 3;
     
     Pehar pehar;
     int status, preostaloVreme, brojPoena, indeks;
@@ -56,14 +56,6 @@ public class PeharBean implements Serializable {
     String poruka, trenutnoPitanje, trenutniOdgovor;
     String[] pitanja, tacniOdgovori, odgovori;
     boolean tajmerZaustavljen;
-
-    public UIComponent getPgPehar() {
-        return pgPehar;
-    }
-
-    public void setPgPehar(UIComponent pgPehar) {
-        this.pgPehar = pgPehar;
-    }
 
     public int getStatus() {
         return status;
@@ -150,8 +142,14 @@ public class PeharBean implements Serializable {
         indeks++;
         if (indeks == 13) {
             tajmerZaustavljen = true;
-            status = 3;
-            poruka = "temp";
+            status = 2;
+            if (brojPoena == 0) {
+                poruka = "Nažalost u ovoj igri niste osvojili poene.";
+            } else if (brojPoena == MAX_BROJ_POENA) {
+                poruka = "Čestitamo! Osvojili ste maksimalan broj poena: " + brojPoena + "!";
+            } else {
+                poruka = "Niste uspeli da popunite pehar, ali ste osvojili " + brojPoena + " poena!";
+            }
             if (PrimeFaces.current().isAjaxRequest()) {
                 PrimeFaces.current().ajax().update("form:kraj");
             }

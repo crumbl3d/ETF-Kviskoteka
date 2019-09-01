@@ -12,151 +12,139 @@
         <p:growl id="msgs" showDetail="true" />
 
         <div class="p-grid p-justify-center" style="align-self: center">
-            <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px">
-                <h:form class="form-default" id="form1">
-                    <p:dataTable id="anagrami" var="anagram" value="#{supervizorBean.anagrami}" style="font-size: 10pt" editable="true">
-                        <f:facet name="header">
-                            Anagrami
-                        </f:facet>
+            <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px; margin: 5px">
+                <p:panel header="Anagram" footer="Da biste dodali anagram izmenite poslednji red.">
+                    <h:form class="form-default" id="form1">
+                        <p:dataTable id="anagrami" var="anagram" value="#{supervizorBean.anagrami}" editable="true">
+                            <p:ajax event="rowEdit" listener="#{supervizorBean.izmenaAnagrama}" update="msgs" />
+                            <p:ajax event="rowEditCancel" listener="#{supervizorBean.odustani}" update="msgs" />
 
-                        <p:ajax event="rowEdit" listener="#{supervizorBean.izmenaAnagrama}" update="msgs" />
-                        <p:ajax event="rowEditCancel" listener="#{supervizorBean.odustani}" update="msgs" />
+                            <p:column headerText="RB" style="width: 20px; text-align: center">
+                                <h:outputText value="#{anagram.idAnagram}" rendered="#{anagram.idAnagram ne 0}" />
+                            </p:column>
 
-                        <p:column headerText="RB" style="width: 20px; text-align: center">
-                            <h:outputText value="#{anagram.idAnagram}" rendered="#{anagram.idAnagram ne 0}" />
+                            <p:column headerText="Zagonetka" style="width: 200px">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{anagram.zagonetka}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{anagram.zagonetka}" class="w100p" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Rešenje" style="width: 200px">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{anagram.resenje}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{anagram.resenje}" class="w100p" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column style="width:35px">
+                                <p:rowEditor rendered="#{anagram.idAnagram eq 0}" />
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:panel>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px; margin: 5px">
+                <p:panel header="5x5" footer="Da biste dodali igru 5x5 izmenite poslednji red.">
+                    <h:form class="form-default" id="form2">
+                        <p:dataTable id="petxpet" var="petxpet" value="#{supervizorBean.petxpet}" editable="true" resizableColumns="true">
+                            <p:ajax event="rowEdit" listener="#{supervizorBean.izmenaPetXPet}" update="msgs" />
+                            <p:ajax event="rowEditCancel" listener="#{supervizorBean.odustani}" update="msgs" />
+
+                            <p:column headerText="RB" style="width: 20px; text-align: center">
+                                <h:outputText value="#{petxpet.idPetXPet}" rendered="#{petxpet.idPetXPet ne 0}" />
+                            </p:column>
+
+                            <p:column headerText="Prva reč" style="width: 60px; text-align: center">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{petxpet.rec1}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{petxpet.rec1}" class="w100p" maxlength="5" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Druga reč" style="width: 60px; text-align: center">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{petxpet.rec2}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{petxpet.rec2}" class="w100p" maxlength="5" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Treća reč" style="width: 60px; text-align: center">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{petxpet.rec3}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{petxpet.rec3}" class="w100p" maxlength="5" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Četvrta reč" style="width: 60px; text-align: center">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{petxpet.rec4}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{petxpet.rec4}" class="w100p" maxlength="5" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Peta reč" style="width: 60px; text-align: center">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{petxpet.rec5}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{petxpet.rec5}" class="w100p" maxlength="5" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column style="width:35px">
+                                <p:rowEditor rendered="#{petxpet.idPetXPet eq 0}" />
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:panel>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px; margin: 5px">
+                <p:panel header="Zanimljiva geografija">
+                    <p:dataTable id="zangeo" var="zangeo" value="#{supervizorBean.zangeo}">
+                        <p:column headerText="Datum" style="width: 60px; text-align: center">
+                            <h:outputText value="#{zangeo.datum}">
+                                <f:convertDateTime pattern="dd.MM.yyyy." />
+                            </h:outputText>
                         </p:column>
 
-                        <p:column headerText="Zagonetka" style="width: 200px">
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{anagram.zagonetka}" /></f:facet>
-                                <f:facet name="input">
-                                    <p:inputText value="#{anagram.zagonetka}" class="w100p" />
-                                </f:facet>
-                            </p:cellEditor>
+                        <p:column headerText="Ime" style="width: 80px; text-align: center">
+                            #{zangeo.takmicar.ime}
                         </p:column>
 
-                        <p:column headerText="Rešenje" style="width: 200px">
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{anagram.resenje}" /></f:facet>
-                                <f:facet name="input">
-                                    <p:inputText value="#{anagram.resenje}" class="w100p" />
-                                </f:facet>
-                            </p:cellEditor>
+                        <p:column headerText="Prezime" style="width: 80px; text-align: center">
+                            #{zangeo.takmicar.prezime}
                         </p:column>
-
-                        <p:column style="width:35px">
-                            <p:rowEditor rendered="#{anagram.idAnagram eq 0}" />
+                        
+                        <p:column headerText="Kategorija" style="width: 80px; text-align: center">
+                            #{zangeo.kategorija}
                         </p:column>
-
-                        <f:facet name="footer">
-                            Da biste dodali anagram izmenite poslednji red.
-                        </f:facet>
+                        
+                        <p:column headerText="Pojam" style="width: 80px; text-align: center">
+                            #{zangeo.pojam}
+                        </p:column>
+                        
+                        <p:column style="width: 135px; text-align: center">
+                            <p:commandButton style="margin-right: 5px" value="Prihvati" action="#{supervizorBean.prihvati(zangeo)}" update="zangeo" />
+                            <p:commandButton value="Odbij" action="#{supervizorBean.odbij(zangeo)}" update="zangeo" />
+                        </p:column>
                     </p:dataTable>
-                </h:form>
+                </p:panel>
             </div>
-            <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px">
-                <h:form class="form-default" id="form2">
-                    <p:dataTable id="petxpet" var="petxpet" value="#{supervizorBean.petxpet}" style="font-size: 10pt" editable="true" resizableColumns="true">
-                        <f:facet name="header">
-                            5x5
-                        </f:facet>
-
-                        <p:ajax event="rowEdit" listener="#{supervizorBean.izmenaPetXPet}" update="msgs" />
-                        <p:ajax event="rowEditCancel" listener="#{supervizorBean.odustani}" update="msgs" />
-
-                        <p:column headerText="RB" style="width: 35px">
-                            <h:outputText value="#{petxpet.idPetXPet}" rendered="#{petxpet.idPetXPet ne 0}" />
-                        </p:column>
-
-                        <p:column headerText="Prva reč" resizable="true">
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{petxpet.rec1}" /></f:facet>
-                                <f:facet name="input">
-                                    <p:inputText value="#{petxpet.rec1}" class="w100p" maxlength="5" />
-                                </f:facet>
-                            </p:cellEditor>
-                        </p:column>
-
-                        <p:column headerText="Druga reč" resizable="true">
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{petxpet.rec2}" /></f:facet>
-                                <f:facet name="input">
-                                    <p:inputText value="#{petxpet.rec2}" class="w100p" maxlength="5" />
-                                </f:facet>
-                            </p:cellEditor>
-                        </p:column>
-
-                        <p:column headerText="Treća reč" resizable="true">
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{petxpet.rec3}" /></f:facet>
-                                <f:facet name="input">
-                                    <p:inputText value="#{petxpet.rec3}" class="w100p" maxlength="5" />
-                                </f:facet>
-                            </p:cellEditor>
-                        </p:column>
-
-                        <p:column headerText="Četvrta reč" resizable="true">
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{petxpet.rec4}" /></f:facet>
-                                <f:facet name="input">
-                                    <p:inputText value="#{petxpet.rec4}" class="w100p" maxlength="5" />
-                                </f:facet>
-                            </p:cellEditor>
-                        </p:column>
-
-                        <p:column headerText="Peta reč" resizable="true">
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{petxpet.rec5}" /></f:facet>
-                                <f:facet name="input">
-                                    <p:inputText value="#{petxpet.rec5}" class="w100p" maxlength="5" />
-                                </f:facet>
-                            </p:cellEditor>
-                        </p:column>
-
-                        <p:column style="width:35px">
-                            <p:rowEditor rendered="#{petxpet.idPetXPet eq 0}" />
-                        </p:column>
-
-                        <f:facet name="footer">
-                            Da biste dodali 5x5 izmenite poslednji red.
-                        </f:facet>
-                    </p:dataTable>
-                </h:form>
-            </div>
-            <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px">
-                <p:dataTable id="zangeo" var="zangeo" value="#{supervizorBean.zangeo}" style="font-size: 10pt" resizableColumns="true">
-                    <f:facet name="header">
-                        Zanimljiva geografija
-                    </f:facet>
-
-                    <p:column headerText="Datum" resizable="true">
-                        #{zangeo.datum}
-                    </p:column>
-
-                    <p:column headerText="Ime" resizable="true">
-                        #{zangeo.takmicar.ime}
-                    </p:column>
-
-                    <p:column headerText="Prezime" resizable="true">
-                        #{zangeo.takmicar.prezime}
-                    </p:column>
-
-                    <p:column headerText="Kategorija" resizable="true">
-                        #{zangeo.kategorija}
-                    </p:column>
-
-                    <p:column headerText="Pojam" resizable="true">
-                        #{zangeo.pojam}
-                    </p:column>
-
-                    <p:column headerText="Opcije" resizable="true">
-                        <p:commandButton value="Prihvati" action="#{supervizorBean.prihvati(zangeo)}" update="zangeo" />
-                        <p:commandButton value="Odbij" action="#{supervizorBean.odbij(zangeo)}" update="zangeo" />
-                    </p:column>
-                </p:dataTable>
-            </div>
-            <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px">
-                <p:panel id="panel" style="width: 700px; marign: 5px" header="Pehar">
+            <div class="p-col-12 p-md-6 p-lg-3" style="width: 700px; margin: 5px">
+                <p:panel id="panel" header="Pehar">
                     <h:form>
                         <h:panelGrid class="w100p" columns="2">
                             <h:panelGrid class="w100p" columns="1">

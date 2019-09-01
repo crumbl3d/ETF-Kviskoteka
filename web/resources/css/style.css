@@ -210,7 +210,11 @@ body {
     margin: 0 0 8px;
 }
 
-.login-panel, .guide-panel {
+.btn {
+    width: 100px;
+}
+
+.login-panel, .guide-panel, .zangeo-panel {
     width: 400px;
 }
 
@@ -222,8 +226,8 @@ body {
     width: 600px;
 }
 
-.zangeo-panel {
-    width: 400px;
+.rezultat-panel {
+    width: 300px;
 }
 
 .zangeo-poen {

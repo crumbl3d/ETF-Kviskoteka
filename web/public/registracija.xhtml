@@ -10,9 +10,9 @@
 
     <ui:define name="content">
         <p:panel id="panel" class="login-panel" header="ETF Kviskoteka: Registracija">
-            <p:growl id="msgs" globalOnly="true" showSummary="false" showDetail="true" />
-
             <h:form class="form-default" enctype="multipart/form-data">
+                <p:growl id="msgs" globalOnly="true" showSummary="false" showDetail="true" />
+                
                 <h:panelGrid class="w100p" columns="1">
                     <div class="font-12pt font-bold break-down">Sve informacije su obavezne!</div>
 
@@ -42,7 +42,7 @@
 
                     <h:outputLabel class="font-10pt font-bold" for="zanimanje" value="Zanimanje" />
                     <p:inputText id="zanimanje" class="login-panel-input"
-                                 placeholder="Unesite zanimanje" value="#{registracijaBean.mejl}"
+                                 placeholder="Unesite zanimanje" value="#{registracijaBean.zanimanje}"
                                  required="true" requiredMessage="Zanimanje je obavezno!">
                         <p:ajax update="msgZanimanje" event="keyup" />
                     </p:inputText>

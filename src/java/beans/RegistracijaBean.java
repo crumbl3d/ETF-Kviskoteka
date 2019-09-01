@@ -162,6 +162,7 @@ public class RegistracijaBean implements Serializable {
             || !Helper.checkValid(potvrdaLozinke) || !Helper.checkValid(pol)
             || !Helper.checkValid(jmbg) || !Helper.checkValid(tajnoPitanje)
             || !Helper.checkValid(odgovor)) {
+            Helper.showError("Greška!", "Niste popunili sva polja!");
             return "";
         }
         if (!lozinka.equals(potvrdaLozinke)) {

@@ -52,18 +52,11 @@ import util.SessionUtil;
 @Named(value = "takmicarBean")
 public class TakmicarBean implements Serializable {
 
-    int aktivanPogled;
     Rezultat mojRezultat;
     ArrayList<RezultatIspis> rez10naj;
+    Date datum;
+    boolean nemaIgreDana;
 
-    public int getAktivanPogled() {
-        return aktivanPogled;
-    }
-
-    public void setAktivanPogled(int aktivanPogled) {
-        this.aktivanPogled = aktivanPogled;
-    }
-    
     public Rezultat getMojRezultat() {
         return mojRezultat;
     }
@@ -72,24 +65,35 @@ public class TakmicarBean implements Serializable {
         return rez10naj;
     }
 
+    public Date getDatum() {
+        return datum;
+    }
+    
+    public boolean isNemaIgreDana() {
+        return nemaIgreDana;
+    }
+    
     public TakmicarBean() {
         LocalDate ld = LocalDate.now();
-        Date danas = Date.valueOf(ld);
-
+        datum = Date.valueOf(ld);
+        
         Session dbs = HibernateUtil.getSessionFactory().openSession();
         
         Criteria cr = dbs.createCriteria(IgraDana.class);
-        cr.add(Restrictions.eq("datum", danas));
+        cr.add(Restrictions.eq("datum", datum));
         IgraDana igra = (IgraDana) cr.uniqueResult();
+
+        nemaIgreDana = igra == null;
         
         if (igra != null) {
             cr = dbs.createCriteria(Rezultat.class);
-            cr.add(Restrictions.eq("datum", danas));
+            cr.add(Restrictions.eq("datum", datum));
             cr.add(Restrictions.eq("korisnickoIme", SessionUtil.getCurrentUser().getKorisnickoIme()));
             mojRezultat = (Rezultat) cr.uniqueResult();
             
             cr = dbs.createCriteria(Rezultat.class);
             cr.add(Restrictions.eq("datum", igra.getDatum()));
+            cr.add(Restrictions.eq("wip", false));
             cr.addOrder(Order.desc("poeniUkupno"));
             cr.setMaxResults(10);
             List<Rezultat> rezultati = cr.list();
@@ -98,7 +102,7 @@ public class TakmicarBean implements Serializable {
             
             int index;
             for (index = 0; index < rezultati.size(); index++) {
-                RezultatIspis ispis = new RezultatIspis(index + 1, danas);
+                RezultatIspis ispis = new RezultatIspis(index + 1, datum);
                 Criteria cr2 = dbs.createCriteria(Korisnik.class);
                 cr2.add(Restrictions.eq("korisnickoIme", rezultati.get(index).getKorisnickoIme()));
                 Korisnik k = (Korisnik) cr2.uniqueResult();
@@ -117,18 +121,18 @@ public class TakmicarBean implements Serializable {
             }
             
             while (index != 10) {
-                rez10naj.add(new RezultatIspis(++index, danas));
+                rez10naj.add(new RezultatIspis(++index, datum));
             }
             
-            if (mojRezultat != null && !rezultati.contains(mojRezultat)) {
+            if (mojRezultat != null && !mojRezultat.isWip() && !rezultati.contains(mojRezultat)) {
                 cr = dbs.createCriteria(Rezultat.class);
-                cr.add(Restrictions.eq("datum", danas));
+                cr.add(Restrictions.eq("datum", datum));
                 cr.add(Restrictions.ne("korisnickoIme", mojRezultat.getKorisnickoIme()));
                 cr.add(Restrictions.ge("poeniUkupno", mojRezultat.getPoeniUkupno()));
                 cr.setProjection(Projections.projectionList()
                     .add(Projections.rowCount()));
                 index = ((Long) cr.uniqueResult()).intValue();
-                RezultatIspis ispis = new RezultatIspis(index + 1, danas);
+                RezultatIspis ispis = new RezultatIspis(index + 1, datum);
                 cr = dbs.createCriteria(Korisnik.class);
                 cr.add(Restrictions.eq("korisnickoIme", mojRezultat.getKorisnickoIme()));
                 Korisnik k = (Korisnik) cr.uniqueResult();

@@ -51,11 +51,11 @@
                             <p:commandButton value="Obriši" action="#{anagramBean.obrisi()}" update="form" />
                         </h:panelGrid>
 
-                        <h:panelGrid class="w100p text-center" columns="3">
-                            <p:commandButton value="Proveri" style="width: 100px" action="#{anagramBean.proveri()}" update="kraj" />
-                            <h:outputText id="vreme" value="#{anagramBean.preostaloVreme}" />
-                            <p:commandButton value="Odustani" style="width: 100px" action="#{gameController.odustani()}" />
-                        </h:panelGrid>
+                        <h:panelGroup class="w100p flex" layout="block">
+                            <div class="left text-right p5"><p:commandButton class="btn" value="Proveri" action="#{anagramBean.proveri()}" update="kraj" /></div>
+                            <div class="center text-center p5"><h:panelGroup id="vreme" class="krug font-12pt font-bold center-block" layout="block"><div>#{anagramBean.preostaloVreme}</div></h:panelGroup></div>
+                            <div class="right text-left p5"><p:commandButton class="btn" value="Odustani" action="#{gameController.odustani()}" /></div>
+                        </h:panelGroup>
                     </h:panelGrid>
 
                     <h:panelGrid id="kraj" class="w100p" columns="1">
