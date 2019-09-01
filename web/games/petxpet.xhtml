@@ -11,19 +11,20 @@
 
     <ui:define name="content">
         <h:panelGrid id="content-wrapper" columns="1">
-            <p:panel id="guidePanel" class="guide-panel" header="ETF Kviskoteka: 5x5" rendered="#{anagramBean.status eq 0}">
+            <p:panel id="guidePanel" class="guide-panel" header="ETF Kviskoteka: 5x5" rendered="#{petXPetBean.status eq 0}">
                 <h:panelGrid columns="1">
                     <div class="font-12pt font-bold text-center break-down">Uputstvo</div>
                     <div class="font-10pt font-normal text-justify break-down">
-                        Korišćenjem datih slova sastaviti anagram.
-                        Razmak je predstavljen slovom '_' i može se upotrebiti neograničen broj puta.
-                        Ostala slova se mogu upotrebiti samo jednom.
+                        Biranjem slova otkrivate reči na tabli.
+                        Za svako otvoreno slovo dobijate po 1 poen (najviše 25 poena).
+                        Za svaku otkrivenu reč (bilo horizontalnu ili vertikalnu) dobijate po 2 poena (najviše 20 poena).
+                        Osim vremenskog ograničenja od 90 sekundi, ne smete pogrešiti više od 3 puta! Četvrta greška prekida igru.
                     </div>
                     <h:form class="form-default w100p">
                         <div class="flex">
                             <div class="left" />
                             <div class="center">
-                                <p:commandButton value="Počni" action="#{anagramBean.start()}" update="content-wrapper" />
+                                <p:commandButton value="Počni" action="#{petXPetBean.start()}" update="content-wrapper" />
                             </div>
                             <div class="right" />
                         </div>
@@ -31,37 +32,69 @@
                 </h:panelGrid>
             </p:panel>
 
-            <p:panel id="gamePanel" class="game-panel" header="ETF Kviskoteka: 5x5" rendered="#{anagramBean.status gt 0}">
+            <p:panel id="gamePanel" class="game-panel" header="ETF Kviskoteka: 5x5" rendered="#{petXPetBean.status gt 0}">
                 <h:form id="form" class="form-default">
-                    <p:poll interval="1" stop="#{anagramBean.tajmerZaustavljen}" listener="#{anagramBean.tajmerTick()}" update="vreme kraj" />
+                    <p:growl id="msgs" showSummary="true" showDetail="true" />
 
-                    <h:panelGrid class="w100p" columns="1">
-                        <div class="font-12pt font-bold text-center break-down">Zagonetka:</div>
-                        <div class="font-12pt font-normal text-center break-down">#{anagramBean.anagram.zagonetka}</div>
+                    <p:poll interval="1" stop="#{petXPetBean.tajmerZaustavljen}" listener="#{petXPetBean.tajmerTick()}" update="vreme" />
 
-                        <h:panelGrid id="dugmici" class="break-down" columns="#{anagramBean.slova.size() gt 10 ? 10 : anagramBean.slova.size()}">
-                            <c:forEach var="i" items="#{anagramBean.indeksi}">
-                                <p:commandButton style="width: 50px" value="#{anagramBean.slova.get(i)}" action="#{anagramBean.klik(i)}" disabled="#{anagramBean.blokirani.get(i)}" update="dugmici pokusaj" />
+                    <h:panelGrid id="tabla" class="w100p" columns="2">
+                        <h:panelGrid class="w100p text-center" cellpadding="0" cellspacing="0" columns="1">
+                            <h:panelGroup class="font-12pt font-bold break-down" layout="block" rendered="#{petXPetBean.status eq 1}">Preostali životi:</h:panelGroup>
+                            <h:panelGrid class="w100p break-down" cellspacing="0" columns="#{petXPetBean.zivoti - 1}" rendered="#{petXPetBean.status eq 1}">
+                                <c:forEach var="i" begin="1" end="#{petXPetBean.zivoti - 1}">
+                                    <h:panelGroup class="krug center-block" layout="block"><div style="background-color: red">#{i}</div></h:panelGroup>
+                                </c:forEach>
+                            </h:panelGrid>
+
+                            <c:forEach var="i" begin="0" end="4">
+                                <h:panelGrid class="center-block" columns="5">
+                                    <c:forEach var="j" begin="0" end="4">
+                                        <h:panelGroup class="polje" layout="block">
+                                            <div>
+                                                <h:outputText class="font-12pt font-bold font-blue" value="#{petXPetBean.tabla[i][j]}" rendered="#{!petXPetBean.tabla[i][j].isEmpty()}" />
+                                                <h:outputText class="font-12pt font-bold font-red" value="#{petXPetBean.celaTabla[i][j]}" rendered="#{petXPetBean.tabla[i][j].isEmpty() and petXPetBean.status gt 1}" />
+                                            </div>
+                                        </h:panelGroup>
+                                    </c:forEach>
+                                </h:panelGrid>
                             </c:forEach>
                         </h:panelGrid>
 
-                        <div class="font-12pt font-bold text-center break-down">Pokušaj:</div>
-                        <h:panelGrid id="pokusaj" class="w100p break-down" cellpadding="0" columns="2">
-                            <div class="pokusaj"><span>#{anagramBean.pokusaj}</span></div>
-                            <p:commandButton value="Obriši" action="#{anagramBean.obrisi()}" update="form" />
-                        </h:panelGrid>
+                        <h:panelGrid class="text-center" style="width: 275px; margin: 0 0 0 auto" columns="1" rendered="#{petXPetBean.status eq 1}">
+                            <div class="font-12pt font-bold break-down">Tačna slova:</div>
+                            <h:panelGrid class="w100p break-down" cellspacing="0" columns="5">
+                                <c:forEach var="slovo" items="#{petXPetBean.tacnaSlova}">
+                                    <h:panelGroup class="polje font-12pt font-bold font-blue center-block" layout="block"><div>#{slovo}</div></h:panelGroup>
+                                </c:forEach>
+                            </h:panelGrid>
 
-                        <h:panelGroup class="w100p flex" layout="block">
-                            <div class="left text-right p5"><p:commandButton class="btn" value="Proveri" action="#{anagramBean.proveri()}" update="kraj" /></div>
-                            <div class="center text-center p5"><h:panelGroup id="vreme" class="krug font-12pt font-bold center-block" layout="block"><div>#{anagramBean.preostaloVreme}</div></h:panelGroup></div>
-                            <div class="right text-left p5"><p:commandButton class="btn" value="Odustani" action="#{gameController.odustani()}" /></div>
-                        </h:panelGroup>
+                            <div class="font-12pt font-bold break-down">Netačna slova:</div>
+                            <h:panelGrid class="w100p break-down" cellspacing="0" columns="5">
+                                <c:forEach var="slovo" items="#{petXPetBean.netacnaSlova}">
+                                    <h:panelGroup class="polje font-12pt font-bold font-red center-block" layout="block"><div>#{slovo}</div></h:panelGroup>
+                                </c:forEach>
+                            </h:panelGrid>
+
+                            <div class="font-12pt font-bold break-down">Slova:</div>
+                            <h:panelGrid class="w100p break-down" cellspacing="0" columns="5">
+                                <c:forEach var="i" begin="0" end="29">
+                                    <p:commandButton style="width: 50px" value="#{petXPetBean.slova[i]}" action="#{petXPetBean.klik(i)}" disabled="#{petXPetBean.blokirani[i]}" update="tabla" />
+                                </c:forEach>
+                            </h:panelGrid>
+
+                            <h:panelGroup class="w100p flex" layout="block">
+                                <div class="left text-right p5"><p:commandButton class="btn" value="Završi" action="#{petXPetBean.zavrsi()}" /></div>
+                                <div class="center text-center p5"><h:panelGroup id="vreme" class="krug font-12pt font-bold center-block" layout="block"><div>#{petXPetBean.preostaloVreme}</div></h:panelGroup></div>
+                                <div class="right text-left p5"><p:commandButton class="btn" value="Odustani" action="#{gameController.odustani()}" /></div>
+                            </h:panelGroup>
+                        </h:panelGrid>
                     </h:panelGrid>
 
                     <h:panelGrid id="kraj" class="w100p" columns="1">
-                        <h:panelGrid class="w100p text-center" columns="1" rendered="#{anagramBean.status gt 1}">
-                            <div class="font-12pt font-normal break-down">#{anagramBean.poruka}</div>
-                            <p:commandButton value="Sledeća igra" action="#{gameController.krajPetXPet(anagramBean.brojPoena)}" />
+                        <h:panelGrid class="w100p text-center" columns="1" rendered="#{petXPetBean.status gt 1}">
+                            <div class="font-12pt font-normal break-down">#{petXPetBean.poruka}</div>
+                            <p:commandButton value="Sledeća igra" action="#{gameController.krajPetXPet(petXPetBean.brojPoena)}" />
                         </h:panelGrid>
                     </h:panelGrid>
                 </h:form>

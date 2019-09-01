@@ -25,6 +25,6 @@
     <welcome-file-list>
         <!-- TODO: Change back to faces/index.xhtml -->
         <!--<welcome-file>faces/index.xhtml</welcome-file>-->
-        <welcome-file>faces/games/petxpet.xhtml</welcome-file>
+        <welcome-file>faces/users/supervizor.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>

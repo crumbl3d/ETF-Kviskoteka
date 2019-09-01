@@ -63,7 +63,7 @@
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{petxpet.rec1}" /></f:facet>
                                     <f:facet name="input">
-                                        <p:inputText value="#{petxpet.rec1}" class="w100p" maxlength="5" />
+                                        <p:inputText value="#{supervizorBean.rec1}" class="w100p" maxlength="10" />
                                     </f:facet>
                                 </p:cellEditor>
                             </p:column>
@@ -72,7 +72,7 @@
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{petxpet.rec2}" /></f:facet>
                                     <f:facet name="input">
-                                        <p:inputText value="#{petxpet.rec2}" class="w100p" maxlength="5" />
+                                        <p:inputText value="#{supervizorBean.rec2}" class="w100p" maxlength="10" />
                                     </f:facet>
                                 </p:cellEditor>
                             </p:column>
@@ -81,7 +81,7 @@
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{petxpet.rec3}" /></f:facet>
                                     <f:facet name="input">
-                                        <p:inputText value="#{petxpet.rec3}" class="w100p" maxlength="5" />
+                                        <p:inputText value="#{supervizorBean.rec3}" class="w100p" maxlength="10" />
                                     </f:facet>
                                 </p:cellEditor>
                             </p:column>
@@ -90,7 +90,7 @@
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{petxpet.rec4}" /></f:facet>
                                     <f:facet name="input">
-                                        <p:inputText value="#{petxpet.rec4}" class="w100p" maxlength="5" />
+                                        <p:inputText value="#{supervizorBean.rec4}" class="w100p" maxlength="10" />
                                     </f:facet>
                                 </p:cellEditor>
                             </p:column>
@@ -99,7 +99,7 @@
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{petxpet.rec5}" /></f:facet>
                                     <f:facet name="input">
-                                        <p:inputText value="#{petxpet.rec5}" class="w100p" maxlength="5" />
+                                        <p:inputText value="#{supervizorBean.rec5}" class="w100p" maxlength="10" />
                                     </f:facet>
                                 </p:cellEditor>
                             </p:column>
@@ -298,7 +298,7 @@
                                              style="width: 300px"
                                              placeholder="Unesite 1. odgovor"
                                              value="#{supervizorBean.pehar.odgovor1}"
-                                             maxlength="9"
+                                             maxlength="18"
                                              required="true"
                                              requiredMessage="Odgovor je obavezan!">
                                     <p:ajax update="@next" event="keyup" />
@@ -310,7 +310,7 @@
                                              style="width: 300px"
                                              placeholder="Unesite 2. odgovor"
                                              value="#{supervizorBean.pehar.odgovor2}"
-                                             maxlength="8"
+                                             maxlength="16"
                                              required="true"
                                              requiredMessage="Odgovor je obavezan!">
                                     <p:ajax update="@next" event="keyup" />
@@ -322,7 +322,7 @@
                                              style="width: 300px"
                                              placeholder="Unesite 3. odgovor"
                                              value="#{supervizorBean.pehar.odgovor3}"
-                                             maxlength="7"
+                                             maxlength="14"
                                              required="true"
                                              requiredMessage="Odgovor je obavezan!">
                                     <p:ajax update="@next" event="keyup" />
@@ -334,7 +334,7 @@
                                              style="width: 300px"
                                              placeholder="Unesite 4. odgovor"
                                              value="#{supervizorBean.pehar.odgovor4}"
-                                             maxlength="6"
+                                             maxlength="12"
                                              required="true"
                                              requiredMessage="Odgovor je obavezan!">
                                     <p:ajax update="@next" event="keyup" />
@@ -346,7 +346,7 @@
                                              style="width: 300px"
                                              placeholder="Unesite 5. odgovor"
                                              value="#{supervizorBean.pehar.odgovor5}"
-                                             maxlength="5"
+                                             maxlength="10"
                                              required="true"
                                              requiredMessage="Odgovor je obavezan!">
                                     <p:ajax update="@next" event="keyup" />
@@ -358,7 +358,7 @@
                                              style="width: 300px"
                                              placeholder="Unesite 6. odgovor"
                                              value="#{supervizorBean.pehar.odgovor6}"
-                                             maxlength="4"
+                                             maxlength="8"
                                              required="true"
                                              requiredMessage="Odgovor je obavezan!">
                                     <p:ajax update="@next" event="keyup" />
@@ -370,7 +370,7 @@
                                              style="width: 300px"
                                              placeholder="Unesite 7. odgovor"
                                              value="#{supervizorBean.pehar.odgovor7}"
-                                             maxlength="3"
+                                             maxlength="6"
                                              required="true"
                                              requiredMessage="Odgovor je obavezan!">
                                     <p:ajax update="@next" event="keyup" />
@@ -382,7 +382,7 @@
                                              style="width: 300px"
                                              placeholder="Unesite 8. odgovor"
                                              value="#{supervizorBean.pehar.odgovor8}"
-                                             maxlength="4"
+                                             maxlength="8"
                                              required="true"
                                              requiredMessage="Odgovor je obavezan!">
                                     <p:ajax update="@next" event="keyup" />
@@ -394,7 +394,7 @@
                                              style="width: 300px"
                                              placeholder="Unesite 9. odgovor"
                                              value="#{supervizorBean.pehar.odgovor9}"
-                                             maxlength="5"
+                                             maxlength="10"
                                              required="true"
                                              requiredMessage="Odgovor je obavezan!">
                                     <p:ajax update="@next" event="keyup" />
@@ -406,7 +406,7 @@
                                              style="width: 300px"
                                              placeholder="Unesite 10. odgovor"
                                              value="#{supervizorBean.pehar.odgovor10}"
-                                             maxlength="6"
+                                             maxlength="12"
                                              required="true"
                                              requiredMessage="Odgovor je obavezan!">
                                     <p:ajax update="@next" event="keyup" />
@@ -418,7 +418,7 @@
                                              style="width: 300px"
                                              placeholder="Unesite 11. odgovor"
                                              value="#{supervizorBean.pehar.odgovor11}"
-                                             maxlength="7"
+                                             maxlength="14"
                                              required="true"
                                              requiredMessage="Odgovor je obavezan!">
                                     <p:ajax update="@next" event="keyup" />
@@ -430,7 +430,7 @@
                                              style="width: 300px"
                                              placeholder="Unesite 12. odgovor"
                                              value="#{supervizorBean.pehar.odgovor12}"
-                                             maxlength="8"
+                                             maxlength="16"
                                              required="true"
                                              requiredMessage="Odgovor je obavezan!">
                                     <p:ajax update="@next" event="keyup" />
@@ -442,7 +442,7 @@
                                              style="width: 300px"
                                              placeholder="Unesite 13. odgovor"
                                              value="#{supervizorBean.pehar.odgovor13}"
-                                             maxlength="9"
+                                             maxlength="18"
                                              required="true"
                                              requiredMessage="Odgovor je obavezan!">
                                     <p:ajax update="@next" event="keyup" />

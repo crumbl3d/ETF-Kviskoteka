@@ -54,7 +54,7 @@ public class AnagramBean implements Serializable {
     int status, preostaloVreme, brojPoena;
     List<Integer> indeksi;
     List<Boolean> blokirani;
-    List<Character> slova;
+    List<String> slova;
     Stack<Integer> redosledKliktanja;
     String pokusaj, poruka;
     boolean tajmerZaustavljen;
@@ -83,7 +83,7 @@ public class AnagramBean implements Serializable {
         return blokirani;
     }
 
-    public List<Character> getSlova() {
+    public List<String> getSlova() {
         return slova;
     }
 
@@ -117,11 +117,11 @@ public class AnagramBean implements Serializable {
         if (status != 1) {
             return;
         }
-        char c = slova.get(i);
-        if (c != '_') {
+        String c = slova.get(i);
+        if (!c.equals("_")) {
             blokirani.set(i, true);
         } else {
-            c = ' ';
+            c = " ";
         }
         pokusaj += c;
         redosledKliktanja.push(i);
@@ -135,8 +135,8 @@ public class AnagramBean implements Serializable {
             return;
         }
         int i = redosledKliktanja.pop();
-        char c = slova.get(i);
-        if (c != '_') {
+        String c = slova.get(i);
+        if (!c.equals("_")) {
             blokirani.set(i, false);
         }
         pokusaj = pokusaj.substring(0, pokusaj.length() - 1);
@@ -182,13 +182,16 @@ public class AnagramBean implements Serializable {
         String zagonetka = anagram.getZagonetka().toUpperCase();
 
         for (int i = 0; i < zagonetka.length(); i++) {
-            char c = zagonetka.charAt(i);
-            if (c >= 'A' && c <= 'Z' || c == 'Č' || c == 'Ć' || c == 'Š' || c == 'Ž' || c == 'Đ') {
-                slova.add(c);
+            char c = zagonetka.charAt(i), c2 = i + 1 < zagonetka.length() ? zagonetka.charAt(i + 1) : '_';
+            if (c == 'D' && c2 == 'Ž' || (c == 'L' || c == 'N') && c2 == 'J') {
+                i++;
+                slova.add(String.valueOf(c) + String.valueOf(c2).toLowerCase());
+            } else if (c >= 'A' && c <= 'Z' || c == 'Č' || c == 'Ć' || c == 'Đ' || c == 'Š' || c == 'Ž') {
+                slova.add(String.valueOf(c));
             }
         }
         
-        slova.add('_'); // razmak
+        slova.add("_"); // razmak
 
         indeksi = new ArrayList<>();
         blokirani = new ArrayList<>();

@@ -35,55 +35,50 @@
             <p:panel id="gamePanel" class="pehar-panel" header="ETF Kviskoteka: Pehar" rendered="#{peharBean.status gt 0}">
                 <h:form id="form" class="form-default">
                     <p:poll interval="1" stop="#{peharBean.tajmerZaustavljen}" listener="#{peharBean.tajmerTick()}" update="vreme" />
-                    
-                    <h:panelGrid class="w100p" columns="1">
-                        <h:panelGrid id="pehar" class="w100p" columns="2">
-                            <h:panelGrid class="w100p" cellpadding="0" cellspacing="0" columns="1">
-                                <c:forEach var="i" begin="0" end="12">
-                                    <h:panelGrid class="center-block" columns="#{peharBean.tacniOdgovori[i].length() + 2}">
-                                        <h:panelGroup class="krug" layout="block">
+
+                    <h:panelGrid id="pehar" class="w100p" columns="2">
+                        <h:panelGrid class="w100p" cellpadding="0" cellspacing="0" columns="1">
+                            <c:forEach var="i" begin="0" end="12">
+                                <h:panelGrid class="center-block" columns="#{peharBean.tacniOdgovori[i].length() + 2}">
+                                    <h:panelGroup class="krug" layout="block">
+                                        <div>
+                                            <h:outputText class="font-12pt font-bold font-red"
+                                                          rendered="#{peharBean.indeks gt i and peharBean.poeniProtivnik[i] gt 0}"
+                                                          value="#{peharBean.poeniProtivnik[i]}" />
+                                        </div>
+                                    </h:panelGroup>
+                                    <c:forEach var="j" begin="0" end="#{peharBean.tacniOdgovori[i].length() - 1}">
+                                        <h:panelGroup class="polje" layout="block">
                                             <div>
                                                 <h:outputText class="font-12pt font-bold font-red"
-                                                              rendered="#{peharBean.indeks gt i and peharBean.poeniProtivnik[i] gt 0}"
-                                                              value="#{peharBean.poeniProtivnik[i]}" />
-                                            </div>
-                                        </h:panelGroup>
-                                        <c:forEach var="j" begin="0" end="#{peharBean.tacniOdgovori[i].length() - 1}">
-                                            <h:panelGroup class="polje" layout="block">
-                                                <div>
-                                                    <h:outputText class="font-12pt font-bold font-red"
-                                                                  rendered="#{peharBean.poeni[i] eq 0 and peharBean.indeks gt i}"
-                                                                  value="#{peharBean.tacniOdgovori[i].charAt(j)}" />
-                                                    <h:outputText class="font-12pt font-bold font-blue"
-                                                                  rendered="#{peharBean.poeni[i] gt 0}"
-                                                                  value="#{peharBean.odgovori[i].charAt(j)}" />
-                                                </div>
-                                            </h:panelGroup>
-                                        </c:forEach>
-                                        <h:panelGroup class="krug" layout="block">
-                                            <div>
+                                                              rendered="#{peharBean.poeni[i] eq 0 and peharBean.indeks gt i}"
+                                                              value="#{peharBean.tacniOdgovori[i].charAt(j)}" />
                                                 <h:outputText class="font-12pt font-bold font-blue"
-                                                              rendered="#{peharBean.indeks gt i and peharBean.poeni[i] gt 0}"
-                                                              value="#{peharBean.poeni[i]}" />
+                                                              rendered="#{peharBean.poeni[i] gt 0}"
+                                                              value="#{peharBean.odgovori[i].charAt(j)}" />
                                             </div>
                                         </h:panelGroup>
-                                    </h:panelGrid>
-                                </c:forEach>
-                            </h:panelGrid>
-
-                            <h:panelGrid class="text-center" style="width: 300px" columns="1" rendered="#{peharBean.indeks lt 13}">
-                                <div class="font-12pt font-bold text-center break-down">Pitanje #{peharBean.indeks + 1}:</div>
-                                <div class="font-12pt font-normal text-center break-down">#{peharBean.trenutnoPitanje}</div>
-                                <p:inputText id="odgovor" class="w100p" style="margin: 10px 0" value="#{peharBean.trenutniOdgovor}" maxlength="#{peharBean.tacniOdgovori[peharBean.indeks].length()}" />
-                                <h:panelGroup class="w100p flex" layout="block">
-                                    <div class="left text-right p5"><p:commandButton class="btn" value="Proveri" action="#{peharBean.proveri()}" update="kraj" /></div>
-                                    <div class="center text-center p5"><h:panelGroup id="vreme" class="krug font-12pt font-bold center-block" layout="block"><div>#{peharBean.preostaloVreme}</div></h:panelGroup></div>
-                                    <div class="right text-left p5"><p:commandButton class="btn" value="Odustani" action="#{gameController.odustani()}" /></div>
-                                </h:panelGroup>
-                            </h:panelGrid>
+                                    </c:forEach>
+                                    <h:panelGroup class="krug" layout="block">
+                                        <div>
+                                            <h:outputText class="font-12pt font-bold font-blue"
+                                                          rendered="#{peharBean.indeks gt i and peharBean.poeni[i] gt 0}"
+                                                          value="#{peharBean.poeni[i]}" />
+                                        </div>
+                                    </h:panelGroup>
+                                </h:panelGrid>
+                            </c:forEach>
                         </h:panelGrid>
-                        
-                        <h:panelGrid class="w100p text-center" columns="3">
+
+                        <h:panelGrid class="text-center" style="width: 300px" columns="1" rendered="#{peharBean.indeks lt 13}">
+                            <div class="font-12pt font-bold text-center break-down">Pitanje #{peharBean.indeks + 1}:</div>
+                            <div class="font-12pt font-normal text-center break-down">#{peharBean.trenutnoPitanje}</div>
+                            <p:inputText id="odgovor" class="w100p" style="margin: 10px 0" value="#{peharBean.trenutniOdgovor}" maxlength="#{peharBean.tacniOdgovori[peharBean.indeks].length()}" />
+                            <h:panelGroup class="w100p flex" layout="block">
+                                <div class="left text-right p5"><p:commandButton class="btn" value="Proveri" action="#{peharBean.proveri()}" update="kraj" /></div>
+                                <div class="center text-center p5"><h:panelGroup id="vreme" class="krug font-12pt font-bold center-block" layout="block"><div>#{peharBean.preostaloVreme}</div></h:panelGroup></div>
+                                <div class="right text-left p5"><p:commandButton class="btn" value="Odustani" action="#{gameController.odustani()}" /></div>
+                            </h:panelGroup>
                         </h:panelGrid>
                     </h:panelGrid>
 

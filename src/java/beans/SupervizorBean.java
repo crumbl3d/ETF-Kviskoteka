@@ -31,16 +31,23 @@ import entities.PetXPet;
 import entities.PojamProvera;
 import entities.Rezultat;
 import entities.ZanGeo;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.ManagedBean;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 import util.Helper;
 import util.HibernateUtil;
@@ -55,9 +62,12 @@ import util.HibernateUtil;
 public class SupervizorBean implements Serializable {
 
     List<Anagram> anagrami;
+
     List<PetXPet> petxpet;
+    String rec1, rec2, rec3, rec4, rec5;
+
     List<PojamProveraIspis> zangeo;
-    
+
     Pehar pehar = new Pehar();
 
     public List<Anagram> getAnagrami() {
@@ -74,6 +84,46 @@ public class SupervizorBean implements Serializable {
 
     public void setPetxpet(List<PetXPet> petxpet) {
         this.petxpet = petxpet;
+    }
+
+    public String getRec1() {
+        return rec1;
+    }
+
+    public void setRec1(String rec1) {
+        this.rec1 = rec1;
+    }
+
+    public String getRec2() {
+        return rec2;
+    }
+
+    public void setRec2(String rec2) {
+        this.rec2 = rec2;
+    }
+
+    public String getRec3() {
+        return rec3;
+    }
+
+    public void setRec3(String rec3) {
+        this.rec3 = rec3;
+    }
+
+    public String getRec4() {
+        return rec4;
+    }
+
+    public void setRec4(String rec4) {
+        this.rec4 = rec4;
+    }
+
+    public String getRec5() {
+        return rec5;
+    }
+
+    public void setRec5(String rec5) {
+        this.rec5 = rec5;
     }
 
     public List<PojamProveraIspis> getZangeo() {
@@ -152,31 +202,67 @@ public class SupervizorBean implements Serializable {
         dbs.save(anagram);
         dbs.getTransaction().commit();
         dbs.close();
-        anagrami.add(new Anagram());
-        Helper.showInfo("Uspeh!", "Dodali ste novi anagram!");
+
+        try {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect(((HttpServletRequest) ec.getRequest()).getContextPath() + "/faces/users/supervizor.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(SupervizorBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
         
     public void izmenaPetXPet(RowEditEvent event) {
         PetXPet igra = (PetXPet) event.getObject();
         
-        if (!Helper.checkValid(igra.getRec1())) {
+        if (!Helper.checkValid(rec1)) {
             Helper.showError("Greška!", "Niste postavili prvu reč!");
             return;
-        }        
-        if (!Helper.checkValid(igra.getRec2())) {
+        }
+        if (!Helper.checkValid(rec2)) {
             Helper.showError("Greška!", "Niste postavili drugu reč!");
             return;
-        }        
-        if (!Helper.checkValid(igra.getRec3())) {
+        }
+        if (!Helper.checkValid(rec3)) {
             Helper.showError("Greška!", "Niste postavili treću reč!");
             return;
-        }        
-        if (!Helper.checkValid(igra.getRec4())) {
+        }
+        if (!Helper.checkValid(rec4)) {
             Helper.showError("Greška!", "Niste postavili četvrtu reč!");
             return;
-        }        
-        if (!Helper.checkValid(igra.getRec5())) {
+        }
+        if (!Helper.checkValid(rec5)) {
             Helper.showError("Greška!", "Niste postavili petu reč!");
+            return;
+        }
+
+        if (!igra.setRec1(rec1)) {
+            Helper.showError("Greška!", "Prva reč nije validna!");
+            return;
+        }
+        if (!igra.setRec2(rec2)) {
+            Helper.showError("Greška!", "Druga reč nije validna!");
+            igra.setRec1("");
+            return;
+        }
+        if (!igra.setRec3(rec3)) {
+            Helper.showError("Greška!", "Treća reč nije validna!");
+            igra.setRec1("");
+            igra.setRec2("");
+            return;
+        }
+        if (!igra.setRec4(rec4)) {
+            Helper.showError("Greška!", "Četvrta reč nije validna!");
+            igra.setRec1("");
+            igra.setRec2("");
+            igra.setRec3("");
+            return;
+        }
+        if (!igra.setRec5(rec5)) {
+            Helper.showError("Greška!", "Peta reč nije validna!");
+            igra.setRec1("");
+            igra.setRec2("");
+            igra.setRec3("");
+            igra.setRec4("");
             return;
         }
         
@@ -187,8 +273,13 @@ public class SupervizorBean implements Serializable {
         dbs.save(igra);
         dbs.getTransaction().commit();
         dbs.close();
-        petxpet.add(new PetXPet());
-        Helper.showInfo("Uspeh!", "Dodali ste novu igru 5x5!");
+
+        try {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect(((HttpServletRequest) ec.getRequest()).getContextPath() + "/faces/users/supervizor.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(SupervizorBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void odustani(RowEditEvent event) {

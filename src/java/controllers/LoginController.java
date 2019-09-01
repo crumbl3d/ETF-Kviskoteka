@@ -126,6 +126,7 @@ public class LoginController implements Serializable {
     
     // temporary, remove!!!
     public LoginController() {
-        prijava("pera", "PeraDetlic2!");
+//        prijava("pera", "PeraDetlic2!");
+        prijava("supervizor", "DobroVece32!");
     }
 }

@@ -30,7 +30,7 @@
                 </h:panelGrid>
             </p:panel>
 
-            <p:panel id="zangeo-panel" class="game-panel" header="ETF Kviskoteka: Zanimljiva geografija" rendered="#{zanGeoBean.status gt 0}">
+            <p:panel id="gamePanel" class="zangeo-panel" header="ETF Kviskoteka: Zanimljiva geografija" rendered="#{zanGeoBean.status gt 0}">
                 <h:form id="form" class="form-default">
                     <p:poll interval="1" stop="#{zanGeoBean.tajmerZaustavljen}" listener="#{zanGeoBean.tajmerTick()}" update="vreme kraj poeni" />
 
