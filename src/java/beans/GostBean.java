@@ -29,7 +29,6 @@ import entities.Rezultat;
 import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
-import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.ManagedBean;
@@ -66,55 +65,41 @@ public class GostBean implements Serializable {
     public GostBean() {
         LocalDate ld = LocalDate.now();
         Date danas = Date.valueOf(ld);
-        Date pre20dana = Date.valueOf(ld.minusDays(19));
         Date pocetakMeseca = Date.valueOf(ld.minusDays(ld.getDayOfMonth() - 1));
 
         rez20dana = new ArrayList<>();
-        
         for (int i = 0; i < 20; i++) {
-            rez20dana.add(new RezultatIspis(i + 1, Date.valueOf(LocalDate.now().minusDays(i))));
+            rez20dana.add(new RezultatIspis(i + 1, Date.valueOf(ld.minusDays(i))));
         }
         
         Session dbs = HibernateUtil.getSessionFactory().openSession();
-        
-        Criteria cr = dbs.createCriteria(Rezultat.class);
-        cr.add(Restrictions.le("datum", danas));
-        cr.add(Restrictions.ge("datum", pre20dana));
-        cr.add(Restrictions.eq("wip", false));
-        cr.setProjection(Projections.projectionList()
-                .add(Projections.groupProperty("datum").as("datum"))
-                .add(Projections.max("poeniUkupno").as("poeniUkupno"))
-                .add(Projections.property("korisnickoIme").as("korisnickoIme"))
-                .add(Projections.property("poeniAnagram").as("poeniAnagram"))
-                .add(Projections.property("poeniMojBroj").as("poeniMojBroj"))
-                .add(Projections.property("poeniPetXPet").as("poeniPetXPet"))
-                .add(Projections.property("poeniZanGeo").as("poeniZanGeo"))
-                .add(Projections.property("poeniPehar").as("poeniPehar")));
-        cr.setResultTransformer(Transformers.aliasToBean(Rezultat.class));
-        List<Rezultat> rezultati = cr.list();
-        
-        rezultati.forEach((rezultat) -> {
-            int index = (int) rezultat.getDatum().toLocalDate().until(LocalDate.now(), DAYS);
-            if (index >= 0 && index < 20) {
-                RezultatIspis ispis = rez20dana.get(index);
-                Criteria cr2 = dbs.createCriteria(Korisnik.class);
-                cr2.add(Restrictions.eq("korisnickoIme", rezultat.getKorisnickoIme()));
-                Korisnik k = (Korisnik) cr2.uniqueResult();
+
+        rez20dana.forEach((ispis) -> {
+            Criteria cr = dbs.createCriteria(Rezultat.class);
+            cr.add(Restrictions.eq("datum", ispis.getDatum()));
+            cr.add(Restrictions.eq("wip", false));
+            cr.addOrder(Order.desc("poeniUkupno"));
+            cr.setMaxResults(1);
+            Rezultat rez = (Rezultat) cr.uniqueResult();
+            if (rez != null) {
+                cr = dbs.createCriteria(Korisnik.class);
+                cr.add(Restrictions.eq("korisnickoIme", rez.getKorisnickoIme()));
+                Korisnik k = (Korisnik) cr.uniqueResult();
                 if (k == null) {
-                    System.out.println("Greska prilikom dohvatanja korisnika: " + rezultat.getKorisnickoIme());
+                    System.out.println("Greska prilikom dohvatanja korisnika: " + rez.getKorisnickoIme());
                 } else {
                     ispis.setTakmicar(k);
-                    ispis.setPoeniAnagram(rezultat.getPoeniAnagram());
-                    ispis.setPoeniMojBroj(rezultat.getPoeniMojBroj());
-                    ispis.setPoeniPetXPet(rezultat.getPoeniPetXPet());
-                    ispis.setPoeniZanGeo(rezultat.getPoeniZanGeo());
-                    ispis.setPoeniPehar(rezultat.getPoeniPehar());
-                    ispis.setPoeniUkupno(rezultat.getPoeniUkupno());
+                    ispis.setPoeniAnagram(rez.getPoeniAnagram());
+                    ispis.setPoeniMojBroj(rez.getPoeniMojBroj());
+                    ispis.setPoeniPetXPet(rez.getPoeniPetXPet());
+                    ispis.setPoeniZanGeo(rez.getPoeniZanGeo());
+                    ispis.setPoeniPehar(rez.getPoeniPehar());
+                    ispis.setPoeniUkupno(rez.getPoeniUkupno());
                 }
             }
         });
         
-        cr = dbs.createCriteria(Rezultat.class);
+        Criteria cr = dbs.createCriteria(Rezultat.class);
         cr.add(Restrictions.le("datum", danas));
         cr.add(Restrictions.ge("datum", pocetakMeseca));
         cr.add(Restrictions.eq("wip", false));

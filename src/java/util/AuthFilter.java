@@ -23,6 +23,7 @@
  */
 package util;
 
+import controllers.GameController;
 import entities.Korisnik;
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -52,26 +53,25 @@ public class AuthFilter implements Filter {
             HttpServletResponse resp = (HttpServletResponse) response;
             HttpSession ses = reqt.getSession(false);
             String reqURI = reqt.getRequestURI();
-            chain.doFilter(request, response);
-//            Korisnik k = null;
-//            if (ses != null && ses.getAttribute("user") != null) {
-//                k = (Korisnik) ses.getAttribute("user");
-//            }
-//            boolean igraUToku = false;
-//            if (ses != null && ses.getAttribute("igrautoku") != null) {
-//                igraUToku = (Boolean) ses.getAttribute("igrautoku");
-//            }
-//            if (reqURI.contains("/index.xhtml")
-//                    || reqURI.contains("javax.faces.resource")
-//                    || reqURI.contains("/public/")
-//                    || reqURI.contains("/users/") && k != null && reqURI.contains(k.getVrsta())
-//                    || (reqURI.contains("/games/") && k != null && k.getVrsta().equals("takmicar"))) {// && igraUToku)) {
-//                chain.doFilter(request, response);
-//            } else if (k != null) {
-//                resp.sendRedirect(reqt.getContextPath() + "/faces/users/" + k.getVrsta() + ".xhtml");
-//            } else {
-//                resp.sendRedirect(reqt.getContextPath() + "/faces/index.xhtml");
-//            }
+            Korisnik k = null;
+            if (ses != null && ses.getAttribute("user") != null) {
+                k = (Korisnik) ses.getAttribute("user");
+            }
+            String currentGame = null;
+            if (ses != null && ses.getAttribute("currentGame") != null) {
+                currentGame = (String) ses.getAttribute("currentGame");
+            }
+            if (reqURI.contains("/index.xhtml")
+                    || reqURI.contains("javax.faces.resource")
+                    || reqURI.contains("/public/")
+                    || reqURI.contains("/users/") && k != null && reqURI.contains(k.getVrsta())
+                    || reqURI.contains("/games/") && k != null && k.getVrsta().equals("takmicar") && currentGame != null) {
+                chain.doFilter(request, response);
+            } else if (k != null) {
+                resp.sendRedirect(reqt.getContextPath() + "/faces/users/" + k.getVrsta() + ".xhtml");
+            } else {
+                resp.sendRedirect(reqt.getContextPath() + "/faces/index.xhtml");
+            }
         } catch (IOException | ServletException e) {
             System.out.println(e.getMessage());
         }

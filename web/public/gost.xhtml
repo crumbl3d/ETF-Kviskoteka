@@ -24,38 +24,38 @@
                         </p:column>
 
                         <p:column headerText="Ime" style="width: 80px; text-align: center">
-                            #{rezultat.takmicar.ime}
+                            <h:outputText value="#{rezultat.takmicar.ime}" rendered="#{rezultat.takmicar ne null}" />
                         </p:column>
 
                         <p:column headerText="Prezime" style="width: 80px; text-align: center">
-                            #{rezultat.takmicar.prezime}
+                            <h:outputText value="#{rezultat.takmicar.prezime}" rendered="#{rezultat.takmicar ne null}" />
                         </p:column>
 
                         <p:column headerText="Anagram" style="width: 50px; text-align: center">
-                            #{rezultat.poeniAnagram}
+                            <h:outputText value="#{rezultat.poeniAnagram}" rendered="#{rezultat.takmicar ne null}" />
                         </p:column>
 
                         <p:column headerText="Moj broj" style="width: 50px; text-align: center">
-                            #{rezultat.poeniMojBroj}
+                            <h:outputText value="#{rezultat.poeniMojBroj}" rendered="#{rezultat.takmicar ne null}" />
                         </p:column>
 
                         <p:column headerText="5x5" style="width: 20px; text-align: center">
-                            #{rezultat.poeniPetXPet}
+                            <h:outputText value="#{rezultat.poeniPetXPet}" rendered="#{rezultat.takmicar ne null}" />
                         </p:column>
 
                         <p:column style="width: 60px; text-align: center">
                             <f:facet name="header">
                                 Zanimljiva <br/> geografija
                             </f:facet>
-                            #{rezultat.poeniZanGeo}
+                            <h:outputText value="#{rezultat.poeniZanGeo}" rendered="#{rezultat.takmicar ne null}" />
                         </p:column>
 
                         <p:column headerText="Pehar" style="width: 50px; text-align: center">
-                            #{rezultat.poeniPehar}
+                            <h:outputText value="#{rezultat.poeniPehar}" rendered="#{rezultat.takmicar ne null}" />
                         </p:column>
 
                         <p:column headerText="Σ" style="width: 20px; text-align: center">
-                            #{rezultat.poeniUkupno}
+                            <h:outputText value="#{rezultat.poeniUkupno}" rendered="#{rezultat.takmicar ne null}" />
                         </p:column>
                     </p:dataTable>
                 </p:panel>

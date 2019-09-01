@@ -123,10 +123,4 @@ public class LoginController implements Serializable {
         }
         return "/users/" + korisnik.getVrsta().toLowerCase() + "?faces-redirect=true";
     }
-    
-    // temporary, remove!!!
-    public LoginController() {
-//        prijava("pera", "PeraDetlic2!");
-        prijava("supervizor", "DobroVece32!");
-    }
 }

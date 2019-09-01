@@ -66,21 +66,21 @@ public class SessionUtil {
         return false;
     }
     
-    public static Boolean getIgraUToku() {
+    public static String getCurrentGame() {
         HttpSession session = getSession();
         if (session != null) {
-            return (Boolean) session.getAttribute("igrautoku");
+            return (String) session.getAttribute("currentGame");
         }
         return null;
     }
 
-    public static boolean setIgraUToku(Boolean stanje) {
+    public static boolean setCurrentGame(String game) {
         HttpSession session = getSession();
         if (session != null) {
-            if (stanje == null) {
-                session.removeAttribute("igrautoku");
+            if (game == null) {
+                session.removeAttribute("currentGame");
             } else {
-                session.setAttribute("igrautoku", stanje);
+                session.setAttribute("currentGame", game);
             }
             return true;
         }

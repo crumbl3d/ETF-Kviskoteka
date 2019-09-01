@@ -57,6 +57,23 @@ public class GameController implements Serializable {
         return (GameController) Helper.getObject("gameController");
     }
     
+    public static String nextGame(String currentGame) {
+        if (currentGame == null || currentGame.isEmpty()) {
+            return null;
+        }
+        if (currentGame.equals("pocetak")) {
+            return "anagram";
+        } else if (currentGame.equals("anagram")) {
+            return "mojbroj";
+        } else if (currentGame.equals("mojbroj")) {
+            return "petxpet";
+        } else if (currentGame.equals("petxpet")) {
+            return "zangeo";
+        } else if (currentGame.equals("zangeo")) {
+            return "pehar";
+        } else return "rezultat";
+    }
+    
     public IgraDana getIgra() {
         return igra;
     }
@@ -73,7 +90,7 @@ public class GameController implements Serializable {
         takmicar = null;
         igra = null;
         rezultat = null;
-        SessionUtil.setIgraUToku(null);
+        SessionUtil.setCurrentGame(null);
         LoginController lctl = LoginController.getCurrentInstance();
         if (!lctl.ulogovan()) {
             return "";
@@ -91,7 +108,6 @@ public class GameController implements Serializable {
             dbs.close();
             return "";
         }
-        SessionUtil.setIgraUToku(true);
         rezultat = new Rezultat();
         rezultat.setDatum(danas);
         rezultat.setKorisnickoIme(SessionUtil.getCurrentUser().getKorisnickoIme());
@@ -99,6 +115,7 @@ public class GameController implements Serializable {
         dbs.saveOrUpdate(rezultat);
         dbs.getTransaction().commit();
         dbs.close();
+        SessionUtil.setCurrentGame("pocetak");
         return "/games/anagram?faces-redirect=true";
     }
     
@@ -109,6 +126,7 @@ public class GameController implements Serializable {
         dbs.update(rezultat);
         dbs.getTransaction().commit();
         dbs.close();
+        SessionUtil.setCurrentGame("anagram");
         return "/games/mojbroj?faces-redirect=true";
     }
     
@@ -119,6 +137,7 @@ public class GameController implements Serializable {
         dbs.update(rezultat);
         dbs.getTransaction().commit();
         dbs.close();
+        SessionUtil.setCurrentGame("mojbroj");
         return "/games/petxpet?faces-redirect=true";
     }
     
@@ -129,6 +148,7 @@ public class GameController implements Serializable {
         dbs.update(rezultat);
         dbs.getTransaction().commit();
         dbs.close();
+        SessionUtil.setCurrentGame("petxpet");
         return "/games/zangeo?faces-redirect=true";
     }
     
@@ -140,6 +160,7 @@ public class GameController implements Serializable {
         dbs.update(rezultat);
         dbs.getTransaction().commit();
         dbs.close();
+        SessionUtil.setCurrentGame("zangeo");
         return "/games/pehar?faces-redirect=true";
     }
 
@@ -150,15 +171,19 @@ public class GameController implements Serializable {
         dbs.update(rezultat);
         dbs.getTransaction().commit();
         dbs.close();
+        SessionUtil.setCurrentGame("pehar");
         return "/games/rezultat?faces-redirect=true";
+    }
+    
+    public String krajRezultati() {
+        takmicar = null;
+        igra = null;
+        rezultat = null;
+        SessionUtil.setCurrentGame(null);
+        return "/users/takmicar?faces-redirect=true";
     }
     
     public String odustani() {
         return "/users/takmicar?faces-redirect=true";
-    }
-
-    // temporary, remove!!!
-    public GameController() {
-        zapocniIgruDana();
     }
 }
